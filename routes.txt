@@ -3,21 +3,21 @@
 
 Rutas Generales:
 	-----------------------------------------------------
-	/	(file= index.js) 	->	Home Page
+	/	(file= index.js) 	->	Home Page		Facil(1)	*Bere*
 		/quienessomos 	->	Info Page
 		/soyemprendedor -> 	Info Emprendedor
 	
 	-----------------------------------------------------
-		/catalogo
+		/catalogo						Dificil(3)	*Bere*
 			/catalogoempresa?categoria={}	-> (Incluir con buscar empresa)
 			/cataloproductos?categoria={}	-> Default
 			/empresa?nombre={}
 	-----------------------------------------------------
-		/registrarse
+		/registrarse						Medio(2)	*Bere*
 			/cuentaemprededor
 			/cuentausuario
 	-----------------------------------------------------
-		/micuenta	->	(2 opciones: Empresa o Usuario)
+		/micuenta	->	(2 opciones: Empresa o Usuario)	Dificl(3.5)	*Mashi*
 			/carrito ->	(Caso: Usuario)
 			/mivitrina -> 	(Caso: Empresa)
 			/administradores
@@ -25,10 +25,8 @@ Rutas Generales:
 ********************************************************************************************************************
 Inicio Sesion
 	
-	/auth
+	/auth								Medio(2)	*Mashi*
 		/google
 		/facebook
 		/	->	Inicio de sesion local
 		/logout
-			
-	
