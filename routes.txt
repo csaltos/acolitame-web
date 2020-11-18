@@ -1,0 +1,34 @@
+
+
+
+Rutas Generales:
+	-----------------------------------------------------
+	/	(file= index.js) 	->	Home Page
+		/quienessomos 	->	Info Page
+		/soyemprendedor -> 	Info Emprendedor
+	
+	-----------------------------------------------------
+		/catalogo
+			/catalogoempresa?categoria={}	-> (Incluir con buscar empresa)
+			/cataloproductos?categoria={}	-> Default
+			/empresa?nombre={}
+	-----------------------------------------------------
+		/registrarse
+			/cuentaemprededor
+			/cuentausuario
+	-----------------------------------------------------
+		/micuenta	->	(2 opciones: Empresa o Usuario)
+			/carrito ->	(Caso: Usuario)
+			/mivitrina -> 	(Caso: Empresa)
+			/administradores
+	
+********************************************************************************************************************
+Inicio Sesion
+	
+	/auth
+		/google
+		/facebook
+		/	->	Inicio de sesion local
+		/logout
+			
+	
