@@ -2,10 +2,69 @@
 <html>
   <head>
     <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <%- include('navbar.ejs') %>
+    
+    <!--Para los modals-->
+    <div id="forModalSesion">
+
+    </div>
+
+    <div id="forModalCrear">
+
+    </div>
+
+    <div class="container-expand">
+        <div class="row m-5">
+            <div class="col-sm-3 col-md-auto">
+
+                <h4 for="listaCategorias" class="my-2">Categorias</h4>
+                <div class="list-group overflow-auto" style="max-width: 300px;max-height: 600px;" id="listaCategorias">
+                  <% for(var i=0; i < categoria.length; i++) { %>
+                    <a nombre="<%categoria[i].nombre%>" href="#" onclick="goCategorias($(this))" class="list-group-item list-group-item-action"><%categoria[i].nombre%></a>
+                  <% } %>
+                </div>
+
+
+            </div>
+
+            <input type="text" id="nombre" name="nombre" hidden>
+            <div class="col-sm-9 pl-5 col-auto">
+
+                <div class="row align-items-center justify-content-center text-justify pb-5 pt-3">
+                    <h1 class="">Apoya a las pequeñas empresas.</h1>
+                    <p class="lead">
+                        Puedes ser de gran ayuda para aquellos negocios pequeños y ayudar a crecer a al economía del pais. Navega entre las distintas tiendas y negocios disponibles. Contactate con el dueño y compra tus productos a un precio conveniente.
+                    </p>
+                    <hr class="my-4">
+                    <p id="info">¿ Tienes un negocio ? No dudes en publicar <a href="soyEmprendedor"><strong class="text-success">AQUI.</strong></a></p>
+                </div>
+
+                <h1><strong>Cerca de ti...</strong></h1>
+                <p>Encuentra mas negocios <a href="despliegueCategoria"><strong class="text-success">AQUI.</strong></a></p>
+
+                <div class="row row align-items-center justify-content-center py-2">
+                    <!-- <button type="button" class="btn btn-primary btn-block" onclick="showMapa()" >Mostrar Mapa</button>-->
+                    <iframe src="miUbicacion" width="800" height="500" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <%- include('footer.ejs') %>
   </body>
 </html>
