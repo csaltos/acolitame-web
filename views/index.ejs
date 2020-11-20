@@ -32,20 +32,20 @@
     <div class="container-expand">
         <div class="row m-5">
             <div class="col-sm-3 col-md-auto">
-
                 <h4 for="listaCategorias" class="my-2">Categorias</h4>
                 <div class="list-group overflow-auto" style="max-width: 300px;max-height: 600px;" id="listaCategorias">
                   <% for(var i=0; i < categoria.length; i++) { %>
                     <a href="#" onclick="goCategorias('<%=categoria[i].nombre%>')" class="list-group-item list-group-item-action"><%=categoria[i].nombre%></a>
                   <% } %>
                 </div>
-
-
             </div>
-
             <input type="text" id="nombre" name="nombre" hidden>
+            <!--<form action="/", method="POST">
+              <label for="fname">First name:</label><br>
+              <input type="text" id="fname" name="fname"><br>
+              <input type="submit" value="Submit">
+            </form> -->
             <div class="col-sm-9 pl-5 col-auto">
-
                 <div class="row align-items-center justify-content-center text-justify pb-5 pt-3">
                     <h1 class="">Apoya a las pequeñas empresas.</h1>
                     <p class="lead">

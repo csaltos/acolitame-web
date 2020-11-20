@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <%- include('navbar.ejs') %>
+    <!--Para los modals-->
+    <div id="forModalSesion">
+
+    </div>
+
+    <div id="forModalCrear">
+
+    </div>
+
+    <div class="row justify-content-center pt-5">
+        <h2 class="">¿ Por que publicar en Showcase Project ?</h2>
+    </div>
+    <div class="row text-center justify-content-center my-3">
+        <div class="col-sm-3 mr-4">
+            <div>
+                <img src="images/group.svg" style="max-width: 250px; max-width: 250px;">
+            </div>
+            <div>
+                <p><b>Da a conocer tu negocio</b></p>
+            </div>
+        </div>
+        <div class="col-sm-3 mr-4">
+            <div>
+                <img src="images/graph.svg" style="max-width: 250px; max-width: 250px;">
+            </div>
+            <div>
+                <p><b>Incrementa tus ventas</b></p>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div>
+                <img src="images/me-gusta.svg" style="max-width: 250px; max-width: 250px;">
+            </div>
+            <div>
+                <p><b>Recibe valoraciones</b></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row align-items-center justify-content-center py-5">
+        <button type="button" onclick="javascript: window.location.href = 'crearCuentaEmprendedor'" class="btn btn-success btn-lg">Empezar ya!</button>
+    </div>
+            
+    <div class="row align-items-center justify-content-center text-justify pt-4 mt-4 pb-5">
+        <div class="col-auto col-md-auto"><h1 class="display-5">Un negocio con gran potencial </h1></div>
+    </div>
+    
+    <div class="row justify-content-center text-justify mt-1 mb-5">
+        <div class="col-auto col-md-auto">
+            <div class="col-auto col-md-auto px-5" style="font-size: large;"><p>
+                En un mundo donde la tecnologia trasforma la vida del ser humano, es importante adaptarse a los avances y aprovecharlos al maximo. 
+                Uno de los grandes avances es la forma de promocionar un producto. Antes era necesario que el posible cliente este fisicamente en la tienda o negocio
+                para poder ver el producto y comprarlo. Ahora es posible que el cliente pueda ver el producto y adquirirlo desde la comodidad del hogar.
+                Con este proposito surge la oportunidad de que los pequeños negocios y empresas puedan promocionar sus productos a traves de esta pagina web.
+                Incrementa tus ventas, da a conocer tu negocio y ten clientes nuevos. 
+            </p></div>
+        </div>
+        <div class="col-auto col-md-auto mb-3">
+            <div class="col-auto col-md-auto px-0">
+                <img src="images/emprendedor.png" alt="" class="img-responsive" height="400" width="550">
+            </div>
+        </div>
+    </div>
+    <%- include('footer.ejs') %>
+    
+</body>
+</html>

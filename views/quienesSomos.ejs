@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <%- include('navbar.ejs') %>
+
+    <div class="jumbotron m-5">
+        <div class="row">
+            
+            <div class="col-auto col-md-auto pl-5 pt-5"><h1 class=>Un proyecto para ti.</h1></div>
+        </div>
+
+        <div class="row align-items-center justify-content-center text-justify py-5">
+            <div class="col-auto col-md-10 align-self-center"><p>
+                En situaciones como la que actualmente está viviendo el mundo, es de vital importancia que la economía, en la medida de lo posible, no se detenga. Cuando estas situaciones ocurren, siempre el más afectado es la pequeña empresa. Para evitar esta delicada situación económica de estos grupos empresariales, se busca construir una plataforma tecnológica que les permita publicar los datos de su empresa o negocio (e.g., nombre, dirección, datos de contacto y los productos que comercializan o servicios que ofertan). De esta forma, las pequeñas empresas, serán capaces de promocionar su producto en una ¨vitrina¨ virtual, donde el cliente puede entrar y seleccionar los productos o servicios que son de su necesidad para su adquisición.
+            </p></div>
+        </div>
+
+        <!--Para los modals-->
+        <div id="forModalSesion">
+
+        </div>
+
+        <div id="forModalCrear">
+
+        </div>
+
+        <div class="row pb-5">
+            <div class="col-auto col-md-auto pl-5"><h1>Apoya a las pequeñas empresas.</h1></div>
+        </div>
+
+        <div class="row align-items-center justify-content-center text-justify pb-5">
+            <div class="col-auto col-md-10 align-self-center">
+                <p>
+                    Puedes ser de gran ayuda para aquellos negocios pequeños y ayudar a crecer a al economía del pais. Navega entre las distintas tiendas y negocios disponibles. Contactate con el dueño y compra tus productos a un precio conveniente.
+                </p>
+            </div>
+        </div>
+    </div>
+    <%- include('footer.ejs') %>
+  
+</body>
+</html>

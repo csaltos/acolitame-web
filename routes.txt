@@ -6,7 +6,7 @@ Rutas Generales:
 	/	(file= index.js) 	->	Home Page		Facil(1)	*Bere*
 		/quienessomos 	->	Info Page
 		/soyemprendedor -> 	Info Emprendedor
-	
+		/ubicacion -> mapa de empresas cercanas
 	-----------------------------------------------------
 		/catalogo						Dificil(3)	*Bere*
 			/catalogoempresa?categoria={}	-> (Incluir con buscar empresa)

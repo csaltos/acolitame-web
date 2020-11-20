@@ -1,0 +1,29 @@
+<!DOCTYPE html >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Ubicacion</title>
+  <style>
+    /* Always set the map height explicitly to define the size of the div
+     * element that contains the map. */
+    #map {
+      height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+ </style>
+ <script type="text/javascript" src="javascripts/ubicaciones.js"></script>
+  </head>
+  <body style="margin:0px; padding:0px;" onload='initMap()'>
+    <input type="text" id="idCategoria" hidden>
+    <div><select id="locationSelect" style="width: 10%; visibility: hidden"></select></div>
+    <div id="map" style="width: 100%; height: 90%"></div>
+    <script defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzmhpNES0ubHOre7YUhX_VLLBSz-a0TLg&callback=initMap">
+    </script>
+  </body>
+</html>
