@@ -11,6 +11,11 @@
     <script src="/javascripts/jquery-3.5.1.js"></script>
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script>
+      function goCategorias(name){
+        console.log('working name: ', name);
+      }
+    </script>
   </head>
   <body>
     <%- include('navbar.ejs') %>
@@ -31,7 +36,7 @@
                 <h4 for="listaCategorias" class="my-2">Categorias</h4>
                 <div class="list-group overflow-auto" style="max-width: 300px;max-height: 600px;" id="listaCategorias">
                   <% for(var i=0; i < categoria.length; i++) { %>
-                    <a nombre="<%categoria[i].nombre%>" href="#" onclick="goCategorias($(this))" class="list-group-item list-group-item-action"><%categoria[i].nombre%></a>
+                    <a href="#" onclick="goCategorias('<%=categoria[i].nombre%>')" class="list-group-item list-group-item-action"><%=categoria[i].nombre%></a>
                   <% } %>
                 </div>
 
