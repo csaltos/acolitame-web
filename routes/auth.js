@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-let passport = require('passport');
+var passport = require('passport');
 const { use } = require('passport');
 //const { use } = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -13,6 +13,8 @@ var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 /*
     TODO:
         *Refactor LocalStrategy login
+        *Add retrieve user from database on deserializeUse
+        *Check if user is register at login with google and facebook
 */
 
 passport.serializeUser(function(user, done) {
@@ -21,21 +23,25 @@ passport.serializeUser(function(user, done) {
     to the done callback
     PS: You dont have to do it like this its just usually done like this
     */
-    done(null, user);
+    console.log("Serialized")
+    console.log(user)
+    done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function(id, done) {
     /*
     Instead of user this function usually recives the id 
     then you use the id to select the user from the db and pass the user obj to the done callback
     PS: You can later access this data in any routes in: req.user
     */
-    done(null, user);
+    console.log("Deserialized")
+    console.log(id)
+    done(null, id);
 });
 
 passport.use(new GoogleStrategy({
         clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: GOOGLE_CLIENT_SECRET,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         //callbackURL: "https://showcase69.herokuapp.com/login/google/callback",
         callbackURL: "http://localhost:3000/auth/google/callback",
         passReqToCallback: true
@@ -49,7 +55,7 @@ passport.use(new GoogleStrategy({
         //console.log(profile);
         //let correoS = document.getElementById('correoH').value;
         //console.log(profile.emails[0].value);
-        var correoS = profile.emails[0].value;
+        /*var correoS = profile.emails[0].value;
         let ruta = urlData + "usuario/correo/" + correoS;
         console.log(ruta);
         console.log("**********");
@@ -64,7 +70,9 @@ passport.use(new GoogleStrategy({
                 req.externalIsPresent = false;
             }
         }
-        xhr.send(null);
+        xhr.send(null);*/
+        console.log("After Google Auth");
+        console.log(profile);
         return done(null, profile);
     }
 ));
@@ -78,7 +86,7 @@ passport.use(new FacebookStrategy({
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function(req, accessToken, refreshToken, profile, done) {
-        correoS = profile.emails[0].value;
+        /*correoS = profile.emails[0].value;
         let ruta = urlData + "usuario/correo/" + correoS;
         console.log(ruta);
         var xhrG = new XMLHttpRequest();
@@ -98,14 +106,14 @@ passport.use(new FacebookStrategy({
                 //console.log("llllllllllllllllllllllllllllllll");
             }
         }
-        xhrG.send(null);
-        console.log("JustBeforeReturn");
+        xhrG.send(null);*/
+        console.log("After Facebook Auth");
         return done(null, profile);
     }
 ));
 
 const externalLog = (req, res) => {
-    if (!req.externalIsPresent) {
+    /*if (!req.externalIsPresent) {
         sendNewUser(req.user);
     } else {
         sendLogInRegister(req.user.emails[0].value);
@@ -115,17 +123,11 @@ const externalLog = (req, res) => {
     res.cookie('sourceInicio', 'externo', { maxAge: 86400000 });
     res.cookie('sesion', 'Cerrar Sesion', { maxAge: 86400000 });
     res.cookie('sourceLink', req.user.photos[0].value);
-    var url = '/setSesion/' + req.user.emails[0].value + '/normal/externo';
+    var url = '/setSesion/' + req.user.emails[0].value + '/normal/externo';*/
     res.redirect('/');
+    
 }
 
-const isLoggedIn = (req, res, next) => { //
-    if (req.user) {
-        next();
-    } else {
-        res.sendStatus(401);
-    }
-};
 
 function logOut(req) { //
     req.logout();
@@ -169,6 +171,10 @@ function sendLogInRegister(correo) {
         .then(response => console.log('Success:', response));
 }
 
+router.get("/", function (req,res) {
+    res.send("Que transas perro")
+})
+
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/test/failed' }), externalLog);
@@ -178,7 +184,7 @@ router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }))
 router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/test/failed' }), externalLog);
 
 router.get('/logout',function(req,res){
-    sesionEstado = "Iniciar Sesion";
+    /*sesionEstado = "Iniciar Sesion";
     tipo = "outsider";
     correoSesion = "";
     empresaS = "";
@@ -191,7 +197,11 @@ router.get('/logout',function(req,res){
     }
     sourceInicioS = "";
     firstTimeS = '1';
-    res.render("index", { sesion: sesionEstado, correoSesionActual: correoSesion, tipoCuenta: tipo, sourceInicio: sourceInicioS, firstTime: firstTimeS });
+    res.render("index", { sesion: sesionEstado, correoSesionActual: correoSesion, tipoCuenta: tipo, sourceInicio: sourceInicioS, firstTime: firstTimeS });*/
+    req.logOut()
+    req.session.destroy()
+    console.log("Session Endend")
+    res.redirect('/')
 });
 
 module.exports = router
