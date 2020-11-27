@@ -3,27 +3,8 @@ var router = express.Router();
 var ruta = 'https://jarjarbinks.herokuapp.com/';
 var request = require('request');
 
-
-/*
-router.post('/', function(req, res){
-   console.log(req.body);
-   nombre = req.body.fname;
-   //res.send(nombre);
-   res.send(nombre);
-});*/
-
-router.get('/catalogo-productos', function(req, res, next) {
-    request({
-      method: 'GET',
-      uri: ruta + "categoria/todos",
-    }, function (error, response, body){
-      if(!error && response.statusCode == 200){
-        //console.log('body: ',JSON.parse(body));
-        dataCategoria = JSON.parse(body);
-        idInicial = dataCategoria[0].idCategoria;
-        return res.render('catalogoProductos', { title: 'Acolitame - Catalogo de Productos' , categoria: dataCategoria});
-      }
-    })
+router.get('/catalogo-empresas', function(req, res, next) {
+  res.render('catalogoEmpresas', {title: 'Acolitame - Catalogo Empresas'});
 });
 
 router.get('/catalogo-productos/:idCategoria', function(req, res, next) {
@@ -34,17 +15,16 @@ router.get('/catalogo-productos/:idCategoria', function(req, res, next) {
         if(!error && response.statusCode == 200){
           //console.log('body: ',JSON.parse(body));
             dataCategoria = JSON.parse(body);
-            console.log(req.params);
-            idInicial = 0;
+            idInicial = req.params.idCategoria;
             if(idInicial == 0){
                 idInicial = dataCategoria[0].idCategoria;
             }
             positionCategory = 0;
-            console.log(idInicial);
-            for (var i=0;i<dataCategoria.length;i++){
-                if(dataCategoria[i].idCategoria == idInicial){
-                    positionCategory = i;
-                }
+            for (var x=0;x<dataCategoria.length;x++){
+              if (dataCategoria[x].idCategoria == idInicial){
+                positionCategory = x;
+                break;
+              }
             }
             return res.render('catalogoProductos', { title: 'Acolitame - Catalogo de Productos' , categoria: dataCategoria, positionCategory: positionCategory});
         }

@@ -11,7 +11,7 @@
     <script src="/javascripts/jquery-3.5.1.js"></script>
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
-
+    <script type="text/javascript" src="/javascripts/catalogoProductos.js"></script>
 </head>
 <body>
     
@@ -74,7 +74,7 @@
             
             <div class="col-sm-3">
                 <p>Mostrando datos de:</p>
-                <input type="text" id="nombre" name="nombre" value="" readonly style="width: 200px;">
+                <p><%=categoria[positionCategory].nombre%></p>
                 <h4 class="my-2 pt-3">Vistas</h4>
                 
                 
@@ -88,11 +88,27 @@
             <div class="col-sm-9">
                 
                 <div class="row mt-3 p-3 overflow-auto" style="max-height: 900px;border: 1px solid darkgray;" id="listaProductos">
+                    <% for(var i=0; i < categoria[positionCategory].empresas.length; i++) { %>
+                        <% var empresa = categoria[positionCategory].empresas[i]%>
+                        <%for(var j=0; j < empresa.productos.length; j++) {%>
+                            <% var producto = empresa.productos[j] %>
+                            <div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">
+                            <div class="row align-items-center justify-content-center"><p><%=empresa.nombre%></p></div>
+                            <div class="row align-items-center justify-content-center"><a href="#" nombre="<%=empresa.nombre%>" correo="<%=empresa.correo%>" codE="<%=empresa.idEmpresa%>" codP="<%=producto.idProducto%>" onclick=goProducto($(this))><img src="data:image/png;base64,<%=producto.foto%>" class="img-responsive pr-2" height=150 width=150></a></div>
+                            <div class="row align-items-center justify-content-center"><a href="#" nombre="<%=empresa.nombre%>" correo="<%=empresa.correo%>" codE="<%=empresa.idEmpresa%>" codP="<%=producto.idProducto%>" onclick=goProducto($(this))><p><%=producto.nombre%></p></a></div></div></div>
+                    <% }} %>
+
                     
                 </div>
             
                 <div class="row mt-3 p-3 overflow-auto" style="max-height: 900px;border: 1px solid darkgray;" id="listaEmpresas">
-                
+                    <% for(var i=0; i < categoria[positionCategory].empresas.length; i++) { %>
+                    <div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">
+                    <div class="row align-items-center justify-content-center"><a href="#" correo="<%=categoria[positionCategory].empresas[i].correo%>" onclick=goEmpresa($(this)) ><img src="<%= `data:image/png;base64,${categoria[positionCategory].empresas[i].foto}` %>" alt="" class="img-responsive pr-2" height=150 width=150></a></div>
+                    <div class="row align-items-center justify-content-center"><a href="#" correo="<%=categoria[positionCategory].empresas[i].correo%>" onclick=goEmpresa($(this)) ><p><%=categoria[positionCategory].empresas[i].nombre%></p></a></div></div></div>
+                    <% } %>
+
+
                 </div>
                     
                 

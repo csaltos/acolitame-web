@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+    <div class="row pt-5 pl-5">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Catalogo Empresas</li>
+            <li class="breadcrumb-item"><a href="catalogo/catalogo-productos/0">Catalogo Productos</a></li>
+        </ol>
+    </div>
+
+    <!--Para los modals-->
+    <div id="forModalSesion">
+
+    </div>
+
+    <div id="forModalCrear">
+
+    </div>
+
+    <div class="jumbotron mx-5 mb-5 px-5">
+        <div class="row pb-5">
+            <div class="masthead bg-tertiray">
+                <h1>Catalogo de Empresas</h1>
+                
+            </div>
+        </div>
+
+        <div class="row pb-1">
+            <div class="masthead bg-tertiray">
+                <h3>Buscar Empresa</h3>
+            </div>
+        </div>
+        <div class="row pb-3">
+            <div class="col-9 col-auto">
+                <input type="text" class="form-control" style="border: 1px solid black;" id="valueSearch" placeholder="Buscar  una empresa especifica">
+            </div>
+            <div class="col-3 col-auto align-self-end">
+                <button class="btn btn-success mx-1 my-sm-0" id="btnBuscar" onclick="searchEmpresa()">Buscar</button>
+            </div>
+        </div>
+        <div class="row pb-1">
+            <div class="masthead bg-tertiray">
+                <h3>Cambiar de categoria</h3>
+            </div>
+        </div>
+        <div class="row pb-5 pl-3">
+            
+            <div class="form-group" >
+                <select class="form-control btn-outline-primary" id="selectCategorias2" onchange="changeCategory()">
+                    
+                </select>
+            </div>
+        </div>
+
+        <div class="row pb-5 pl-3">
+            <div class="col-sm-3 col-auto col-md-auto">
+                <p>Mostrando datos de:</p>
+                <input type="text" id="nombre" name="nombre" readonly style="width: 300px;"> 
+                <input type="text" id="idCategory" hidden>
+                <h4 class="my-2 pt-3">Vistas</h4>
+                <div class="list-group overflow-auto " style="max-width: 300px;max-height: 600px;" >
+                    <a href="" onclick="return changeView('mapa')" class="list-group-item list-group-item-action" id='btnMapa'>Mapa</a>
+                    <a href="" onclick="return changeView('lista')" class="list-group-item list-group-item-action">Lista</a>
+                </div>
+                
+            </div>
+            <div class="col-sm-9 col-auto col-md-auto">
+                <div class="row pb-5 align-items-center justify-content-center" id="MapaShow">
+            
+                    <iframe src="http://localhost:3000/miUbicacion" id='frameUbicacion' width="800" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </div>
+                
+                    <div class="row p-1 overflow-auto" style="max-height: 1300px;border: 1px solid darkgray;" id="listaEmpresas">
+                        
+                    </div>
+         
+            </div>
+        </div>
+        
+        
+    </div>
+
+
+    <%- include('footer.ejs') %>
+
+</body>
+
+</html>
