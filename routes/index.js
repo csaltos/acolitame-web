@@ -32,8 +32,9 @@ router.get('/soyEmprendedor', function(req, res, next) {
   res.render('soyEmprendedor', {title: 'Acolitame - Soy Emprendedor'});
 });
 
-router.get('/miUbicacion', function(req, res, next) {
-  res.render('ubicacionEmpresas');
+router.get('/miUbicacion/:idCategoria', function(req, res, next) {
+  console.log(req.params.idCategoria);
+  res.render('ubicacionEmpresas', {idCategoria: req.params.idCategoria});
 });
 
 module.exports = router;

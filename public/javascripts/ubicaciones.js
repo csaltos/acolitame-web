@@ -8,7 +8,7 @@ urlData = "https://jarjarbinks.herokuapp.com/";
 
 
 function initMap() {
-    let idCategoria = getCookie('idCategoria');
+    let idCategoria = document.getElementById('idCategoria').value;
     map = new google.maps.Map(document.getElementById("map"), {
         center: { lat: -2.8922687, lng: -79.0243997 },
         zoom: 14
@@ -27,7 +27,7 @@ function initMap() {
                 //console.log(latitud, longitud, idCategoria);
 
                 let ruta;
-                if (idCategoria != null) {
+                if (idCategoria != "") {
                     idCategoria = parseInt(idCategoria);
                     //console.log("*******------");
                     //console.log(idCategoria);
@@ -112,15 +112,4 @@ function createMarker(latlng, name) {
         infoWindow.open(map, marker);
     });
     markers.push(marker);
-}
-
-function getCookie(name) {
-    var cookieArr = document.cookie.split(";");
-    for (var i = 0; i < cookieArr.length; i++) {
-        var cookiePair = cookieArr[i].split("=");
-        if (name == cookiePair[0].trim()) {
-            return decodeURIComponent(cookiePair[1]);
-        }
-    }
-    return null;
 }

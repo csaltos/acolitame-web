@@ -9,8 +9,7 @@ Rutas Generales:
 		/ubicacion -> mapa de empresas cercanas
 	-----------------------------------------------------
 		/catalogo						Dificil(3)	*Bere*
-			/catalogoempresa?categoria={}	-> (Incluir con buscar empresa)
-			/cataloproductos?categoria={}	-> Default
+			/:idCategoria	-> (Incluir con buscar empresa)
 			/empresa?nombre={}
 	-----------------------------------------------------
 		/registrarse						Medio(2)	*Bere*
