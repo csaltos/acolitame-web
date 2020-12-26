@@ -52,11 +52,3 @@ empresa: {
 }
 }]
 
-6. JSON para recuperar una empresa: /nombreEmpresa
-{
-
-}
-
-
-
-
