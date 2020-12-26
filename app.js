@@ -8,6 +8,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogoRouter = require('./routes/catalogo');
 
+var ruta = 'http://localhost:8080/';
+var home = 'http://localhost:3000/';
+//var ruta = 'https://jarjarbinks.herokuapp.com/';
+
 var app = express();
 
 // view engine setup
@@ -41,3 +45,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+exports.ruta = ruta;
+exports.home = home;

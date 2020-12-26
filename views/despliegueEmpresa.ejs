@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+    <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+    <div class="jumbotron m-5">
+        <div class="row pt-2">
+            
+
+            <div class="masthead bg-tertiray">
+                <h1 class="masthead-heading" id="nombreEmpresaT"></h1>
+                <!--insertar el nombre y los datos de la empresa que el usuario seleccione-->
+            </div>
+        </div>
+        <div class="row py-5 align-items-center ">
+
+            <div class="row align-items-center justify-content-center pb-5">
+                <div class="col-sm-3 pr-5">
+                    <div class="row align-items-center justify-content-center mb-5">
+                        <div class="col-md-auto ">
+                        </div>
+                    </div>
+                    <div class="row align-items-center justify-content-center mb-5 ml-5" id="espacioFoto">
+                        <!--colocar foto de la empresa => por default:-->
+
+                    </div>
+                    <div class="row align-items-center justify-content-center mb-5">
+                        <a href="" class="btn btn-outline-azulillo btn-rounded" data-toggle="modal" data-target="#ModalForm" id="aReferences">Enviar Mensaje</a>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <p><b>Datos de la empresa</b></p>
+                    <div class="form-group">
+                        <label>Correo Electronico:</label>
+                        <input type="text" class="form-control " id="correoE" name="correoE" readonly>
+                        <!--Insertar el correo de la empresa-->
+                    </div>
+                    <div class="form-group">
+                        <label>Telefono:</label>
+                        <input type="text" class="form-control " id="telefono" readonly>
+                        <!--Insertar el telefono de la empresa-->
+                    </div>
+                    <div class="form-group">
+                        <label>Ubicacion:</label>
+                        <input type="text" class="form-control " id="ubicacion" readonly>
+                        <input type="text" class="form-control " id="latitud" readonly hidden>
+                        <input type="text" class="form-control " id="longitud" readonly hidden>
+                        <!--Insertar la ubicacion de la empresa-->
+                    </div>
+                    <div class="form-group">
+                        <label>Redes Sociales:</label>
+                        <!--Para agregar redes sociales especificas de la empresa-->
+                        <div class="social">
+                            <ul>
+                                <a target="_blank" class="icon-facebook" id="goFace">Facebook</a>
+                                <a target="_blank" class="icon-twitter" id="goTwitter">Twitter</a>
+                                <a target="_blank" class="icon-insta" id="goInsta">Instagram</a>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <!--Agregar Valoraciones
+                            
+                            <p class="clasificacion">
+                                    <input id="radio1" type="radio" name="estrellas" value="5"><label for="radio1" class="label-v">&#9733;</label><input id="radio2" type="radio" name="estrellas" value="4"><label for="radio2" class="label-v">&#9733;</label><input id="radio3" type="radio" name="estrellas" value="3"><label for="radio3" class="label-v">&#9733;</label><input id="radio4" type="radio" name="estrellas" value="2"><label for="radio4" class="label-v">&#9733;</label><input id="radio5" type="radio" name="estrellas" value="1"><label for="radio5" class="label-v">&#9733;</label>
+                                </p>
+                            -->
+                        <label>Valoraciones:</label>
+
+
+                        <ul>
+                            <p class="clasificacion" id="clasificacion">
+                            </p>
+                            <button href="" class="btn btn-success" onclick="darValoracion()" id="btnValoracion">Dar mi Valoracion</button>
+
+                        </ul>
+                        <div id="forModalValor">
+
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label>Compartir:</label>
+                            <!--Para compartir por redes sociales-->
+                        </div>
+
+
+                        <!-- Load Facebook SDK for JavaScript -->
+                        <div id="fb-root"></div>
+                        <script>
+                            (function(d, s, id) {
+                                var js, fjs = d.getElementsByTagName(s)[0];
+                                if (d.getElementById(id)) return;
+                                js = d.createElement(s);
+                                js.id = id;
+                                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }(document, 'script', 'facebook-jssdk'));
+                        </script>
+
+                        <div class="social-share center-block">
+                            <!--Facebook-->
+                            <div class="fb-share-button d-inline" data-href="https://showcase69.herokuapp.com/" data-layout="button_count">
+                            </div>
+                            <!--Facebook-->
+                            <!--Twitter-->
+                            <div id="twitter-container" class="d-inline"></div>
+                            <!--Twitter-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <iframe src="<%=rutaMapa%>" width="375" height="300" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!--Para los modals-->
+        <div id="forModalSesion">
+
+        </div>
+
+        <div id="forModalCrear">
+
+        </div>
+        <div class="row p-3">
+            <h4><strong>Productos</strong></h4>
+            <div class="col-sm-12">
+                <div class="row mt-1 p-3 overflow-auto" style="max-height: 300px;border: 1px solid darkgray;" id="listaProductos">
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row p-3">
+            <h4><strong>Comentarios</strong></h4>
+            <!--Insertar los comentarios agregados a esta empresa-->
+
+            <div class="col-sm-12">
+                <div class="alert alert-dismissible alert-danger" id="errorEmpresa">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <p>No tiene permitido responder. Para responder comentarios de su empresa dirigase a</p><a href="DespliegueEmpresaParaEmpresario" class="alert-link"><strong>'Su Vitrina'</strong></a>
+                </div>
+                <div class="row mt-1 p-3 overflow-auto" style="max-height: 300px;border: 1px solid darkgray;">
+                    <div class="col-sm-12" id="comentariosEmpresa">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id='forComentario'>
+            <div class="row align-items-start justify-content-start p-3 m-3">
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" placeholder="Comentar" id="0" style="border: 1px solid black;">
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-success" onclick="sendComentario(0)">Comentar</button></div>
+            </div>
+            <hr>
+        </div>
+
+
+        <div class="row align-items-end justify-content-end ml-auto pr-1 pt-3">
+            <button class="btn btn-info" onclick="javascript:window.location.href='catalogo'">Catalogo</button>
+        </div>
+
+
+    </div>
+    <div id='forModalProd'></div>
+
+    <!-- pie de página -->
+
+    <%- include('footer.ejs') %>
+
+</body>
+
+</html>

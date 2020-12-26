@@ -19,7 +19,7 @@
     <div class="jumbotron m-5">
         <div class="row py-2">
             <div class="masthead bg-tertiray">
-                <h1 class="masthead-heading" id="nombreEmpresaT" >Catalogo</h1><!--insertar el nombre y los datos de la empresa que el usuario seleccione-->
+                <h1 class="masthead-heading">Catalogo</h1>
                 
             </div>
         </div>
@@ -66,11 +66,11 @@
         <div class="row pb-5 pl-3">
             
             <div class="col-sm-3">
+                
                 <p>Mostrando datos de:</p>
-                <p id="categoriaActualNombre"><%=categoria[positionCategory].nombre%></p>
+                <% if (categoria.length > 0) { %><p id="categoriaActualNombre"></p><%=categoria[positionCategory].nombre%></p><% }%>
                 <h4 class="my-2 pt-3">Vistas</h4>
-                
-                
+
                 <div class="list-group overflow-auto " style="max-width: 300px;max-height: 600px;" >
                     <a href="" onclick=" return changeView('productos')" class="list-group-item list-group-item-action">Lista Productos</a>
                     <a href="" onclick="return changeView('empresas')" class="list-group-item list-group-item-action">Lista Empresas</a>
@@ -88,10 +88,10 @@
 
 
                 </div>
+               
                 <div class="row pb-5 align-items-center justify-content-center" id="MapaShow">
-                    <iframe src="http://localhost:3000/miUbicacion/<%=categoria[positionCategory].idCategoria%>" id='frameUbicacion' width="800" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    <% if (categoria.length > 0) { %><iframe src="http://localhost:3000/miUbicacion/<%=categoria[positionCategory].idCategoria%>" id='frameUbicacion' width="800" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe><% }%>
                 </div>
-                
          
             </div>
         </div>

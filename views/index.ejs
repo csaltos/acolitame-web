@@ -35,7 +35,7 @@
                 <h4 for="listaCategorias" class="my-2">Categorias</h4>
                 <div class="list-group overflow-auto" style="max-width: 300px;max-height: 600px;" id="listaCategorias">
                   <% for(var i=0; i < categoria.length; i++) { %>
-                    <a href="#" onclick="goCategorias('<%=categoria[i].nombre%>')" class="list-group-item list-group-item-action"><%=categoria[i].nombre%></a>
+                    <a href="<%=home + 'catalogo/' + categoria[i].idCategoria %>" class="list-group-item list-group-item-action"><%=categoria[i].nombre%></a>
                   <% } %>
                 </div>
             </div>

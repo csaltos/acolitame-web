@@ -10,7 +10,7 @@ Rutas Generales:
 	-----------------------------------------------------
 		/catalogo						Dificil(3)	*Bere*
 			/:idCategoria	-> (Incluir con buscar empresa)
-			/empresa?nombre={}
+			/empresa/:idEmpresa
 	-----------------------------------------------------
 		/registrarse						Medio(2)	*Bere*
 			/cuentaemprededor

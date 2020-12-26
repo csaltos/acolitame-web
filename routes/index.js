@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var ruta = 'https://jarjarbinks.herokuapp.com/';
 var request = require('request');
+const r=require('../app');
 
 
 /*
@@ -15,21 +15,21 @@ router.post('/', function(req, res){
 router.get('/', function(req, res, next) {
   request({
     method: 'GET',
-    uri: ruta + "categoria/todos",
+    uri: r.ruta + "categoria/todos",
   }, function (error, response, body){
     if(!error && response.statusCode == 200){
-      //console.log('body: ',JSON.parse(body));
-      return res.render('index', { title: 'Acolitame' , categoria: JSON.parse(body)});
+      //console.log('body: ',home);
+      return res.render('index', { title: 'Acolitame' , categoria: JSON.parse(body), home: r.home});
     }
   })
 });
 
 router.get('/quienesSomos', function(req, res, next) {
-  res.render('quienesSomos', {title: 'Acolitame - Quienes Somos'});
+  res.render('quienesSomos', {title: 'Acolitame - Quienes Somos', home: r.home});
 });
 
 router.get('/soyEmprendedor', function(req, res, next) {
-  res.render('soyEmprendedor', {title: 'Acolitame - Soy Emprendedor'});
+  res.render('soyEmprendedor', {title: 'Acolitame - Soy Emprendedor', home: r.home});
 });
 
 router.get('/miUbicacion/:idCategoria', function(req, res, next) {
