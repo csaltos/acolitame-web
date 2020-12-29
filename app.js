@@ -5,12 +5,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
-var session = require('express-session');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
 var micuentaRouter = require('./routes/micuenta')
-var database = require('./database')
+var database = require('./config/database')
 
 
 
@@ -28,14 +27,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: '177013',
-  resave: false,
-  saveUninitialized: false,
-  //cookie: {secure: true}
-}))
+// app.use(session({
+//   secret: '177013',
+//   resave: false,
+//   saveUninitialized: false,
+//   //cookie: {secure: true}
+// }))
 app.use(passport.initialize()); //
-app.use(passport.session()); //
+// app.use(passport.session()); //
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
