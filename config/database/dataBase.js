@@ -15,6 +15,9 @@ class DataBase{
         }
     }
 
+    async end(){
+        await this.pool.end();
+    }
 }
 
             

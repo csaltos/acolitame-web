@@ -76,6 +76,8 @@ module.exports = (passport) => {
             xhr.send(null);*/
             console.log("After Google Auth");
             // console.log(profile);
+            console.log("Access token",accessToken);
+            console.log("Refresh Token",refreshToken)
             return done(null, profile);
         }
     ));
