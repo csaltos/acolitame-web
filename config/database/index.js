@@ -3,10 +3,10 @@ var {Pool} = require('pg')
 var db = require('./dataBase')
 
 const pool = new Pool({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
+  user: process.env.PGUSERT,
+  host: process.env.PGHOSTT,
+  database: process.env.PGDATABASET,
+  password: process.env.PGPASSWORDT,
   port: process.env.PGPORT, 
   ssl:{
     rejectUnauthorized: false
