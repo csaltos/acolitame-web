@@ -7,8 +7,8 @@ class DataBase{
     async query(query){
         //console.log(query);
         try{
-            const client = await this.pool.connect();
-            const res = await client.query(query);
+            const res = await this.pool.query(query);
+            // const res = await client.query(query);
             return res
         }catch (err){
             return err
@@ -30,7 +30,6 @@ const query = `select * from public.categoria`
 
 //console.log(query)
 var resp = database.query(query)
-
 resp.then(function(res){
   console.log(res.rows)
 })*/
