@@ -4,6 +4,7 @@ var passport = require('passport');
 const { use } = require('passport');
 const fs = require('fs');
 const path = require('path');
+const utils = require('../../lib/authUtils');
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -30,17 +31,6 @@ module.exports = (passport) => {
         console.log(user)
         done(null, user);
     });
-
-    // passport.deserializeUser(function(id, done) {
-    //     /*
-    //     Instead of user this function usually recives the id 
-    //     then you use the id to select the user from the db and pass the user obj to the done callback
-    //     PS: You can later access this data in any routes in: req.user
-    //     */
-    //     console.log("Deserialized")
-    //     console.log(id)
-    //     done(null, id);
-    // });
 
     passport.use(new GoogleStrategy({
             clientID: process.env.GOOGLE_CLIENT_ID,
@@ -75,10 +65,24 @@ module.exports = (passport) => {
             }
             xhr.send(null);*/
             console.log("After Google Auth");
+            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = ${profile.id};`;
+            console.log("quering, ",query);
+            dataBase.query(query)
+            .then(function (dbRes) {
+                console.log(dbRes);
+                if (dbRes.rowCount > 0 ){
+                    console.log("I found it :3");
+                    // dataBase.end();
+                    return done(null, profile);
+                }else{
+                    console.log("Who are you?");
+                    utils.sendNewUser(profile,done);                    
+                }
+            }).catch(function (err) {
+                // dataBase.end();
+                return done(err,false); 
+            })
             // console.log(profile);
-            console.log("Access token",accessToken);
-            console.log("Refresh Token",refreshToken)
-            return done(null, profile);
         }
     ));
 
@@ -113,7 +117,23 @@ module.exports = (passport) => {
             }
             xhrG.send(null);*/
             console.log("After Facebook Auth");
-            return done(null, profile);
+            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = ${profile.id};`;
+            console.log("quering, ",query);
+            dataBase.query(query)
+            .then(function (dbRes) {
+                console.log(dbRes);
+                if (dbRes.rowCount > 0 ){
+                    console.log("I found it :3");
+                    // dataBase.end();
+                    return done(null, profile);
+                }else{
+                    console.log("Who are you?");
+                    utils.sendNewUser(profile,done);                    
+                }
+            }).catch(function (err) {
+                // dataBase.end();
+                return done(err,false); 
+            })
         }
     ));
 
@@ -121,12 +141,13 @@ module.exports = (passport) => {
 
         console.log(payload);
         // const query = `select U.id_usuario, U.nombre from public.usuario_registrado U ;`;
-        const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.nombre = 'david peñafiel';`
+        const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = ${payload.sub};`
         console.log(query)
-        var resp = dataBase.query(query);
-        resp.then(function(res){
+        dataBase.query(query)
+        .then(function(res){
             console.log(res.rows[0]);
+            // dataBase.end();
             done(null,res.rows[0]); //The response is injected into the pipeline in the request object as user 
-        })
+        });
     }));
 }
