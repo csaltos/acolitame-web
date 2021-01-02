@@ -33,11 +33,21 @@ router.get('/:idCategoria', function(req, res, next) {
 });
 
 router.get('/empresa/:idEmpresa', function(req, res, next) {
-  latitud = 0;
-  longitud = 0;
-  rutaMapa = r.home+'catalogo/forShowMap/'+latitud+'/'+longitud;
-  console.log(rutaMapa);
-  return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, rutaMapa: rutaMapa });
+  //console.log(req.params)
+  request({
+    method: 'GET',
+    uri: r.ruta + "empresa/correo/"+req.params.idEmpresa,
+}, function (error, response, body){
+    if(!error && response.statusCode == 200){
+      //console.log('body: ',JSON.parse(body));
+      empresa = JSON.parse(body);
+      latitud = empresa.latitud;
+      longitud = empresa.longitud;
+      rutaMapa = r.home+'catalogo/forShowMap/'+latitud+'/'+longitud;
+      console.log(rutaMapa);
+      return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, rutaMapa: rutaMapa, empresa:empresa });
+    }
+})
 });
 
 router.get('/forShowMap/:latitud/:longitud', function(req, res, next) {

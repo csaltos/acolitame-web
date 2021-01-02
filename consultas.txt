@@ -52,3 +52,33 @@ empresa: {
 }
 }]
 
+6. JSON para consulta de empresa por idEmpresa
+{
+nombre:'nombreEmpresa',
+correo:'correo',
+telefono:'00000',
+direccion:'direccion',
+latitud:'latitud',
+longitud:'longitud',
+foto:'foto',
+facebook:'link',
+twitter:'link',
+instagram:'link',
+valoracion:0,
+productos:[{
+	idProducto:'1',
+	nombre:'nombre',
+	foto:'linkfoto',
+}],
+comentarios:[{
+	usuario:'nombre',
+	fecha:'fecha',
+	comentario:'comentario',
+	respuestas:[{
+		usuario:'nombre',
+		fecha:'fecha',
+		respuesta:'respuesta'
+	}]
+}],
+}
+
