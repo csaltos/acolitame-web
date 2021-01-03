@@ -11,6 +11,8 @@
     <script src="/javascripts/jquery-3.5.1.js"></script>
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/general-methods.js"></script>
+    <script type="text/javascript" src="/javascripts/methods-map.js"></script>
     <script type="text/javascript" src="/javascripts/catalogo.js"></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
             <div class="form-group" >
                 <select class="form-control btn-outline-primary" id="selectCategorias2" onchange="return changeCategory()">
                     <% for(var i=0; i < categoria.length; i++) { %>
-                        <option href="<%=categoria[i].idCategoria%>"
+                        <option href="<%=categoria[i].id_categoria%>"
                             <%if (i == positionCategory){%> selected="true"<%}%> >
                             <%=categoria[i].nombre%></option>
                     <% } %>
@@ -74,7 +76,7 @@
                 <div class="list-group overflow-auto " style="max-width: 300px;max-height: 600px;" >
                     <a href="" onclick=" return changeView('productos')" class="list-group-item list-group-item-action">Lista Productos</a>
                     <a href="" onclick="return changeView('empresas')" class="list-group-item list-group-item-action">Lista Empresas</a>
-                    <a href="" onclick="return changeView('mapa')" class="list-group-item list-group-item-action" id='btnMapa'>Mapa</a>
+                    <a href="" onclick="return changeView('mapa')" class="list-group-item list-group-item-action" id='btnMapa'>Cerca de ti</a>
                 </div>
                 
             </div>
@@ -90,7 +92,7 @@
                 </div>
                
                 <div class="row pb-5 align-items-center justify-content-center" id="MapaShow">
-                    <% if (categoria.length > 0) { %><iframe src="http://localhost:3000/miUbicacion/<%=categoria[positionCategory].idCategoria%>" id='frameUbicacion' width="800" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe><% }%>
+                    <% if (categoria.length > 0) { %><iframe src="http://localhost:3000/miUbicacion/<%=categoria[positionCategory].id_categoria%>" id='frameUbicacion' width="800" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe><% }%>
                 </div>
          
             </div>

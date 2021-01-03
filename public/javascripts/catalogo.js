@@ -5,6 +5,8 @@
 let positionEmpresa = 0;
 let positionProductos = 0;
 let maximo = 10;
+var empresas = [];
+var productos = [];
 
 $(document).ready(function() {
     setInitial();
@@ -39,40 +41,50 @@ function changeView(cambio) {
 
 function changeCategory() {
     let idCategoria = $("#selectCategorias2 option:selected").attr('href');
+    console.log($("#selectCategorias2 option:selected").attr('href'));
     //Realizo consulta para obtener las empresas de dicha categoria:
-    if (positionEmpresa == 0){
-        cleanOldResults();
-    }
-    
+    positionEmpresa = 0;
+    positionProductos = 0;
+    cleanOldResults();
     if(idCategoria !== undefined){
-        let ruta = urlData + "empresa/categoria/" + idCategoria+"/"+positionEmpresa+"/"+maximo;
-        console.log(ruta);
-        let ajaxRequest = new XMLHttpRequest();
-        ajaxRequest.open("GET", ruta, true);
-        ajaxRequest.onreadystatechange = function() {
-            if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
-                empresas = JSON.parse(ajaxRequest.responseText);
-                console.log(empresas);
-                appendResultEmpresa(empresas, idCategoria);
-                positionEmpresa+=maximo;
-                cargarProductos(idCategoria);
-            }
-        }
-        ajaxRequest.send(null);
+        extraerEmpresas(idCategoria);
     }
 }
 
-function appendResultEmpresa(empresas, idCategory){
-    for (var i = 0; i < empresas.length; i++) {
+function extraerEmpresas(idCategoria){
+    let ruta = urlData + "empresa/categoria/" + idCategoria+"/"+positionEmpresa+"/"+maximo;
+    console.log(ruta);
+    let ajaxRequest = new XMLHttpRequest();
+    ajaxRequest.open("GET", ruta, true);
+    ajaxRequest.onreadystatechange = function() {
+        if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+            resultEmpresas = JSON.parse(ajaxRequest.responseText);
+            console.log(resultEmpresas);
+            appendResultEmpresa(resultEmpresas, idCategoria);
+            positionEmpresa+=maximo;
+            cargarProductos(idCategoria);
+        }
+    }
+    ajaxRequest.send(null);
+}
 
+function appendResultEmpresa(resultEmpresas, idCategory){
+    console.log(resultEmpresas, idCategory);
+    for (var i = 0; i < resultEmpresas.length; i++) {
+        empresa = resultEmpresas[i];
+        empresas.push(empresa);
         let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
-            '<div class="row align-items-center justify-content-center"><a href="'+home+'catalogo/empresa/' + empresas[i].idEmpresa + '" ><img src="' + "data:image/png;base64," + empresas[i].foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
-            '<div class="row align-items-center justify-content-center"><a href="'+home+'catalogo/empresa/' + empresas[i].idEmpresa + '" ><p>' + empresas[i].nombre + '</p></a></div></div></div>';
+            '<div class="row align-items-center justify-content-center"><a href="'+home+'catalogo/empresa/' + empresa.id_empresa + '" ><img src="' + "data:image/png;base64," + empresa.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
+            '<div class="row align-items-center justify-content-center"><a href="'+home+'catalogo/empresa/' + empresa.id_empresa + '" ><p>' + empresa.nombre + '</p></a></div></div></div>';
 
         console.log(resultado);
         $('#listaEmpresas').append(resultado);
         if(idCategory < 0){
-            setMarkers(empresas[i].lat, empresas[i].lon, empresas[i].nombre);
+            frame = document.getElementById('frameUbicacion').contentWindow.document;
+            frame.getElementById('latitud').value = empresa.latitud;
+            frame.getElementById('longitud').value = empresa.longitud;
+            frame.getElementById('nombre').value = empresa.nombre;
+            frame.getElementById('addMarker').click();
         }
     }
     if(idCategory > 0){
@@ -89,21 +101,23 @@ function cargarProductos(idCategoria){
     ajaxRequest.onreadystatechange = function() {
         if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
 
-            let productos = JSON.parse(ajaxRequest.responseText);
-            appendResultProduct(productos);
+            let resultProductos = JSON.parse(ajaxRequest.responseText);
+            appendResultProduct(resultProductos);
             positionProductos+=maximo;
         }
     }
     ajaxRequest.send(null);
 }
 
-function appendResultProduct(productos){
-    for (var j = 0; j < productos.length; j++) {
-        producto = productos[i];
+function appendResultProduct(resultProductos){
+    for (var j = 0; j < resultProductos.length; j++) {
+        producto = resultProductos[j];
+        productos.push(producto);
+        console.log(producto);
         let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
             '<div class="row align-items-center justify-content-center"><p>' + producto.nombreEmpresa + '</p></div>' +
-            '<div class="row align-items-center justify-content-center"><a href="#" idProducto='+producto.idProducto+' idEmpresa="' + producto.idEmpresa + '" onclick=goProducto($(this))><img src="' + 'data:image/png;base64,' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
-            '<div class="row align-items-center justify-content-center"><a href="#" idProducto='+producto.idProducto+' idEmpresa="' + producto.idEmpresa + '" onclick=goProducto($(this))><p>' + producto.nombre + '</p></a></div></div></div>';
+            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><img src="' + 'data:image/png;base64,' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
+            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><p>' + producto.nombre + '</p></a></div></div></div>';
         $('#listaProductos').append(resultado);
     }
     
@@ -122,7 +136,8 @@ function searchEmpresa() {
             if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
 
                 empresasResult = JSON.parse(ajaxRequest.responseText);
-                clearLocations();
+                //console.log(document.getElementById('frameUbicacion').contentWindow.document.getElementById('cleanMarkers'));
+                document.getElementById('frameUbicacion').contentWindow.document.getElementById('cleanMarkers').click();
                 appendResultEmpresa(empresasResult, -1);
                 searchProducto(busqueda);
             }
@@ -158,58 +173,54 @@ function cleanOldResults() {
     }
     positionEmpresa = 0;
     positionProductos = 0;
+    empresas = [];
+    productos = [];
 }
 
-function goProducto(etiqueta){
-    console.log(etiqueta[0]);
-    let codE = $(etiqueta)[0].getAttribute("idEmpresa");
-    let codP = $(etiqueta)[0].getAttribute("idProducto");
-    let ruta = urlData + "producto/idProducto/" + codP + "/idEmpresa/" + codE;
-    console.log(ruta);
-    let ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open("GET", ruta, true);
-    ajaxRequest.onreadystatechange = function() {
-        if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+function goProducto(pos){
+    
+    var productoSelected = productos[pos];
+    let codigo = '<div class="modal" id="myModalProducto">' +
+        '<div class="modal-dialog p-5" role="document">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<h5 class="modal-title">' + productoSelected.nombreEmpresa + '</h5>' +
+        '<button type="button" onclick="cleanProducto()" class="close" aria-label="Close">' +
+        '<span aria-hidden="true">&times;</span>' +
+        '</button>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<div class="md-form mb-5 form-group">' +
+        '<label>Nombre del producto:</label><p>' + productoSelected.nombre + '</p>' +
+        '<label>Descripcion del producto: </label>' + productoSelected.descripcion + '</p>' +
+        '<label>Precio del producto: </label><p>' + productoSelected.precio + '</p></div>' +
 
-            var productoSelected = JSON.parse(ajaxRequest.responseText);
-            let codigo = '<div class="modal" id="myModalProducto">' +
-                '<div class="modal-dialog p-5" role="document">' +
-                '<div class="modal-content">' +
-                '<div class="modal-header">' +
-                '<h5 class="modal-title">' + nombre + '</h5>' +
-                '<button type="button" onclick="cleanProducto()" class="close" aria-label="Close">' +
-                '<span aria-hidden="true">&times;</span>' +
-                '</button>' +
-                '</div>' +
-                '<div class="modal-body">' +
-                '<div class="md-form mb-5 form-group">' +
-                '<label>Nombre del producto:</label><p>' + productoSelected.nombre + '</p>' +
-                '<label>Descripcion del producto: </label>' + productoSelected.descripcion + '</p>' +
-                '<label>Precio del producto: </label><p>' + productoSelected.precio + '</p></div>' +
+        '<div class="row align-items-center justify-content-center mb-5">' +
+        '<div class="col-md-auto ">' +
+        '<img src="' + 'data:image/png;base64,' + productoSelected.foto + '" alt="" class="img-responsive pr-2"></div></div>' +
+        '</div>' +
+        '<div class="alert alert-dismissible alert-danger" id="errorCarrito">' +
+        '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+        '<strong>Ya tiene este producto en el </strong><a href="pedidos" class="alert-link" >CARRITO</a>' +
+        '</div>' +
+        '<div class="row align-items-center justify-content-center mb-5">' +
+        '<div class="col-auto col-md-auto ">';
+    /*if (getCookie('tipoCuenta') != 'administrador') {
+        codigo += '<button type="button" onclick="saveCarrito(\'' + codE + '\',\'' + productoSelected.idProducto + '\')" class="btn btn-info mr-3">Añadir al carrito</button>';
+    }*/
+    codigo += '<button type="button" onclick="saveCarrito(\'' + productoSelected.id_empresa + '\',\'' + productoSelected.id_producto + '\')" class="btn btn-info mr-3">Añadir al carrito</button>';
+    codigo += '<button type="button" onclick="goEmpresa(\''+home+'catalogo/empresa/'+productoSelected.id_empresa+'\')" class="btn btn-success">Visitar empresa</button></div>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<div class="col-auto col-md-auto "><button type="button" onclick="cleanProducto()" class="btn btn-secondary">Cerrar</button></div>' +
+        '</div></div></div></div>';
+    $("#forModalProd").append(codigo);
+    $('#errorCarrito').hide();
+    $('#myModalProducto').modal('show');
+    console.log(codigo);
+        
+}
 
-                '<div class="row align-items-center justify-content-center mb-5">' +
-                '<div class="col-md-auto ">' +
-                '<img src="' + 'data:image/png;base64,' + productoSelected.foto + '" alt="" class="img-responsive pr-2"></div></div>' +
-                '</div>' +
-                '<div class="alert alert-dismissible alert-danger" id="errorCarrito">' +
-                '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                '<strong>Ya tiene este producto en el </strong><a href="pedidos" class="alert-link" >CARRITO</a>' +
-                '</div>' +
-                '<div class="row align-items-center justify-content-center mb-5">' +
-                '<div class="col-auto col-md-auto ">';
-            if (getCookie('tipoCuenta') != 'administrador') {
-                codigo += '<button type="button" onclick="saveCarrito(\'' + codE + '\',\'' + productoSelected.idProducto + '\')" class="btn btn-info mr-3">Añadir al carrito</button>';
-            }
-            codigo += '<button type="button" onclick="goEmpresaB(\'' + correo + '\')" class="btn btn-success">Visitar empresa</button></div>' +
-                '</div>' +
-                '<div class="modal-footer">' +
-                '<div class="col-auto col-md-auto "><button type="button" onclick="cleanProducto()" class="btn btn-secondary">Cerrar</button></div>' +
-                '</div></div></div></div>';
-            $("#forModalProd").append(codigo);
-            $('#errorCarrito').hide();
-            $('#myModalProducto').modal('show');
-            console.log(codigo);
-        }
-    }
-    ajaxRequest.send(null);
+function goEmpresa(ruta){
+    window.location.href = ruta;
 }

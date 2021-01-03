@@ -36,7 +36,7 @@ router.get('/empresa/:idEmpresa', function(req, res, next) {
   //console.log(req.params)
   request({
     method: 'GET',
-    uri: r.ruta + "empresa/correo/"+req.params.idEmpresa,
+    uri: r.ruta + "empresa/id/"+req.params.idEmpresa,
 }, function (error, response, body){
     if(!error && response.statusCode == 200){
       //console.log('body: ',JSON.parse(body));
