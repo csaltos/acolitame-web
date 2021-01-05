@@ -138,6 +138,9 @@
         <div id="forModalCrear">
 
         </div>
+
+        <input type="text" value="<%=usuarioEmpresa%>" id="usuarioEmpresa" hidden>
+
         <div class="row p-3">
             <h4><strong>Productos</strong></h4>
             <div class="col-sm-12">
@@ -156,20 +159,23 @@
         <div class="row p-3">
             <h4><strong>Comentarios</strong></h4>
             <!--Insertar los comentarios agregados a esta empresa-->
-
+            
             <div class="col-sm-12">
-                <div class="alert alert-dismissible alert-danger" id="errorEmpresa">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <p>No tiene permitido responder. Para responder comentarios de su empresa dirigase a</p><a href="DespliegueEmpresaParaEmpresario" class="alert-link"><strong>'Su Vitrina'</strong></a>
-                </div>
+                <%if (usuarioEmpresa) {%>
+                    <div class="alert alert-dismissible alert-danger" id="errorEmpresa">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p>No tiene permitido responder. Para responder comentarios de su empresa dirigase a</p><a href="DespliegueEmpresaParaEmpresario" class="alert-link"><strong>'Su Vitrina'</strong></a>
+                    </div>
+                <%}%>
                 <div class="row mt-1 p-3 overflow-auto" style="max-height: 300px;border: 1px solid darkgray;">
                     <div class="col-sm-12" id="comentariosEmpresa">
 
                     </div>
                 </div>
             </div>
-
+            
         </div>
+        <%if (usuarioEmpresa) {%>
         <div id='forComentario'>
             <div class="row align-items-start justify-content-start p-3 m-3">
                 <div class="col-sm-10">
@@ -180,10 +186,10 @@
             </div>
             <hr>
         </div>
-
+        <%}%>
 
         <div class="row align-items-end justify-content-end ml-auto pr-1 pt-3">
-            <button class="btn btn-info" onclick="javascript:window.location.href='catalogo'">Catalogo</button>
+            <button class="btn btn-info" onclick="javascript:windows.location.href = '<%=home%>/catalogo/0'">Catalogo</button>
         </div>
 
 

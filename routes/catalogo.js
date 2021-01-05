@@ -27,7 +27,9 @@ router.get('/:idCategoria', function(req, res, next) {
             }
           }
           console.log(positionCategory);
-          return res.render('catalogo', { title: 'Acolitame - Catalogo de Productos' , categoria: dataCategoria, positionCategory: positionCategory, home: r.home});
+          /* Obtener el tipo de usuario -----> si existe ver si es admin*/
+          usuarioEmpresa = false;
+          return res.render('catalogo', { title: 'Acolitame - Catalogo de Productos' , categoria: dataCategoria, positionCategory: positionCategory, home: r.home, usuarioEmpresa:usuarioEmpresa});
         }
     })
 });
@@ -45,7 +47,9 @@ router.get('/empresa/:idEmpresa', function(req, res, next) {
       longitud = empresa.longitud;
       rutaMapa = r.home+'catalogo/forShowMap/'+latitud+'/'+longitud;
       console.log(rutaMapa);
-      return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, rutaMapa: rutaMapa, empresa:empresa });
+      /* Obtener el tipo de usuario -----> si existe ver si es admin*/
+      usuarioEmpresa = false;
+      return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, rutaMapa: rutaMapa, empresa:empresa,  usuarioEmpresa:usuarioEmpresa});
     }
 })
 });

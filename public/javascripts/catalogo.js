@@ -180,44 +180,7 @@ function cleanOldResults() {
 function goProducto(pos){
     
     var productoSelected = productos[pos];
-    let codigo = '<div class="modal" id="myModalProducto">' +
-        '<div class="modal-dialog p-5" role="document">' +
-        '<div class="modal-content">' +
-        '<div class="modal-header">' +
-        '<h5 class="modal-title">' + productoSelected.nombreEmpresa + '</h5>' +
-        '<button type="button" onclick="cleanProducto()" class="close" aria-label="Close">' +
-        '<span aria-hidden="true">&times;</span>' +
-        '</button>' +
-        '</div>' +
-        '<div class="modal-body">' +
-        '<div class="md-form mb-5 form-group">' +
-        '<label>Nombre del producto:</label><p>' + productoSelected.nombre + '</p>' +
-        '<label>Descripcion del producto: </label>' + productoSelected.descripcion + '</p>' +
-        '<label>Precio del producto: </label><p>' + productoSelected.precio + '</p></div>' +
-
-        '<div class="row align-items-center justify-content-center mb-5">' +
-        '<div class="col-md-auto ">' +
-        '<img src="' + 'data:image/png;base64,' + productoSelected.foto + '" alt="" class="img-responsive pr-2"></div></div>' +
-        '</div>' +
-        '<div class="alert alert-dismissible alert-danger" id="errorCarrito">' +
-        '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-        '<strong>Ya tiene este producto en el </strong><a href="pedidos" class="alert-link" >CARRITO</a>' +
-        '</div>' +
-        '<div class="row align-items-center justify-content-center mb-5">' +
-        '<div class="col-auto col-md-auto ">';
-    /*if (getCookie('tipoCuenta') != 'administrador') {
-        codigo += '<button type="button" onclick="saveCarrito(\'' + codE + '\',\'' + productoSelected.idProducto + '\')" class="btn btn-info mr-3">Añadir al carrito</button>';
-    }*/
-    codigo += '<button type="button" onclick="saveCarrito(\'' + productoSelected.id_empresa + '\',\'' + productoSelected.id_producto + '\')" class="btn btn-info mr-3">Añadir al carrito</button>';
-    codigo += '<button type="button" onclick="goEmpresa(\''+home+'catalogo/empresa/'+productoSelected.id_empresa+'\')" class="btn btn-success">Visitar empresa</button></div>' +
-        '</div>' +
-        '<div class="modal-footer">' +
-        '<div class="col-auto col-md-auto "><button type="button" onclick="cleanProducto()" class="btn btn-secondary">Cerrar</button></div>' +
-        '</div></div></div></div>';
-    $("#forModalProd").append(codigo);
-    $('#errorCarrito').hide();
-    $('#myModalProducto').modal('show');
-    console.log(codigo);
+    showInfoProducto(productoSelected, true, window.location.href);
         
 }
 
