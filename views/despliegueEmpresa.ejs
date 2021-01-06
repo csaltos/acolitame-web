@@ -16,7 +16,8 @@
     <script type="text/javascript" src="/javascripts/despliegueEmpresa.js"></script>
 </head>
 
-<body>
+<body onload="setInitialData('<%=empresa.id_empresa%>')">
+    
     <%- include('navbar.ejs') %>
     <div class="jumbotron m-5">
         <div class="row pt-2">
@@ -145,17 +146,14 @@
             <h4><strong>Productos</strong></h4>
             <div class="col-sm-12">
                 <div class="row mt-1 p-3 overflow-auto" style="max-height: 300px;border: 1px solid darkgray;" id="listaProductos">
-                    <%for (var i = 0; i < empresa.productos.length; i++) { var producto = empresa.productos[i];%>
-                        <div class="row align-items-center justify-content-center p-3 m-3 bg-light" ><div class="col">
-                            <div class="row align-items-center justify-content-center"><a href="#" posP="<%=i%>" onclick="managingProduct('<%=producto.id_producto%>', '<%=empresa.id_empresa%>')" ><img src="data:image/png;base64,<%=producto.foto%>" alt="" class="img-responsive pr-2" height="100" width="100"></a></div>
-                            <div class="row align-items-center justify-content-center"><a href="#" pposP="<%=i%>" onclick="managingProduct('<%=producto.id_producto%>', '<%=empresa.id_empresa%>')"><p><%=producto.nombre%></p></a></div>
-                        </div></div>
-                    <%}%>
+                    
                 </div>
             </div>
 
         </div>
-
+        <div class="row pb-3 align-items-center justify-content-center">
+            <button class="btn btn-secondary" onclick="return cargarProductos()">Cargar mas productos...</button>
+        </div>
         <div class="row p-3">
             <h4><strong>Comentarios</strong></h4>
             <!--Insertar los comentarios agregados a esta empresa-->
@@ -175,21 +173,24 @@
             </div>
             
         </div>
-        <%if (usuarioEmpresa) {%>
+        <div class="row pb-3 align-items-center justify-content-center">
+            <button class="btn btn-secondary" onclick="return cargarComentarios('<%=usuarioEmpresa%>' === 'true')">Cargar mas comentarios...</button>
+        </div>
+        <%if (!usuarioEmpresa) {%>
         <div id='forComentario'>
             <div class="row align-items-start justify-content-start p-3 m-3">
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" placeholder="Comentar" id="0" style="border: 1px solid black;">
+                    <input type="text" class="form-control" placeholder="Comentar" id="comentario" style="border: 1px solid black;">
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-success" onclick="sendComentario(0)">Comentar</button></div>
+                    <button class="btn btn-success" onclick="sendComentario('<%=usuarioEmpresa%>' === 'true')">Comentar</button></div>
             </div>
             <hr>
         </div>
         <%}%>
 
         <div class="row align-items-end justify-content-end ml-auto pr-1 pt-3">
-            <button class="btn btn-info" onclick="javascript:windows.location.href = '<%=home%>/catalogo/0'">Catalogo</button>
+            <button class="btn btn-info" onclick="javascript:window.location.href = '<%=home%>catalogo/0'">Catalogo</button>
         </div>
 
 

@@ -1,5 +1,3 @@
-
-
 var urlData = 'http://localhost:8080/';
 //urlData = "https://jarjarbinks.herokuapp.com/";
 var home = 'http://localhost:3000/';
@@ -11,6 +9,21 @@ function cleanProducto() {
         element.removeChild(element.firstChild);
     }
 }
+
+function appendResultProduct(resultProductos){
+    for (var j = 0; j < resultProductos.length; j++) {
+        producto = resultProductos[j];
+        productos.push(producto);
+        console.log(producto);
+        let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
+            '<div class="row align-items-center justify-content-center"><p>' + producto.nombreEmpresa + '</p></div>' +
+            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><img src="' + 'data:image/png;base64,' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
+            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><p>' + producto.nombre + '</p></a></div></div></div>';
+        $('#listaProductos').append(resultado);
+    }
+    
+}
+
 
 function showInfoProducto(productoSelected, extra_button, pagina){
     let codigo = '<div class="modal" id="myModalProducto">' +

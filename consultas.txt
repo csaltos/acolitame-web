@@ -65,12 +65,23 @@ facebook:'link',
 twitter:'link',
 instagram:'link',
 valoracion:0,
-productos:[{
-	idProducto:'1',
-	nombre:'nombre',
-	foto:'linkfoto',
-}],
+
+}
+
+7. JSON para consulta de productos por idEmpresa/actual/cantidadMaxima
+
+[{
+idProducto:'1',
+nombre:'nombre',
+foto:'linkfoto',
+precio:'precio',
+descripcion:'desc',
+}]
+
+8. JSON para consulta de comentarios por idEmpresa/actual/cantidadMaxima
+
 comentarios:[{
+	idComentario:'id',
 	usuario:'nombre',
 	fecha:'fecha',
 	comentario:'comentario',
@@ -80,5 +91,3 @@ comentarios:[{
 		respuesta:'respuesta'
 	}]
 }],
-}
-

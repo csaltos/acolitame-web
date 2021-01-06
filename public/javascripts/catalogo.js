@@ -3,17 +3,18 @@
 //final del scroll y ahi hacer una nueva request para cargar el resto de productos/empresas(un numero estatico) --- repetir hasta que no haya mas que cargar
 
 let positionEmpresa = 0;
-let positionProductos = 0;
-let maximo = 10;
 var empresas = [];
 var productos = [];
+let positionProductos = 0;
+let maximo = 10;
+var id_categoria;
 
 $(document).ready(function() {
     setInitial();
 });
 
 function setInitial(){
-    $('#listaEmpresas').hide();
+    $('#empresas').hide();
     $('#MapaShow').hide();
     changeCategory();
 }
@@ -21,18 +22,18 @@ function setInitial(){
 function changeView(cambio) {
     switch (cambio) {
         case "productos":
-            $('#listaEmpresas').hide();
+            $('#empresas').hide();
             $('#MapaShow').hide();
-            $('#listaProductos').show();
+            $('#productos').show();
             break;
         case "empresas":
-            $('#listaProductos').hide();
+            $('#productos').hide();
             $('#MapaShow').hide();
-            $('#listaEmpresas').show();
+            $('#empresas').show();
             break;
         case "mapa":
-            $('#listaEmpresas').hide();
-            $('#listaProductos').hide();
+            $('#empresas').hide();
+            $('#productos').hide();
             $('#MapaShow').show();
             break;
     }
@@ -40,32 +41,34 @@ function changeView(cambio) {
 }
 
 function changeCategory() {
-    let idCategoria = $("#selectCategorias2 option:selected").attr('href');
+    id_categoria = $("#selectCategorias2 option:selected").attr('href');
     console.log($("#selectCategorias2 option:selected").attr('href'));
     //Realizo consulta para obtener las empresas de dicha categoria:
     positionEmpresa = 0;
     positionProductos = 0;
     cleanOldResults();
-    if(idCategoria !== undefined){
-        extraerEmpresas(idCategoria);
-    }
+    cargarEmpresas();
+    $('.btn-secondary').show();
 }
 
-function extraerEmpresas(idCategoria){
-    let ruta = urlData + "empresa/categoria/" + idCategoria+"/"+positionEmpresa+"/"+maximo;
-    console.log(ruta);
-    let ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open("GET", ruta, true);
-    ajaxRequest.onreadystatechange = function() {
-        if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
-            resultEmpresas = JSON.parse(ajaxRequest.responseText);
-            console.log(resultEmpresas);
-            appendResultEmpresa(resultEmpresas, idCategoria);
-            positionEmpresa+=maximo;
-            cargarProductos(idCategoria);
+function cargarEmpresas(){
+    if(id_categoria !== undefined){
+        let ruta = urlData + "empresa/categoria/" + id_categoria+"/"+positionEmpresa+"/"+maximo;
+        console.log(ruta);
+        let ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.open("GET", ruta, true);
+        ajaxRequest.onreadystatechange = function() {
+            if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+                resultEmpresas = JSON.parse(ajaxRequest.responseText);
+                console.log(resultEmpresas);
+                appendResultEmpresa(resultEmpresas, id_categoria);
+                positionEmpresa+=maximo;
+                cargarProductos();
+            }
         }
+        ajaxRequest.send(null);
     }
-    ajaxRequest.send(null);
+    
 }
 
 function appendResultEmpresa(resultEmpresas, idCategory){
@@ -93,37 +96,27 @@ function appendResultEmpresa(resultEmpresas, idCategory){
     }
 }
 
-function cargarProductos(idCategoria){
-    let ruta = urlData + "producto/categoria/" + idCategoria + "/"+positionProductos+"/"+maximo;
-    console.log(ruta);
-    let ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open("GET", ruta, true);
-    ajaxRequest.onreadystatechange = function() {
-        if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
-
-            let resultProductos = JSON.parse(ajaxRequest.responseText);
-            appendResultProduct(resultProductos);
-            positionProductos+=maximo;
+function cargarProductos(){
+    if(id_categoria !== undefined){
+        let ruta = urlData + "producto/categoria/" + id_categoria + "/"+positionProductos+"/"+maximo;
+        console.log(ruta);
+        let ajaxRequest = new XMLHttpRequest();
+        ajaxRequest.open("GET", ruta, true);
+        ajaxRequest.onreadystatechange = function() {
+            if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+    
+                let resultProductos = JSON.parse(ajaxRequest.responseText);
+                appendResultProduct(resultProductos);
+                positionProductos+=maximo;
+            }
         }
-    }
-    ajaxRequest.send(null);
-}
-
-function appendResultProduct(resultProductos){
-    for (var j = 0; j < resultProductos.length; j++) {
-        producto = resultProductos[j];
-        productos.push(producto);
-        console.log(producto);
-        let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
-            '<div class="row align-items-center justify-content-center"><p>' + producto.nombreEmpresa + '</p></div>' +
-            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><img src="' + 'data:image/png;base64,' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
-            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><p>' + producto.nombre + '</p></a></div></div></div>';
-        $('#listaProductos').append(resultado);
+        ajaxRequest.send(null);
     }
     
 }
 
 function searchEmpresa() {
+    $('.btn-secondary').hide();
     let busqueda = document.getElementById('valueSearch').value.toLowerCase();
     document.getElementById('categoriaActualNombre').value = 'Busqueda';
     if (busqueda.length>4){
