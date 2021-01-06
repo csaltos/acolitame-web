@@ -159,4 +159,82 @@ function forShowMap() {
     
 }
 
+function listenerUbicacion(){
+    latitud = window.parent.document.getElementById('latitud').value ;
+    longitud = window.parent.document.getElementById('longitud').value ;
+    var latLng;
+    var opciones;
+    if(latitud!=''){
+        latLng = new google.maps.LatLng(parseFloat(latitud), parseFloat(longitud));
+        opciones = {
+        center: latLng,
+        zoom: 14
+        };
+
+    }else{
+        latLng = new google.maps.LatLng(-2.8994259, -79.0053617);
+        opciones = {
+        center: latLng,
+        zoom: 14
+        };
+    }
+    
+
+    var map = new google.maps.Map(document.getElementById('map_canvas'), opciones);
+    geocoder = new google.maps.Geocoder();
+    infowindow = new google.maps.InfoWindow();
+    if(latitud!=''){
+        if (marker) {
+            marker.setPosition(latLng);
+        } else {
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map});
+        }
+        infowindow.setContent('Tu Ubicacion Actual');
+        infowindow.open(map, marker);
+    }
+    google.maps.event.addListener(map, 'click', function(event) {
+        geocoder.geocode(
+            {'latLng': event.latLng},
+            function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[0]) {
+                //document.getElementById('direccion').value = results[0].formatted_address;
+                //document.getElementById('coordenadas').value = results[0].geometry.location.lat();
+                
+                latitud = results[0].geometry.location.lat();
+                longitud = results[0].geometry.location.lng();
+                window.parent.document.getElementById('direccion').value = results[0].formatted_address;
+                window.parent.document.getElementById('latitud').value = latitud;
+                window.parent.document.getElementById('longitud').value = longitud;
+                if (marker) {
+                    marker.setPosition(event.latLng);
+                } else {
+                    marker = new google.maps.Marker({
+                        position: event.latLng,
+                        map: map});
+                }
+                infowindow.setContent(results[0].formatted_address+'<br/> Coordenadas: '+results[0].geometry.location);
+                infowindow.open(map, marker);
+                } else {
+                document.getElementById('geocoding').innerHTML =
+                    'No se encontraron resultados';
+                }
+            } else {
+                document.getElementById('geocoding').innerHTML =
+                    'Geocodificación  ha fallado debido a: ' + status;
+            }
+        });
+    });
+}
+
+function goBack(){
+    if(document.getElementById('direccion').value != ''){
+        window.parent.document.getElementById('direccion').value = document.getElementById('direccion').value;
+        window.parent.document.getElementById('latitud').value = latitud;
+        window.parent.document.getElementById('longitud').value = longitud;
+    }
+}
+
 

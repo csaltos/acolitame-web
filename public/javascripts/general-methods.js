@@ -103,6 +103,38 @@ function saveCarrito(id_empresa, id_producto) {
     
 }
 
+function initImageRead(){
+    const boton = document.getElementById("cargarfoto");
+    const otro = document.getElementById("imgInp");
+    boton.addEventListener("click", function() {
+        otro.click();
+    });
+    $("#imgInp").change(function() {
+        console.log(this);
+        readImage(this);
+    });
+}
+
+function readImage(input) {
+
+    enviar = /\.(gif|jpg|png)$/i.test(document.getElementById('imgInp').value);
+    console.log(enviar);
+    if (!enviar) {
+        alert("No seleccionó imagen o el formato no es válido");
+        $('#imagen').attr('src', '');
+    } else {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagen').attr('src', e.target.result); // Renderizamos la imagen
+
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+}
+
 function actSesion(retorno) {
 
     let estado = "Iniciar Sesion";

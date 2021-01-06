@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="jumbotron m-5">
+
+        <div class="row align-items-center justify-content-center mb-5 p-3">
+            <h1>Crear Cuenta</h1>
+        </div>
+
+        <form>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input id="inputCorreo" type="text" class="form-control" placeholder="Correo electronico" style="border: 1px solid black;">
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input id="inputPass" type="password" class="form-control" placeholder="Contraseña" style="border: 1px solid black;">
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input id="nombre" type="text" class="form-control" placeholder="Ingrese su nombre" style="border: 1px solid black;">
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <input id="telefono" type="text" class="form-control" placeholder="Telefono" style="border: 1px solid black;">
+                    </div>
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+
+        </form>
+
+        <div class="row align-items-center justify-content-center mb-2 mt-3">
+            <div class="col-sm-auto">
+                <div class="row align-items-center justify-content-center mb-3">
+                    <img id="imagen" src="https://via.placeholder.com/150" alt="Tu imagen" style="width: 250px;
+                    height: 250px;" />
+
+                    <br>
+
+                </div>
+                <div class="row align-items-center justify-content-center mb-3">
+                    <input type="file" id="imgInp" hidden/>
+                    <button type="button" class="btn btn-info" id="cargarfoto">Editar Foto</button>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="row align-items-center justify-content-center mb-3">
+            <button class="btn btn-success" onclick="registrar()">Registrarme</button>
+        </div>
+
+        <div class="row align-items-center justify-content-center mb-3">
+            <button class="btn btn-info" onclick="iniciarFacebook()">Registrarme con Facebook</button>
+        </div>
+
+        <div class="row align-items-center justify-content-center mb-3">
+            <button class="btn btn-danger" onclick="iniciarGoogle()">Registrarme con Google</button>
+        </div>
+
+        <div class="row align-items-center justify-content-center text-justify">
+            <p class="small">Al registrarse acepta los Términos y Condiciones de Uso de Showcase Project.</p>
+        </div>
+
+        <div class="row align-items-center justify-content-center text-justify pb-5 mb-5 mt-3">
+            <a href="home" style="color: black; font-size: large; text-decoration: underline;"><b>Volver</b></a>
+        </div>
+
+    </div>
+</body>
+
+</html>

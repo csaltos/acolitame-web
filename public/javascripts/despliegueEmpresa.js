@@ -58,6 +58,34 @@ function goProducto(pos){
         
 }
 
+function cargarHeaderComentario(comentario, usuarioEmpresa){
+    let codigo = '<div class="row align-items-start justify-content-start px-3"><div class"col-sm-auto">' +
+    '<div class="row"><p><b>Usuario: ' + comentario.usuario + '</b></p></div>' +
+    '<div class="row"><p class="text-muted"><small>Fecha: ' + comentario.fecha + '</small></p></div>' +
+    '<div class="row"><p class = "text-justify">Comentario: ' + comentario.contenido + '</p></div>' +
+    '</div></div><hr>';
+    codigo += '<div class="'+comentario.idComentario+'"></div>'
+    $('#comentariosEmpresa').append(codigo);
+    if (!usuarioEmpresa){
+        let final = '<div class="row align-items-start justify-content-start px-3">' +
+        '<div class="col-sm-10">' +
+        '<input type="text" class="form-control form-control-sm" placeholder="Responder" id="' + comentario.idComentario + '" style="border: 1px solid black;">' +
+        '</div><div class="col-sm-2"><button class="btn-sm btn btn-primary" onclick="sendRespuesta(' + parseInt(comentario.idComentario) + ')">Responder</button>' +
+        '</div></div></div><hr>';
+        $('#comentariosEmpresa').append(final);
+    }
+}
+
+function cargarRespuestaComentario(respuesta, idComentario){
+    let codigo = '<div class="row align-items-start justify-content-start px-3">' +
+                        '<div class="col-sm-auto ml-5">' +
+                        '<div class="row"><p><b>Usuario: ' + respuesta.autor + '</b></p></div>' +
+                        '<div class="row"><p class="text-muted"><small>Fecha: ' + respuesta.fecha + '</small></p></div>' +
+                        '<div class="row"><p class = "text-justify">Respuesta: ' + respuesta.contenido + '</p></div>' +
+                        '</div></div><hr>';
+    $("."+idComentario).append(codigo);
+}
+
 function cargarComentarios(usuarioEmpresa) {
 
     let ajaxRequest = new XMLHttpRequest();
@@ -69,33 +97,15 @@ function cargarComentarios(usuarioEmpresa) {
             var resultComentarios = JSON.parse(ajaxRequest.responseText);
             for (var i = 0; i < resultComentarios.length; i++) {
                 comentario = resultComentarios[i];
-                let codigo = '<div class="row align-items-start justify-content-start px-3"><div class"col-sm-auto">' +
-                    '<div class="row"><p><b>Usuario: ' + comentario.usuario + '</b></p></div>' +
-                    '<div class="row"><p class="text-muted"><small>Fecha: ' + comentario.fecha + '</small></p></div>' +
-                    '<div class="row"><p class = "text-justify">Comentario: ' + comentario.contenido + '</p></div>' +
-                    '</div></div><hr>';
-                $('#comentariosEmpresa').append(codigo);
+                cargarHeaderComentario(comentario, usuarioEmpresa);
                 let respuestas = comentario.respuestas;
                 console.log(respuestas.length);
-                codigo += '<div class="'+comentario.idComentario+'"></div>'
+                
                 for (var j = 0; j < respuestas.length; j++) {
-                    let codigo = '<div class="row align-items-start justify-content-start px-3">' +
-                        '<div class="col-sm-auto ml-5">' +
-                        '<div class="row"><p><b>Usuario: ' + respuestas[j].autor + '</b></p></div>' +
-                        '<div class="row"><p class="text-muted"><small>Fecha: ' + respuestas[j].fecha + '</small></p></div>' +
-                        '<div class="row"><p class = "text-justify">Respuesta: ' + respuestas[j].contenido + '</p></div>' +
-                        '</div></div><hr>';
-                    $('.'+comentario.idComentario).append(codigo);
+                    cargarRespuestaComentario(respuestas[j], comentario.idComentario);
                 }
                 
-                if (!usuarioEmpresa){
-                    let final = '<div class="row align-items-start justify-content-start px-3">' +
-                    '<div class="col-sm-10">' +
-                    '<input type="text" class="form-control form-control-sm" placeholder="Responder" id="' + comentario.idComentario + '" style="border: 1px solid black;">' +
-                    '</div><div class="col-sm-2"><button class="btn-sm btn btn-primary" onclick="sendRespuesta(' + parseInt(comentario.idComentario) + ')">Responder</button>' +
-                    '</div></div></div><hr>';
-                    $('#comentariosEmpresa').append(final);
-                }
+                
             }
             positionComentarios+=maximo;
         }
@@ -111,7 +121,15 @@ function sendRespuesta(id_comentario){
         var data = {};
         data.idComentario = id_comentario; // el id del usuario se recupera del header del auth
         data.contenido = comentario;
-        let xhr = new XMLHttpRequest();
+        /*Solo para probar*/
+        var respuesta = {};
+        respuesta.autor = 'autor';
+        respuesta.fecha = '6/1/2020';
+        respuesta.contenido = 'contenido';
+        document.getElementById(id_comentario + "").value = "";
+        cargarRespuestaComentario(respuesta, id_comentario);
+           
+        /*let xhr = new XMLHttpRequest();
         console.log(ruta);
         xhr.open('POST', ruta, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -121,22 +139,15 @@ function sendRespuesta(id_comentario){
             if (xhr.readyState == 4 && xhr.status == "200") {
                 console.log(respuesta);
                 document.getElementById(id_comentario + "").value = "";
-                let codigo = '<div class="row align-items-start justify-content-start px-3">' +
-                        '<div class="col-sm-auto ml-5">' +
-                        '<div class="row"><p><b>Usuario: ' + respuesta.autor + '</b></p></div>' +
-                        '<div class="row"><p class="text-muted"><small>Fecha: ' + respuesta.fecha + '</small></p></div>' +
-                        '<div class="row"><p class = "text-justify">Respuesta: ' + respuesta.contenido + '</p></div>' +
-                        '</div></div><hr>';
-
-                    $('.'+comentario.id_comentario).append(codigo);
+                cargarRespuestaComentario(respuesta, id_comentario);
             } 
             if (xhr.readyState == 4 && xhr.status == "403") {
                 console.log('iniciar sesion');
             }
         }
-        xhr.send(JSON.stringify(data));
+        xhr.send(JSON.stringify(data));*/
     } else {
-        alert('Ingrese un comentario/respuesta');
+        alert('Ingrese una respuesta');
     }
 }
 
@@ -148,7 +159,15 @@ function sendComentario(usuarioEmpresa){
         var data = {};
         // el id del usuario se recupera del header del auth
         data.contenido = comentario;
-        let xhr = new XMLHttpRequest();
+        document.getElementById("comentario").value = "";
+        /*prueba */
+        var respuesta = {};
+        respuesta.idComentario = 56;
+        respuesta.usuario = 'autor';
+        respuesta.fecha = '6/1/2020';
+        respuesta.contenido = 'contenido';
+        cargarHeaderComentario(respuesta, usuarioEmpresa);
+        /*let xhr = new XMLHttpRequest();
         console.log(ruta);
         xhr.open('POST', ruta, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -158,27 +177,14 @@ function sendComentario(usuarioEmpresa){
             if (xhr.readyState == 4 && xhr.status == "200") {
                 console.log(comentario);
                 document.getElementById("comentario").value = "";
-                let codigo = '<div class="row align-items-start justify-content-start px-3"><div class"col-sm-auto">' +
-                    '<div class="row"><p><b>Usuario: ' + comentario.usuario + '</b></p></div>' +
-                    '<div class="row"><p class="text-muted"><small>Fecha: ' + comentario.fecha + '</small></p></div>' +
-                    '<div class="row"><p class = "text-justify">Comentario: ' + comentario.contenido + '</p></div>' +
-                    '</div></div><hr><div class="'+comentario.idComentario+'"></div>';
-                $('#comentariosEmpresa').append(codigo);
-                if (!usuarioEmpresa){
-                    let final = '<div class="row align-items-start justify-content-start px-3">' +
-                    '<div class="col-sm-10">' +
-                    '<input type="text" class="form-control form-control-sm" placeholder="Responder" id="' + comentario.idComentario + '" style="border: 1px solid black;">' +
-                    '</div><div class="col-sm-2"><button class="btn-sm btn btn-primary" onclick="sendRespuesta(' + parseInt(comentario.idComentario) + ')">Responder</button>' +
-                    '</div></div></div><hr>';
-                    $('#comentariosEmpresa').append(final);
-                }
+                cargarHeaderComentario(comentario, usuarioEmpresa);
             } 
             if (xhr.readyState == 4 && xhr.status == "403") {
                 console.log('iniciar sesion');
             }
         }
-        xhr.send(JSON.stringify(data));
+        xhr.send(JSON.stringify(data));*/
     } else {
-        alert('Ingrese un comentario/respuesta');
+        alert('Ingrese un comentario.');
     }
 }
