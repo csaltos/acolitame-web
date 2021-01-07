@@ -12,9 +12,11 @@
     <script src="/javascripts/jquery-3.5.1.js"></script>
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/general-methods.js"></script>
+    <script type="text/javascript" src="/javascripts/registrar.js"></script>
 </head>
 
-<body>
+<body onload="initImageRead()">
     <div class="jumbotron m-5">
 
         <div class="row align-items-center justify-content-center mb-5 p-3">
@@ -82,23 +84,24 @@
 
 
         <div class="row align-items-center justify-content-center mb-3">
-            <button class="btn btn-success" onclick="registrar()">Registrarme</button>
+            <button class="btn btn-success" onclick="validateDataUsuario()">Registrarme</button>
         </div>
 
         <div class="row align-items-center justify-content-center mb-3">
-            <button class="btn btn-info" onclick="iniciarFacebook()">Registrarme con Facebook</button>
-        </div>
+            <div class="col-md-auto">
+                <button class="btn btn-info" onclick="iniciarFacebook()">Registrarme con Facebook</button>
+                <button class="btn btn-danger" onclick="iniciarGoogle()">Registrarme con Google</button>
 
-        <div class="row align-items-center justify-content-center mb-3">
-            <button class="btn btn-danger" onclick="iniciarGoogle()">Registrarme con Google</button>
+            </div>
+            
         </div>
 
         <div class="row align-items-center justify-content-center text-justify">
-            <p class="small">Al registrarse acepta los Términos y Condiciones de Uso de Showcase Project.</p>
+            <p class="small">Al registrarse acepta los Términos y Condiciones de Uso de Acolitame.</p>
         </div>
 
         <div class="row align-items-center justify-content-center text-justify pb-5 mb-5 mt-3">
-            <a href="home" style="color: black; font-size: large; text-decoration: underline;"><b>Volver</b></a>
+            <a href="<%=home%>" style="color: black; font-size: large; text-decoration: underline;"><b>Volver</b></a>
         </div>
 
     </div>
