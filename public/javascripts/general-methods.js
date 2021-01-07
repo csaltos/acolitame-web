@@ -135,6 +135,7 @@ function readImage(input) {
 
 }
 
+
 function actSesion(retorno) {
 
     let estado = "Iniciar Sesion";
