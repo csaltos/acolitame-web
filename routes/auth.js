@@ -13,48 +13,87 @@ const dataBase = require('../config/database');
 
 require('../config/passport/config')(passport); //Pass as argument passport object to configure auth strategies 
 
-const externalLog = (req, res) => { //Here the token is issued when the login is made with google/facebook 
+const externalLogIn = (req, res) => { //Here the token is issued when the login is made with google/facebook 
     console.log("Redirect External")
     console.log(req.user);
     const token =  utils.issueJWT({
         "id": req.user.id,
         "name": req.user.displayName,
+        "admin": false
     });
     // res.redirect('/?token='+token.token)
-    res.status(200).json({succes: true , profile: req.user ,token: token.token , expiresIn: token.expires});
+    // res.status(200).json({succes: true , profile: req.user ,token: token.token , expiresIn: token.expires});
+    // res.redirect('/auth?token='+token.token+'&expires='+token.expires);
+    res.cookie('token',token.token);
+    res.redirect('/auth/session');
 }
 
-router.get("/",function (req,res){
-    res.send("Bruh");
-})
+const localLogIn = (req,res,valid , user) =>{
+    if(valid){
+        const token =  utils.issueJWT({
+            "id": user.id,
+            "name": user.nombre,
+            "admin": user.admin
+        });
+        // res.redirect('/?token='+token.token)
+        // res.status(200).json({succes: true ,token: token.token , expiresIn: token.expires})
+        res.cookie('token',token.token);
+        res.redirect('/auth/session');
+    }else{
+        res.send("Nope");
+    }
+}
+
+router.get("/session",function (req,res){
+    res.render('setAuth');
+});
 
 router.post("/", function (req,res) {
     const {correo, clave} = req.body;
     if(utils.isValidEntry(clave) && utils.isValidEntry(correo)){
-        const query =  `SELECT U.id_usuario, U.nombre, U.clave, U.sal from public.usuario_registrado U 
+        const query1 =  `SELECT A.id_administrador, A.id_empresa, A.clave, A.sal from public.administrador_empresa A 
+                            WHERE A.correo = '${correo}' ;`;
+        const query2 =  `SELECT U.id_usuario, U.nombre, U.clave, U.sal from public.usuario_registrado U 
                             WHERE U.correo = '${correo}' ;`;
-        dataBase.query(query)
-        .then(function (dbRes) {
-            console.log(dbRes);
-            if (dbRes.rowCount > 0){
-                const idUsuario = parseInt(dbRes.rows[0].id_usuario);
-                const nombre = dbRes.rows[0].nombre;
-                const claveH = dbRes.rows[0].clave;
-                const sal = dbRes.rows[0].sal;
-                console.log(idUsuario,nombre,claveH,sal);
-                const valid = utils.validPassword(clave,claveH,sal);
-                if(valid){
-                    const token =  utils.issueJWT({
-                        "id": idUsuario,
-                        "name": nombre 
-                    });
-                    // res.redirect('/?token='+token.token)
-                    res.status(200).json({succes: true ,token: token.token , expiresIn: token.expires});
-                }else{
-                    res.send("Nope");
-                }
+        dataBase .query(query1)
+        .then(function (dbRes1) {
+            console.log(dbRes1);
+            if (dbRes1.rowCount > 0){
+                console.log("You are admin");
+                const idAdmin = dbRes1.rows[0].id_administrador;
+                const valid = utils.valAuth({
+                    "clave" : clave,
+                    "nombre" : dbRes1.rows[0].nombre,
+                    "claveH" : dbRes1.rows[0].clave,
+                    "sal" : dbRes1.rows[0].sal
+                });
+                localLogIn(req,res,valid,{
+                    "nombre": dbRes1.rows[0].nombre,
+                    "id":idAdmin,
+                    "admin": true
+                });
             }else{
-                res.send("Not found");
+                dataBase.query(query2)
+                .then(function (dbRes2){
+                    console.log("Are you a user?")
+                    if (dbRes2.rowCount > 0){ 
+                        console.log(dbRes2)
+                        console.log("Yes you are");
+                        const idUsuario = dbRes2.rows[0].id_usuario;
+                        const valid = utils.valAuth({
+                            "clave": clave,
+                            "nombre" : dbRes2.rows[0].nombre,
+                            "claveH" : dbRes2.rows[0].clave,
+                            "sal" : dbRes2.rows[0].sal
+                        });
+                        localLogIn(req,res,valid,{
+                            "nombre":dbRes2.rows[0].nombre,
+                            "id":idUsuario,
+                            "admin": false
+                        });
+                    }else
+                        res.send("Not found");
+                })
             }
         })
         .catch(function (err) {
@@ -67,7 +106,7 @@ router.post("/", function (req,res) {
     }
 });
 
-router.post("/singin",function (req,res) {
+router.post("/singinU",function (req,res) {
     const {correo , clave , nombre, telefono } = req.body;
     if(utils.isValidEntry(clave) && utils.isValidEntry(nombre)){
         const hashPair = utils.genPassword(clave);
@@ -100,11 +139,11 @@ router.post("/singin",function (req,res) {
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/test/failed' }), externalLog);
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/test/failed' }), externalLogIn);
 
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
-router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/test/failed' }), externalLog);
+router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/test/failed' }), externalLogIn);
 
 //TODO:
 //  Delete JWT

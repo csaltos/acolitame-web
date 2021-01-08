@@ -90,7 +90,7 @@ module.exports = (passport) => {
             clientID: process.env.FACEBOOK_CLIENT_ID,
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
             //callbackURL: "https://showcase69.herokuapp.com/login/facebook/callback",
-            callbackURL: "localhost:3000/auth/facebook/callback",
+            callbackURL: "http://localhost:3000/auth/facebook/callback",
             passReqToCallback: true,
             profileFields: ['id', 'displayName', 'photos', 'email']
         },
