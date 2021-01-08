@@ -19,8 +19,25 @@ const urlData = "http://localhost:8080/";
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const { platform } = require('os');
 
+const cookieExtractor = req => {
+    let jwt = null
+    if (req && req.cookies['token']){
+        jwt = req.cookies['token'].replace('Bearer ','').trim();
+    }
+    return jwt;
+}
+
+const headerExtractor = req => {
+    let jwt = null;
+    if (req && req.header('Authorization')){    
+        jwt = req.header('Authorization').replace('Bearer ', '').trim();
+    }
+    return jwt;
+}
+
 const options = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    // jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest : ExtractJwt.fromExtractors([headerExtractor,cookieExtractor]),
     secretOrKey: PUB_KEY,
     algorithms: ['RS256']
 };
