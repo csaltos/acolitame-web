@@ -16,8 +16,8 @@ function setInitialData(idEmpresa){
 }
 
 function cargarProductos(){
-    //let ruta = urlData + "producto/idEmpresa/" + id_empresa + "/"+positionProductos+"/"+maximo;
-    let ruta = urlData + "producto/categoria/" + '1' + "/"+positionProductos+"/"+maximo;
+    let ruta = urlData + "producto/empresa/" + id_empresa + "/"+positionProductos+"/"+maximo;
+    //let ruta = urlData + "producto/categoria/" + '1' + "/"+positionProductos+"/"+maximo;
     console.log(ruta);
     let ajaxRequest = new XMLHttpRequest();
     ajaxRequest.open("GET", ruta, true);
@@ -25,35 +25,28 @@ function cargarProductos(){
         if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
 
             let resultProductos = JSON.parse(ajaxRequest.responseText);
-            appendResultProduct(resultProductos);
+            for (var j = 0; j < resultProductos.length; j++) {
+                producto = resultProductos[j];
+                productos.push(producto);
+                console.log(producto);
+                let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
+                    '<div class="row align-items-center justify-content-center"><p>' + document.getElementById("nombreEmpresaT").innerHTML + '</p></div>' +
+                    '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+','+id_empresa+')\'><img src="' + 'data:image/png;base64,' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
+                    '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+','+id_empresa+')\'><p>' + producto.nombre + '</p></a></div></div></div>';
+                $('#listaProductos').append(resultado);
+            }
             positionProductos+=maximo;
         }
     }
     ajaxRequest.send(null);
 } 
 
-function managingProduct(id_producto, id_empresa){
-    let ruta = urlData + "producto/id/" + id_producto;
-    console.log(ruta);
-    let ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open("GET", ruta, true);
-    ajaxRequest.onreadystatechange = function() {
-        if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
-
-            var productoSelected = JSON.parse(ajaxRequest.responseText);
-            productoSelected.nombreEmpresa = document.getElementById("nombreEmpresaT").innerHTML;
-            productoSelected.id_empresa = id_empresa;
-            productoSelected.id_producto = id_producto;
-            showInfoProducto(productoSelected, false, window.location.href);
-        }
-    }
-    ajaxRequest.send(null);
-    
-}
-
-function goProducto(pos){
+function goProducto(pos, id_empresa){
     
     var productoSelected = productos[pos];
+    productoSelected.nombreEmpresa = document.getElementById("nombreEmpresaT").innerHTML;
+    productoSelected.id_empresa = id_empresa;
+    console.log(productoSelected);
     showInfoProducto(productoSelected, false, window.location.href);
         
 }
@@ -87,10 +80,10 @@ function cargarRespuestaComentario(respuesta, idComentario){
 }
 
 function cargarComentarios(usuarioEmpresa) {
-
+    console.log('here');
     let ajaxRequest = new XMLHttpRequest();
-    //ajaxRequest.open("GET", urlData + "comentarios/getComentarios/" + id_empresa + '/' + positionComentarios + '/' +maximo, true);
-    ajaxRequest.open("GET", "https://jarjarbinks.herokuapp.com/" + "comentarios/getComentarios/" + '64', true);
+    ajaxRequest.open("GET", urlData + "comentarios/getComentarios/" + id_empresa + '/' + positionComentarios + '/' +maximo, true);
+    //ajaxRequest.open("GET", "https://jarjarbinks.herokuapp.com/" + "comentarios/getComentarios/" + '64', true);
     ajaxRequest.onreadystatechange = function() {
 
         if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
