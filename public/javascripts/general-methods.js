@@ -190,11 +190,31 @@ function actSesion(retorno) {
     }
 }
 
-function validarSesion(retorno) { //Validar dentro de nuestra base
-    
-    let correo = document.getElementById("correo").value;
-    let clave = document.getElementById("clave").value;
-    window.location.href = retorno;
+function crearCuenta() {
+    let codigo = '<div class="modal" id="myModalCrear">' +
+        '<div class="modal-dialog p-5" role="document">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header justify-content-center">' +
+        '<h5 class="modal-title ">REGISTRASE</h5>' +
+        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+        '<span aria-hidden="true">&times;</span>' +
+        '</button>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<div class="row align-items-center justify-content-center mt-3 my-5">' +
+        '<div class="col-md-auto">' + '<img src="../images/negocio.png" class="mr-3" height=150 width=150 >' +
+        '<img src="../images/user.png" class="" height=150 width=150></div>' +
+        '</div>' +
+        '<div class="row align-items-center justify-content-center mt-3 my-5">' +
+        '<div class="col-md-auto col-auto">' +
+        '<button type="button" onclick="javascript:window.location.href = \'crearCuentaEmprendedor\'" class="btn btn-info mr-3">Tengo un negocio</button>' +
+        '<button type="button" onclick="javascript:window.location.href = \'crearCuentaNormal\'" class="btn btn-warning">Cuenta Normal</button></div>' +
+        '</div></div>' +
+        '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>' +
+        '</div></div></div></div>';
+    $("#forModalCrear").append(codigo);
+    $('#myModalCrear').modal('show');
 }
 
 
