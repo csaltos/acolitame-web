@@ -37,4 +37,13 @@ router.get('/miUbicacion/:idCategoria', function(req, res, next) {
   res.render('ubicacionEmpresas', {idCategoria: req.params.idCategoria});
 });
 
+router.get('/test',function(req,res,next){
+  //console.log(req.user);
+  //console.log(req.isAuthenticated());
+  console.log(req.user)
+  console.log(req.isAuthenticated())
+  //res.render('index', { title: 'Express' });
+  res.send('Bruh');
+})
+
 module.exports = router;
