@@ -164,7 +164,8 @@ module.exports = (passport) => {
         .then(function(res){
             console.log(res.rows[0]);
             // dataBase.end();
-            done(null,res.rows[0]); //The response is injected into the pipeline in the request object as user 
+            // done(null,res.rows[0]); //The response is injected into the pipeline in the request object as user 
+            done(null,payload);
         });
     }));
 }
