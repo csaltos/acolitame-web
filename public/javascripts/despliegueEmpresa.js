@@ -83,7 +83,6 @@ function cargarComentarios(usuarioEmpresa) {
     console.log('here');
     let ajaxRequest = new XMLHttpRequest();
     ajaxRequest.open("GET", urlData + "comentarios/getComentarios/" + id_empresa + '/' + positionComentarios + '/' +maximo, true);
-    //ajaxRequest.open("GET", "https://jarjarbinks.herokuapp.com/" + "comentarios/getComentarios/" + '64', true);
     ajaxRequest.onreadystatechange = function() {
 
         if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
@@ -147,20 +146,22 @@ function sendRespuesta(id_comentario){
 function sendComentario(usuarioEmpresa){
     let comentario = document.getElementById("comentario").value;
     let ruta = urlData + 'comentarios/insertar';
-    
+    token = localStorage.getItem('token');
+    console.log(token);
     if (comentario.length > 0) {
         var data = {};
         // el id del usuario se recupera del header del auth
         data.contenido = comentario;
         document.getElementById("comentario").value = "";
-        /*prueba */
+        /*prueba 
         var respuesta = {};
         respuesta.idComentario = 56;
         respuesta.usuario = 'autor';
         respuesta.fecha = '6/1/2020';
         respuesta.contenido = 'contenido';
-        cargarHeaderComentario(respuesta, usuarioEmpresa);
-        /*let xhr = new XMLHttpRequest();
+        cargarHeaderComentario(respuesta, usuarioEmpresa);*/
+
+        let xhr = new XMLHttpRequest();
         console.log(ruta);
         xhr.open('POST', ruta, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -176,7 +177,7 @@ function sendComentario(usuarioEmpresa){
                 console.log('iniciar sesion');
             }
         }
-        xhr.send(JSON.stringify(data));*/
+        xhr.send(JSON.stringify(data));
     } else {
         alert('Ingrese un comentario.');
     }

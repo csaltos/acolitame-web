@@ -157,14 +157,14 @@ function saveNewUser() {
     data.telefono = document.getElementById("telefono").value;
     data.nombre = document.getElementById("nombre").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', urlData + 'usuario/insertar', true);
+    xhr.open('POST', home + 'auth/singinU', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhr.onload = function() {
         var usuario = JSON.parse(xhr.responseText);
         if (xhr.readyState == 4 && xhr.status == "200") {
             console.log(usuario);
-            var ruta = urlData + "usuario/image/" + usuario.idUsuario;
-            sendImage(ruta);
+            //var ruta = urlData + "usuario/image/" + usuario.idUsuario;
+            //sendImage(ruta);
         } 
     }
     xhr.send(JSON.stringify(data));
