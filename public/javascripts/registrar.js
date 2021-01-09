@@ -15,32 +15,39 @@ function validateDataEmpresa(){
         alert("Error en el ingreso de correo");
     } else if(pass.length <8 ){
         alert("Contraseña muy corta (minimo 8 caracteres).");
-    }else {
+    }else{
+        enviar = /\.(gif|jpg|png)$/i.test(document.getElementById('imgInp').value);
+        console.log(enviar);
+        if (!enviar) {
+            alert("No seleccionó imagen o el formato no es válido");
+            // return false;
+        } else {
        
             //return validarExistencia(mail);
         console.log('validar existencia');
-        /*let ajaxRequest = new XMLHttpRequest();
-        ajaxRequest.open("GET", urlData + "usuario/verificarExistencia/" + mail, true);
-        ajaxRequest.onreadystatechange = function() {
+        registrarEmpresa();
+            /*let ajaxRequest = new XMLHttpRequest();
+            ajaxRequest.open("GET", urlData + "usuario/verificarExistencia/" + mail, true);
+            ajaxRequest.onreadystatechange = function() {
 
-                if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
-                    res = JSON.parse(ajaxRequest.responseText);
-                    console.log(res);
-                    if (res == true) {
-                        alert("Ya existe una empresa o usuario con ese correo.");
-                    } else {
-                        console.log('validado');
-                        registrarEmpresa();
+                    if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+                        res = JSON.parse(ajaxRequest.responseText);
+                        console.log(res);
+                        if (res == true) {
+                            alert("Ya existe una empresa o usuario con ese correo.");
+                        } else {
+                            console.log('validado');
+                            registrarEmpresa();
+                        }
+
                     }
-
+                    if (ajaxRequest.readyState == 4 && ajaxRequest.status == 404) {
+                        res = JSON.parse(ajaxRequest.responseText);
+                        console.log(res);
+                    }
                 }
-                if (ajaxRequest.readyState == 4 && ajaxRequest.status == 404) {
-                    res = JSON.parse(ajaxRequest.responseText);
-                    console.log(res);
-                }
-            }
-        ajaxRequest.send(null);*/
-       
+            ajaxRequest.send(null);*/
+        }
     }
 
 }
@@ -54,6 +61,8 @@ function registrarEmpresa() {
     dataEmpresa.telefono = document.getElementById("telefono").value;
     dataEmpresa.latitud = parseFloat(document.getElementById("latitud").value);
     dataEmpresa.longitud = parseFloat(document.getElementById("longitud").value);
+    dataEmpresa.correoAdmin = document.getElementById("inputCorreo").value;
+    dataEmpresa.claveAdmin = document.getElementById('inputPass').value;
     let xhr = new XMLHttpRequest();
     xhr.open('POST', urlData + 'empresa/insertar', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
@@ -62,7 +71,7 @@ function registrarEmpresa() {
         if (xhr.readyState == 4 && xhr.status == "200") {
             console.log(emp);
             
-            sendAdmin(idEmpresa);
+            //sendAdmin(idEmpresa);
             
         } else {
             console.error(emp);
