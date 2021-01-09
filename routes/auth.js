@@ -106,7 +106,7 @@ router.post("/", function (req,res) {
     }
 });
 
-router.post("/singinU",function (req,res) {
+router.post("/singinu",function (req,res) {
     const {correo , clave , nombre, telefono } = req.body;
     if(utils.isValidEntry(clave) && utils.isValidEntry(nombre)){
         const hashPair = utils.genPassword(clave);
@@ -134,6 +134,40 @@ router.post("/singinU",function (req,res) {
     }
     else{
         res.send("Nice try");
+    }
+});
+
+router.post("/singina",function (req,res) {
+    const {correo , clave , idEmpresa: idempresa} = req.body;
+    if(utils.isValidEntry(clave) && utils.isValidEntry(correo)){
+        const hashPair = utils.genPassword(clave);
+        const hash = hashPair.hash;
+        const salt = hashPair.salt;
+        const query = `INSERT INTO public.usuario_registrado(clave, sal, correo, id_empresa, verificado)
+                        VALUES ('${hash}','${salt}','${correo}','${idempresa}',false);`
+        console.log(query);
+        dataBase.query(query)
+        .then(function (dbRes) {
+            var succes;
+            if (dbRes.rowCount > 0 ){    
+                succes = true;
+            }else{
+                succes = false;
+            }
+            // dataBase.end();
+            // res.send(msg);
+            res.status(200).json({resultado:succes})
+        })
+        .catch(function (err) {
+            console.log(err);
+            // dataBase.end();
+            // res.send("Something went wrong");
+            res.status(200).json({resultado: false})
+        });
+    }
+    else{
+        // res.successend("Nice try");
+        res.status(200).json({resultado: false})
     }
 });
 
