@@ -143,7 +143,7 @@ router.post("/singina",function (req,res) {
         const hashPair = utils.genPassword(clave);
         const hash = hashPair.hash;
         const salt = hashPair.salt;
-        const query = `INSERT INTO public.usuario_registrado(clave, sal, correo, id_empresa, verificado)
+        const query = `INSERT INTO public.administrador_empresa(clave, sal, correo, id_empresa, verificado)
                         VALUES ('${hash}','${salt}','${correo}','${idempresa}',false);`
         console.log(query);
         dataBase.query(query)
