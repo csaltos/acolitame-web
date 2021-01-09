@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var middleware = require('../middleware');
 const r=require('../app');
 
 router.get('/:idCategoria', function(req, res, next) {
@@ -34,8 +35,8 @@ router.get('/:idCategoria', function(req, res, next) {
     })
 });
 
-router.get('/empresa/:idEmpresa', function(req, res, next) {
-  //console.log(req.params)
+router.get('/empresa/:idEmpresa', middleware.decodePayload, function(req, res, next) {
+  console.log(req.user)
   request({
     method: 'GET',
     uri: r.ruta + "empresa/id/"+req.params.idEmpresa,

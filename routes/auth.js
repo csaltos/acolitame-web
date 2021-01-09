@@ -138,16 +138,17 @@ router.post("/singinu",function (req,res) {
 });
 
 router.post("/singina",function (req,res) {
-    const {correo , clave , idEmpresa: idempresa} = req.body;
+    const {correo , clave , idempresa} = req.body;
     if(utils.isValidEntry(clave) && utils.isValidEntry(correo)){
         const hashPair = utils.genPassword(clave);
         const hash = hashPair.hash;
         const salt = hashPair.salt;
         const query = `INSERT INTO public.administrador_empresa(clave, sal, correo, id_empresa, verificado)
-                        VALUES ('${hash}','${salt}','${correo}','${idempresa}',false);`
+                        VALUES ('${hash}','${salt}','${correo}',${idempresa},false);`
         console.log(query);
         dataBase.query(query)
         .then(function (dbRes) {
+            console.log(dbRes);
             var succes;
             if (dbRes.rowCount > 0 ){    
                 succes = true;
