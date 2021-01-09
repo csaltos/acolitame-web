@@ -9,6 +9,7 @@ const database = require('../config/database');
 const urlData = "http://localhost:8080/";
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const dataBase = require('../config/database');
+const { json } = require('body-parser');
 
 
 require('../config/passport/config')(passport); //Pass as argument passport object to configure auth strategies 
@@ -43,6 +44,27 @@ const localLogIn = (req,res,valid , user) =>{
         res.send("Nope");
     }
 }
+
+router.get("/valmail/:correo",function (req,res){
+    if(utils.isValidEntry(req.params.corre)){    
+        const query = `SELECT a.correo, u.correo from public.administrador_empresa a, usuario_registrado u where a.correo=${req.params.corre} or u.correo=${req.params.corre}`;
+        dataBase.query(query)
+        .then(function (dbRes){
+            console.log(dbRes);
+            if (dbRes.rowCount > 0 ){
+                res.status(200).json({succes:true, exist:true});
+            }else{
+                res.status(200).json({succes:true , exist:false});
+            }
+        })
+        .catch(function (err){
+            console.log(err);
+            res.status(400).json({succes: false , exist : ''});
+        });
+    }else{
+        res.status(400).json({succes: false , exist : ''});
+    }
+});
 
 router.get("/session",function (req,res){
     res.render('setAuth');
@@ -138,13 +160,13 @@ router.post("/singinu",function (req,res) {
 });
 
 router.post("/singina",function (req,res) {
-    const {correo , clave , idEmpresa: idempresa} = req.body;
+    const {correo , clave , idempresa} = req.body;
     if(utils.isValidEntry(clave) && utils.isValidEntry(correo)){
         const hashPair = utils.genPassword(clave);
         const hash = hashPair.hash;
         const salt = hashPair.salt;
         const query = `INSERT INTO public.administrador_empresa(clave, sal, correo, id_empresa, verificado)
-                        VALUES ('${hash}','${salt}','${correo}','${idempresa}',false);`
+                        VALUES ('${hash}','${salt}','${correo}',${idempresa},false);`
         console.log(query);
         dataBase.query(query)
         .then(function (dbRes) {
@@ -167,7 +189,7 @@ router.post("/singina",function (req,res) {
     }
     else{
         // res.successend("Nice try");
-        res.status(200).json({resultado: false})
+        res.status(400).json({resultado: false})
     }
 });
 
