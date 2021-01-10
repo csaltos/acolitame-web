@@ -145,39 +145,45 @@ function sendRespuesta(id_comentario){
 
 function sendComentario(usuarioEmpresa){
     let comentario = document.getElementById("comentario").value;
-    let ruta = urlData + 'comentarios/insertar';
     token = localStorage.getItem('token');
     console.log(token);
     if (comentario.length > 0) {
-        var data = {};
-        // el id del usuario se recupera del header del auth
-        data.contenido = comentario;
-        document.getElementById("comentario").value = "";
-        /*prueba 
-        var respuesta = {};
-        respuesta.idComentario = 56;
-        respuesta.usuario = 'autor';
-        respuesta.fecha = '6/1/2020';
-        respuesta.contenido = 'contenido';
-        cargarHeaderComentario(respuesta, usuarioEmpresa);*/
-
-        let xhr = new XMLHttpRequest();
-        console.log(ruta);
-        xhr.open('POST', ruta, true);
-        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        xhr.setRequestHeader('Authorization', token);
-        xhr.onload = function() {
-            var comentario = JSON.parse(xhr.responseText);
-            if (xhr.readyState == 4 && xhr.status == "200") {
-                console.log(comentario);
-                document.getElementById("comentario").value = "";
-                cargarHeaderComentario(comentario, usuarioEmpresa);
-            } 
-            if (xhr.readyState == 4 && xhr.status == "403") {
-                console.log('iniciar sesion');
+        let ruta = urlData + 'comentarios/insertar';
+        if (token === null){
+            actSesion();
+        }else{
+            var data = {};
+            // el id del usuario se recupera del header del auth
+            data.contenido = comentario;
+            data.idEmpresa = parseInt(id_empresa);
+            console.log(data);
+            /*prueba 
+            var respuesta = {};
+            respuesta.idComentario = 56;
+            respuesta.usuario = 'autor';
+            respuesta.fecha = '6/1/2020';
+            respuesta.contenido = 'contenido';
+            cargarHeaderComentario(respuesta, usuarioEmpresa);*/
+    
+            let xhr = new XMLHttpRequest();
+            console.log(ruta);
+            xhr.open('POST', ruta, true);
+            xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.setRequestHeader('Authorization', token);
+            xhr.onload = function() {
+                var comentario = JSON.parse(xhr.responseText);
+                if (xhr.readyState == 4 && xhr.status == "200") {
+                    console.log(comentario);
+                    document.getElementById("comentario").value = "";
+                    cargarHeaderComentario(comentario, usuarioEmpresa);
+                } 
+                if (xhr.status == "403") {
+                    actSesion();
+                }
             }
+            xhr.send(JSON.stringify(data));
         }
-        xhr.send(JSON.stringify(data));
+        
     } else {
         alert('Ingrese un comentario.');
     }

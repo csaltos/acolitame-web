@@ -18,18 +18,27 @@
         <li class="nav-item" id="menuCatalogo">
           <a class="nav-link" href="<%=home%>catalogo/0">Catalogo</a>
         </li>
+        <%if (typeUser == 2) {%>
         <li class="nav-nav-item" id="menuCarro">
             <a class="nav-link" href="#" >Carrito</a>
           </li>
-        <li class="nav-nav-item" id="menuCuenta">
+          <%}%>
+          <%if (typeUser != 0) {%>
+        <li class="nav-nav-item" id="menuCuenta" >
             <a class="nav-link" href="#">Mi Cuenta</a>
         </li>
+        <li class="nav-nav-item" >
+          <a class="nav-link" href="<%=home%>auth/logout">Cerrar Sesion</a>
+      </li>
+          <%}%>
+          <%if (typeUser == 0) {%>
         <li class="nav-nav-item" id="menuCrear">
             <a class="nav-link" href="#" onclick="crearCuenta()">Registrarse</a>
         </li>
         <li class="nav-nav-item" id="menuSesion">
           <a class="nav-link" href="#" onclick="actSesion()">Iniciar Sesion</a>
       </li>
+      <%}%>
       </ul>
     </div>
 </nav>

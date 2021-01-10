@@ -40,7 +40,7 @@ const localLogIn = (req,res,valid , user) =>{
         res.cookie('token',token.token);
         res.redirect('/auth/session');
     }else{
-        res.send("Nope");
+        res.send("Not found");
     }
 }
 

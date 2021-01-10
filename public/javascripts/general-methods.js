@@ -77,9 +77,9 @@ function saveCarrito(id_empresa, id_producto) {
     data.id_producto = parseInt(id_producto);
     token = localStorage.getItem("token");
     console.log(token);
-    if (token == null){
-        console.log('Iniciar sesion');
+    if (token === null){
         cleanProducto();
+        actSesion();
     }else{
         console.log('Save carrito');
         /*let xhr = new XMLHttpRequest();
@@ -95,7 +95,7 @@ function saveCarrito(id_empresa, id_producto) {
             }
             if (xhr.readyState == 4 && xhr.status == "403") {
                 cleanProducto();
-                console.log('iniciar sesion');
+                actSesion();
             }
         }
         xhr.send(JSON.stringify(data));*/
@@ -147,6 +147,37 @@ function actSesion() {
 function crearCuenta() {
     $('#myModalSesion').modal('hide');
     $('#myModalCrear').modal('show');
+}
+
+function iniciarGoogle(){
+    window.location.href = home+'auth/google';
+}
+
+function iniciarSesion(){
+    respuestaAux = {};
+    let correo = document.getElementById("correo").value;
+    let clave = document.getElementById("clave").value;
+    if (correo.length == 0 || clave.length == 0 || /^\s+$/.test(clave) || (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(correo))) {
+        $('#errorData').show();
+    } else{
+        var data = {};
+        data.correo = correo;
+        data.clave = clave;
+        let xhr = new XMLHttpRequest();
+        console.log(correo, clave);
+        xhr.open("POST", home + "auth", true);
+        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.responseText);
+                if(xhr.responseText == 'Not found'){
+                    $('#errorData').show();
+                }
+            }
+        }
+        xhr.send(JSON.stringify(data));
+    }
+    
 }
 
 

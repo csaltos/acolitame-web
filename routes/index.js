@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var middleware = require('../middleware');
 const r=require('../app');
 
 
@@ -12,24 +13,35 @@ router.post('/', function(req, res){
    res.send(nombre);
 });*/
 
-router.get('/', function(req, res, next) {
+function getType(user){
+  typeUser = 0;
+  if(user.sub != -1){
+    if(user.admin){
+      typeUser = 1;
+    }else{
+      typeUser = 2;
+    }
+  }
+  return typeUser;
+}
+
+router.get('/', middleware.decodePayload, function(req, res, next) {
   request({
     method: 'GET',
     uri: r.ruta + "categoria/todos",
   }, function (error, response, body){
     if(!error && response.statusCode == 200){
-      //console.log('body: ',home);
-      return res.render('index', { title: 'Acolitame' , categoria: JSON.parse(body), home: r.home});
+      return res.render('index', { title: 'Acolitame' , categoria: JSON.parse(body), home: r.home, userType: getType(req.user)});
     }
   })
 });
 
-router.get('/quienesSomos', function(req, res, next) {
-  res.render('quienesSomos', {title: 'Acolitame - Quienes Somos', home: r.home});
+router.get('/quienesSomos', middleware.decodePayload, function(req, res, next) {
+  res.render('quienesSomos', {title: 'Acolitame - Quienes Somos', home: r.home, userType: getType(req.user)});
 });
 
-router.get('/soyEmprendedor', function(req, res, next) {
-  res.render('soyEmprendedor', {title: 'Acolitame - Soy Emprendedor', home: r.home});
+router.get('/soyEmprendedor', middleware.decodePayload, function(req, res, next) {
+  res.render('soyEmprendedor', {title: 'Acolitame - Soy Emprendedor', home: r.home, userType: getType(req.user)});
 });
 
 router.get('/miUbicacion/:idCategoria', function(req, res, next) {

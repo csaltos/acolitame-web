@@ -4,7 +4,19 @@ var request = require('request');
 var middleware = require('../middleware');
 const r=require('../app');
 
-router.get('/:idCategoria', function(req, res, next) {
+function getType(user){
+  typeUser = 0;
+  if(user.sub != -1){
+    if(user.admin){
+      typeUser = 1;
+    }else{
+      typeUser = 2;
+    }
+  }
+  return typeUser;
+}
+
+router.get('/:idCategoria', middleware.decodePayload, function(req, res, next) {
     request({
         method: 'GET',
         uri: r.ruta + "categoria/todos",
@@ -29,8 +41,8 @@ router.get('/:idCategoria', function(req, res, next) {
           }
           console.log(positionCategory);
           /* Obtener el tipo de usuario -----> si existe ver si es admin*/
-          usuarioEmpresa = false;
-          return res.render('catalogo', { title: 'Acolitame - Catalogo de Productos' , categoria: dataCategoria, positionCategory: positionCategory, home: r.home, usuarioEmpresa:usuarioEmpresa});
+          usuarioEmpresa = req.user.admin;
+          return res.render('catalogo', { title: 'Acolitame - Catalogo de Productos' , categoria: dataCategoria, positionCategory: positionCategory, home: r.home, usuarioEmpresa:usuarioEmpresa, userType: getType(req.user)});
         }
     })
 });
@@ -49,8 +61,8 @@ router.get('/empresa/:idEmpresa', middleware.decodePayload, function(req, res, n
       rutaMapa = r.home+'catalogo/forShowMap/'+latitud+'/'+longitud;
       console.log(rutaMapa);
       /* Obtener el tipo de usuario -----> si existe ver si es admin*/
-      usuarioEmpresa = false;
-      return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, rutaMapa: rutaMapa, empresa:empresa,  usuarioEmpresa:usuarioEmpresa});
+      usuarioEmpresa = req.user.admin;
+      return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, rutaMapa: rutaMapa, empresa:empresa,  usuarioEmpresa:usuarioEmpresa, userType: getType(req.user)});
     }
 })
 });
