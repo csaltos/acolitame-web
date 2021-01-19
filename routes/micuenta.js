@@ -15,6 +15,16 @@ router.get('/test',middleware.decodePayload,function (req,res){
     res.send('Testing');
 })
 
+router.get('/administradores',passport.authenticate('jwt',{session: false, failureRedirect: '/micuenta/test'}), function(req, res, next) {
+    tipo = req.user.admin;
+    if(tipo){
+        res.render('administrador', {title: 'Acolitame - Administradores'});
+    }else{
+        res.send('You don\'t have access');
+    }
+    
+  });
+
 // router.get("/", function(req,res){ //Secured endpoint by JWT
 //     console.log("Hacking in process");
 //     console.log("Hello", req.user); //Injected Object from database result

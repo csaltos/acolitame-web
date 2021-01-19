@@ -151,11 +151,11 @@ function sendComentario(usuarioEmpresa){
         let ruta = urlData + 'comentarios/insertar';
         if (token === null){
             actSesion();
-        }else{
+        }else if (!usuarioEmpresa){
             var data = {};
             // el id del usuario se recupera del header del auth
             data.contenido = comentario;
-            data.idEmpresa = parseInt(id_empresa);
+            data.idEmpresa = (id_empresa);
             console.log(data);
             /*prueba 
             var respuesta = {};
