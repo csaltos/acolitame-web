@@ -8,6 +8,12 @@ var logger = require('morgan');
 var passport = require('passport');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var catalogoRouter = require('./routes/catalogo');
+var registrarRouter = require('./routes/registrar');
+
+var ruta = 'http://localhost:8080/';
+var home = 'http://localhost:3000/';
+//var ruta = 'https://jarjarbinks.herokuapp.com/';
 var authRouter = require('./routes/auth');
 var micuentaRouter = require('./routes/micuenta')
 var database = require('./config/database')
@@ -40,6 +46,9 @@ app.use(passport.initialize()); //
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/catalogo', catalogoRouter);
+app.use('/registrar', registrarRouter);
+
 app.use('/auth',authRouter)
 app.use('/micuenta',micuentaRouter)
 // catch 404 and forward to error handler
@@ -59,3 +68,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+exports.ruta = ruta;
+exports.home = home;

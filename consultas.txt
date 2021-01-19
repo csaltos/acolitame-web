@@ -1,0 +1,93 @@
+
+
+Catalogo
+
+1. JSON que devuelve:
+[{
+idCategoria: '1',
+nombre: 'Alimentos'
+}]
+
+2. JSON para las empresas de acuerdo al idCategoria/actual/cantidadMaxima:
+[{
+idEmpresa:'1',
+nombre:'nombreEmpresa',
+correo:'correo'
+foto: 'linkFoto',
+}]
+
+3. JSON para los productos segun el idCategoria/actual/cantidadMaxima:
+[{
+idProducto:'1',
+nombre:'nombre',
+foto:'linkfoto',
+precio:'precio',
+descripcion:'desc',
+idEmpresa:'1',
+nombreEmpresa:'nombreEmpresa',
+}]
+
+4. JSON para las empresas de acuerdo al nombre:(minimo de busqueda de 4 caracteres)
+empresa/nombre/nombreEmpresa
+[{
+idEmpresa:'1',
+nombre:'nombreEmpresa',
+foto: 'linkFoto',
+lat:
+lon:
+}]
+
+5. JSON para los productos de acuerdo al nombre:(minimo de busqueda de 4 caracteres)
+producto/nombre/nombreProducto
+[{
+idProducto:'1',
+nombre:'nombre',
+foto:'linkfoto',
+precio:'precio',
+descripcion:'desc',
+empresa: {
+	idEmpresa:'1',
+	nombre:'nombreEmpresa',
+	foto: 'linkFoto',
+}
+}]
+
+6. JSON para consulta de empresa por idEmpresa
+{
+nombre:'nombreEmpresa',
+correo:'correo',
+telefono:'00000',
+direccion:'direccion',
+latitud:'latitud',
+longitud:'longitud',
+foto:'foto',
+facebook:'link',
+twitter:'link',
+instagram:'link',
+valoracion:0,
+
+}
+
+7. JSON para consulta de productos por idEmpresa/actual/cantidadMaxima
+
+[{
+idProducto:'1',
+nombre:'nombre',
+foto:'linkfoto',
+precio:'precio',
+descripcion:'desc',
+}]
+
+8. JSON para consulta de comentarios por idEmpresa/actual/cantidadMaxima
+
+comentarios:[{
+	idComentario:'id',
+	usuario:'nombre',
+	fecha:'fecha',
+	comentario:'comentario',
+	respuestas:[{
+		usuario:'nombre',
+		fecha:'fecha',
+		respuesta:'respuesta'
+	}]
+}],

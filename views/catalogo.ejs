@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/methods-map.js"></script>
+    <script type="text/javascript" src="/javascripts/catalogo.js"></script>
+</head>
+<body>
+    
+    <%- include('navbar.ejs') %>
+    <div class="jumbotron m-5">
+        <div class="row py-2">
+            <div class="masthead bg-tertiray">
+                <h1 class="masthead-heading">Catalogo</h1>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 form-group">
+                        
+                <div class="input-group mb-2">
+                <input type="text" class="form-control" style="border: 1px solid black;" id="valueSearch" placeholder="Buscar  un producto/empresa">
+                <div class="input-group-append">
+                    <span class="ml-1">
+                    <button class="btn btn-success mx-1 my-sm-0" id="btnBuscar" onclick="searchEmpresa()">Buscar</button>
+                    </span>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+        <!--Para los modals-->
+        <%- include('modal-sesiones.ejs') %>
+
+        <div class="row" id="forModalProd">
+
+        </div>
+        
+        <input type="text" value="<%=usuarioEmpresa%>" id="usuarioEmpresa" hidden>
+                
+        <h6><strong>Cambiar de categoria</strong></h6>
+        <div class="row pb-5 pl-4">
+            
+            <div class="form-group" >
+                <select id="selectCategorias2" onchange="return changeCategory()" class="custom-select" style="width: 300px; border: 1px solid black; border-radius: 12px;">
+                    <% for(var i=0; i < categoria.length; i++) { %>
+                        <option href="<%=categoria[i].id_categoria%>"
+                            <%if (i == positionCategory){%> selected="true"<%}%> >
+                            <%=categoria[i].nombre%></option>
+                    <% } %>
+                </select>
+            </div>
+        </div>
+        <div class="row pb-5 pl-3">
+            
+            <div class="col-sm-3">
+                
+                <p>Mostrando datos de:</p>
+                <% if (categoria.length > 0) { %><p id="categoriaActualNombre"></p><%=categoria[positionCategory].nombre%></p><% }%>
+                <h4 class="my-2 pt-3">Vistas</h4>
+
+                <div class="list-group overflow-auto " style="max-width: 300px;max-height: 600px; " >
+                    <a href="" onclick=" return changeView('productos')" class="list-group-item list-group-item-action">Lista Productos</a>
+                    <a href="" onclick="return changeView('empresas')" class="list-group-item list-group-item-action">Lista Empresas</a>
+                    <a href="" onclick="return changeView('mapa')" class="list-group-item list-group-item-action" id='btnMapa'>Cerca de ti</a>
+                </div>
+                
+            </div>
+            
+            <div class="col-sm-9">
+                <div id="empresas">
+                    <div class="row mt-3 p-3 overflow-auto" style="max-height: 900px;border: 1px solid darkgray;" id="listaEmpresas">
+                    
+                    </div>
+                    <div class="row pt-3 align-items-center justify-content-center">
+                        <button class="btn btn-secondary" onclick="return cargarEmpresas()">Cargar mas empresas...</button>
+                    </div>
+                </div>
+                <div id="productos">
+                    <div class="row mt-3 p-3 overflow-auto" style="max-height: 900px;border: 1px solid darkgray;" id="listaProductos">
+                        
+                    </div>
+                    <div class="row pt-3 align-items-center justify-content-center">
+                        <button class="btn btn-secondary" onclick="return cargarProductos()">Cargar mas productos...</button>
+                    </div>
+                </div>
+                    
+                
+                <div class="row pb-5 align-items-center justify-content-center" id="MapaShow">
+                    <% if (categoria.length > 0) { %><iframe src="http://localhost:3000/miUbicacion/<%=categoria[positionCategory].id_categoria%>" id='frameUbicacion' width="800" height="600" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe><% }%>
+                </div>
+         
+            </div>
+        </div>
+    
+        
+    </div>
+ 
+    </div>
+
+    <%- include('footer.ejs') %>
+
+</body>
+</html>

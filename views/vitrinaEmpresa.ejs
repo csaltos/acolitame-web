@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/jquery-3.5.1.js"></script>
+    <script src="/javascripts/popper.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <%- include('navbar.ejs') %>
+
+    <div class="jumbotron m-5">
+        
+        <div class="masthead bg-tertiray">
+            <h1 class="masthead-heading" id="empresaT"></h1><!--insertar el nombre y los datos de la empresa que el usuario seleccione-->
+        </div>
+        <div class="container bg-light my-5 py-5 px-5">
+            <div class="row mb-5 pl-3">
+                <h3>Agregar/Modificar datos extra</h3>
+            </div>
+            <div class="row mb-2">
+                <!-- nombre de empresa traido desde servidor -->
+                <div class="col-md-auto">
+                    <h4>Redes Sociales:</h4>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-auto col-md-auto">
+                    
+                    <div class="form-group">
+                        <ul>
+                            <li>
+                                <input type="text" class="form-control" id="facebook" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de facebook">
+                                <p><small>Ej: https://www.facebook.com/mdolcecookies/?ref=bookmarks</small></p>
+                            </li>
+                            <li>
+                                <input type="text" class="form-control" id="twitter" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de twitter">
+                                <p><small>Ej: https://twitter.com/danielseaman151</small></p>
+                            </li>
+                            <li>
+                                <input type="text" class="form-control" id="instagram" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de instagram">
+                                <p><small>Ej: https://www.instagram.com/nombreUsuario </small></p>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+            
+
+            <div class="row align-items-center justify-content-center  mb-3 p-3">
+                <button class="btn btn-success" id="btnRedSocial" onclick="guardarLinks()">Guardar Cambios</button>
+            </div>
+        
+            <div class="bg-light p-5">
+                
+                
+                <input type="text" class="form-control " id="codP" name="codP" hidden>
+                <div id="forModalProd"> </div>
+
+                <div class="row p-3">
+                    <h4><strong>Productos</strong></h4>
+                    <div class="col">
+                        <div class="row justify-content-end">
+                            <div class="col-auto col-md-auto">
+                                <button class="btn btn-success" onclick="agregarProducto()">Agregar</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-12">
+                        <div class="row p-3 overflow-auto" style="max-height: 300px;border: 1px solid darkgray;" id="listaProductos">
+                    
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="row p-3" >
+                    <h4><strong>Comentarios</strong></h4><!--Insertar los comentarios agregados a esta empresa-->
+                    <div class="col-sm-12">
+                        <div class="row mt-1 p-3 overflow-auto" style="max-height: 300px;border: 1px solid darkgray;">
+                            <div class="col-sm-12"   id="comentariosEmpresa">
+        
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+
+        
+            </div>
+        </div>
+    </div>
+    <%- include('footer.ejs') %>
+
+
+</body>
+</html>

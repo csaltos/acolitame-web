@@ -47,7 +47,7 @@ const localLogIn = (req,res,valid , user) =>{
         });
         res.redirect('/auth/session');
     }else{
-        res.send("Nope");
+        res.send("Not found");
     }
 }
 
@@ -179,6 +179,7 @@ router.post("/singina",function (req,res)  {
         console.log(query);
         dataBase.query(query)
         .then(function (dbRes) {
+            console.log(dbRes);
             var succes;
             if (dbRes.rowCount > 0 ){    
                 succes = true;
