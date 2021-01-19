@@ -25,7 +25,10 @@ const externalLogIn = (req, res) => { //Here the token is issued when the login 
     // res.redirect('/?token='+token.token)
     // res.status(200).json({succes: true , profile: req.user ,token: token.token , expiresIn: token.expires});
     // res.redirect('/auth?token='+token.token+'&expires='+token.expires);
-    res.cookie('token',token.token);
+    res.cookie('token',token.token,{
+        maxAge:24 * 60 * 60 * 1000,
+        // httpOnly: true
+    });
     res.redirect('/auth/session');
 }
 
@@ -38,7 +41,10 @@ const localLogIn = (req,res,valid , user) =>{
         });
         // res.redirect('/?token='+token.token)
         // res.status(200).json({succes: true ,token: token.token , expiresIn: token.expires})
-        res.cookie('token',token.token);
+        res.cookie('token',token.token,{
+            maxAge:24 * 60 * 60 * 1000,
+            // httpOnly: true
+        });
         res.redirect('/auth/session');
     }else{
         res.send("Nope");
@@ -46,8 +52,10 @@ const localLogIn = (req,res,valid , user) =>{
 }
 
 router.get("/valmail/:correo",function (req,res){
-    if(utils.isValidEntry(req.params.corre)){    
-        const query = `SELECT a.correo, u.correo from public.administrador_empresa a, usuario_registrado u where a.correo=${req.params.corre} or u.correo=${req.params.corre}`;
+    if(utils.isValidEntry(req.params.correo)){
+        mail = req.params.correo.trim();
+        console.log(mail);   
+        const query = `SELECT a.correo, u.correo from public.administrador_empresa a, usuario_registrado u where a.correo='${mail}' or u.correo='${mail}'`;
         dataBase.query(query)
         .then(function (dbRes){
             console.log(dbRes);
@@ -134,11 +142,12 @@ router.post("/singinu",function (req,res) {
         const hashPair = utils.genPassword(clave);
         const hash = hashPair.hash;
         const salt = hashPair.salt;
-        const query = `INSERT INTO public.usuario_registrado(clave, sal, correo, nombre, telefono, verificado)
-                        VALUES ('${hash}','${salt}','${correo}','${nombre}','${telefono}',false);`
-        console.log(query);
-        dataBase.query(query)
+        const query2 = `INSERT INTO public.usuario_registrado(clave, sal, correo, nombre, telefono, verificado, extauth)
+                        VALUES ('${hash}','${salt}','${correo}','${nombre}','${telefono}',false,false);`
+        console.log(query2);
+        dataBase.query(query2)
         .then(function (dbRes) {
+            console.log(dbRes);
             var msg;
             if (dbRes.rowCount > 0 ){    
                 msg ="Succesful sing in";
@@ -159,7 +168,7 @@ router.post("/singinu",function (req,res) {
     }
 });
 
-router.post("/singina",function (req,res) {
+router.post("/singina",function (req,res)  {
     const {correo , clave , idempresa} = req.body;
     if(utils.isValidEntry(clave) && utils.isValidEntry(correo)){
         const hashPair = utils.genPassword(clave);
@@ -195,11 +204,11 @@ router.post("/singina",function (req,res) {
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/test/failed' }), externalLogIn);
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), externalLogIn);
 
 router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
-router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/test/failed' }), externalLogIn);
+router.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/' }), externalLogIn);
 
 //TODO:
 //  Delete JWT

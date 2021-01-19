@@ -1,4 +1,3 @@
-console.log("Testing");
 
 function getCookie(name) {
   const value = `; ${document.cookie}`;
@@ -7,7 +6,7 @@ function getCookie(name) {
 }
 
 function setSession(){
-    console.log("Guardando Token");
+    // console.log("Guardando Token");
     localStorage.setItem('token',getCookie('token'));
     window.location.href = "/";
 }

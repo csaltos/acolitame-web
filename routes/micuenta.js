@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const passport = require('passport');
 const middleware = require('../middleware');
-router.get("/", passport.authenticate('jwt',{session: false, failureRedirect: '/micuenta/test'}),function(req,res){ //Secured endpoint by JWT
+router.get("/", passport.authenticate('jwt',{session: false, failureRedirect: '/'}),function(req,res){ //Secured endpoint by JWT
     console.log("Hacking in process");
     console.log("Hello", req.user); //Injected Object from database result
     console.log(req.user.admin);
