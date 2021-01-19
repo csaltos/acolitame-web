@@ -145,7 +145,7 @@ function sendRespuesta(id_comentario){
 
 function sendComentario(usuarioEmpresa){
     let comentario = document.getElementById("comentario").value;
-    token = localStorage.getItem('token');
+    token = 'Bearer ' + localStorage.getItem('token');
     console.log(token);
     if (comentario.length > 0) {
         let ruta = urlData + 'comentarios/insertar';
