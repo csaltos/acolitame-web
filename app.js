@@ -44,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize()); //
 // app.use(passport.session()); //
 
+console.log("Here");
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/catalogo', catalogoRouter);

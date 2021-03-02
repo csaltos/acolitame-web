@@ -29,3 +29,20 @@ Inicio Sesion
 		/facebook
 		/	->	Inicio de sesion local
 		/logout
+		
+
+
+*********************************************************************************************************************
+
+Cambios 06/02/2021:
+	Nota para la vida: Diseñen bien desde el inicio :'c
+	Nuevo flujo de registros:
+		*Solo registros con google y facebook
+		FlujoEmpresa:
+			* Se mantiene pantalla miEmpresa *
+			1) Se registra admin con google/facebook
+			2) Se guardan los datos en la base
+			3) Se solicitan los datos de la empresa
+			4) Verificar correo empresa (si es diferente)
+		FlujoUsuario:
+			* Se quita pantalla miCuenta *

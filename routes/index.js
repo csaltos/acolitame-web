@@ -26,6 +26,7 @@ function getType(user){
 }
 
 router.get('/', middleware.decodePayload, function(req, res, next) {
+  console.log("Index Here");
   request({
     method: 'GET',
     uri: r.ruta + "categoria/todos",

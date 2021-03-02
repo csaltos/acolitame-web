@@ -42,6 +42,10 @@ const options = {
     algorithms: ['RS256']
 };
 
+function searchUser(profile, done) {
+    
+}
+
 module.exports = (passport) => {
     passport.serializeUser(function(user, done) {   //In principle this doesnt do anything, just pass through
         console.log("Serialized")
@@ -57,32 +61,9 @@ module.exports = (passport) => {
             passReqToCallback: true
         },
         function(req, accessToken, refreshToken, profile, done) {
-            /*
-            use the profile info (mainly profile id) to check if the user is registerd in ur db
-            If yes select the user and pass him to the done callback
-            If not create the user and then select him and pass to callback
-            */
-            //console.log(profile);
-            //let correoS = document.getElementById('correoH').value;
-            //console.log(profile.emails[0].value);
-            /*var correoS = profile.emails[0].value;
-            let ruta = urlData + "usuario/correo/" + correoS;
-            console.log(ruta);
-            console.log("**********");
-            let xhr = new XMLHttpRequest();
-            xhr.open("GET", ruta, false);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    user = JSON.parse(xhr.responseText);
-                    req.externalIsPresent = true;
-                } else if (xhr.readyState == 4 && xhr.status == 404) {
-                    //sendNewUser(profile);
-                    req.externalIsPresent = false;
-                }
-            }
-            xhr.send(null);*/
+            console.log("ñam"+req.cookies['test'])
             console.log("After Google Auth");
-            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = ${profile.id};`;
+            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = '${profile.id}';`;
             console.log("quering, ",query);
             dataBase.query(query)
             .then(function (dbRes) {
@@ -134,7 +115,7 @@ module.exports = (passport) => {
             }
             xhrG.send(null);*/
             console.log("After Facebook Auth");
-            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = ${profile.id};`;
+            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = '${profile.id}';`;
             console.log("quering, ",query);
             dataBase.query(query)
             .then(function (dbRes) {

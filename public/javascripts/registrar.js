@@ -67,7 +67,9 @@ function registrarEmpresa() {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', urlData + 'empresa/insertar', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    console.log("Here");
     xhr.onload = function() {
+        console.log("Herex2");
         var emp = JSON.parse(xhr.responseText);
         //console.log(xhr.status);
         if (xhr.readyState == 4 && xhr.status == "200") {
@@ -76,10 +78,13 @@ function registrarEmpresa() {
             //sendImage(r);
             //sendAdmin(idEmpresa);
             
+            sendAdmin(idEmpresa);
+            
         } else {
             console.error(emp);
         }
     }
+    console.log("Here");
     xhr.send(JSON.stringify(dataEmpresa));
 }
 

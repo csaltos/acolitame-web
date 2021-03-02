@@ -13,16 +13,17 @@ router.post('/', function(req, res){
 });*/
 
 router.get('/cuentaemprendedor', function(req, res, next) {
-    request({
-        method: 'GET',
-        uri: r.ruta + "categoria/todos",
-    }, function (error, response, body){
-        if(!error && response.statusCode == 200){
-          //console.log('body: ',home);
-          return res.render('registrarEmprendedor', { title: 'Acolitame - Registar Emprendedor' , categoria: JSON.parse(body), home: r.home});
-        }
-    })
-    
+    // request({
+    //     method: 'GET',
+    //     uri: r.ruta + "categoria/todos",
+    // }, function (error, response, body){
+    //     if(!error && response.statusCode == 200){
+    //       //console.log('body: ',home);
+    //       return res.render('registrarEmprendedor', { title: 'Acolitame - Registar Emprendedor' , categoria: JSON.parse(body), home: r.home});
+    //     }
+    // })
+    res.cookie("type","admin")
+    res.redirect("/auth/google")
 });
 
 router.get('/forChoose', function(req, res, next) {
@@ -30,7 +31,9 @@ router.get('/forChoose', function(req, res, next) {
 });
 
 router.get('/cuenta', function(req, res, next) {
-    return res.render('registrarUsuario', { title: 'Acolitame - Registrar Usuario' , home: r.home});
+    res.cookie("type","admin")
+    res.redirect("/auth/google")
+    // return res.render('registrarUsuario', { title: 'Acolitame - Registrar Usuario' , home: r.home});
 });
 
 module.exports = router;
