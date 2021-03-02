@@ -149,8 +149,19 @@ function crearCuenta() {
     $('#myModalCrear').modal('show');
 }
 
+function regUser(admin){
+    setCookie('type',admin,1);
+    $('#myModalCrear').modal('hide');
+    console.log("registrando");
+    $('#myModalRegistrar').modal('show');
+}
+
 function iniciarGoogle(){
     window.location.href = home+'auth/google';
+}
+
+function iniciarFacebook(){
+    window.location.href = home+'auth/facebook';
 }
 
 function iniciarSesion(){
@@ -181,3 +192,12 @@ function iniciarSesion(){
 }
 
 
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
