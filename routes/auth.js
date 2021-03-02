@@ -20,12 +20,13 @@ const externalLogIn = (req, res) => { //Here the token is issued when the login 
     const token =  utils.issueJWT({
         "id": req.user.id,
         "name": req.user.displayName,
-        "admin": false,
+        "admin": req.user.admin,
         "local": false
     });
     // res.redirect('/?token='+token.token)
     // res.status(200).json({succes: true , profile: req.user ,token: token.token , expiresIn: token.expires});
     // res.redirect('/auth?token='+token.token+'&expires='+token.expires);
+    console.log(token);
     res.cookie('token',token.token,{
         maxAge:24 * 60 * 60 * 1000,
         // httpOnly: true
@@ -33,25 +34,25 @@ const externalLogIn = (req, res) => { //Here the token is issued when the login 
     res.redirect('/auth/session');
 }
 
-const localLogIn = (req,res,valid , user) =>{
-    if(valid){
-        const token =  utils.issueJWT({
-            "id": user.id,
-            "name": user.nombre,
-            "admin": user.admin,
-            "local": true
-        });
-        // res.redirect('/?token='+token.token)
-        // res.status(200).json({succes: true ,token: token.token , expiresIn: token.expires})
-        res.cookie('token',token.token,{
-            maxAge:24 * 60 * 60 * 1000,
-            // httpOnly: true
-        });
-        res.redirect('/auth/session');
-    }else{
-        res.send("Not found");
-    }
-}
+// const localLogIn = (req,res,valid , user) =>{
+//     if(valid){
+//         const token =  utils.issueJWT({
+//             "id": user.id,
+//             "name": user.nombre,
+//             "admin": user.admin,
+//             "local": true
+//         });
+//         // res.redirect('/?token='+token.token)
+//         // res.status(200).json({succes: true ,token: token.token , expiresIn: token.expires})
+//         res.cookie('token',token.token,{
+//             maxAge:24 * 60 * 60 * 1000,
+//             // httpOnly: true
+//         });
+//         res.redirect('/auth/session');
+//     }else{
+//         res.send("Not found");
+//     }
+// }
 
 router.get("/valmail/:correo",function (req,res){
     if(utils.isValidEntry(req.params.correo)){
