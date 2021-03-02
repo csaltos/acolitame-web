@@ -63,14 +63,17 @@ function registrarEmpresa() {
     dataEmpresa.longitud = parseFloat(document.getElementById("longitud").value);
     dataEmpresa.correoAdmin = document.getElementById("inputCorreo").value;
     dataEmpresa.claveAdmin = document.getElementById('inputPass').value;
+    console.log(dataEmpresa);
     let xhr = new XMLHttpRequest();
     xhr.open('POST', urlData + 'empresa/insertar', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhr.onload = function() {
         var emp = JSON.parse(xhr.responseText);
+        //console.log(xhr.status);
         if (xhr.readyState == 4 && xhr.status == "200") {
             console.log(emp);
-            
+            //r = urlData + "empresa/image/" + emp.idEmpresa
+            //sendImage(r);
             //sendAdmin(idEmpresa);
             
         } else {

@@ -172,6 +172,7 @@ function sendComentario(usuarioEmpresa){
             xhr.setRequestHeader('Authorization', token);
             xhr.onload = function() {
                 var comentario = JSON.parse(xhr.responseText);
+                console.log(xhr.status);
                 if (xhr.readyState == 4 && xhr.status == "200") {
                     console.log(comentario);
                     document.getElementById("comentario").value = "";

@@ -149,6 +149,16 @@ function crearCuenta() {
     $('#myModalCrear').modal('show');
 }
 
+function registrarCorreo(tipo){
+    if(tipo == 1){
+        console.log('negocio');
+    }else{
+        console.log('normal');
+    }
+    $('#myModalCrear').modal('hide');
+    $('#myModalRegistro').modal('show');
+}
+
 function iniciarGoogle(){
     window.location.href = home+'auth/google';
 }
