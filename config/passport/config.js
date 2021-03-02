@@ -42,8 +42,39 @@ const options = {
     algorithms: ['RS256']
 };
 
-function searchUser(profile, done) {
-    
+function processUser(req,profile, done) {
+    console.log("ñam"+req.cookies['type'])
+    console.log("After Google/Facebook Auth");
+    admin = (req.cookies['type'] === 'true');
+    console.log(admin);
+    var query
+    if( admin)
+        query = `select U.id_administrador from public.administrador_empresa U where U.id_administrador = '${profile.id}';`;
+    else
+        query = `select U.id_usuario from public.usuario_registrado U where U.id_usuario = '${profile.id}';`;
+    console.log("quering, ",query);
+    dataBase.query(query)
+    .then(function (dbRes) {
+        console.log(dbRes);
+        if (dbRes.rowCount > 0 ){
+            console.log("I found it :3");
+            // dataBase.end();
+            var data = {};
+            data.correo = profile.emails[0].value;
+            data.displayName = profile.displayName;
+            data.extAuth = true;
+            data.id = profile.id;
+            data.admin = admin
+            return done(null, data);
+        }else{
+            console.log("Who are you?");
+            utils.sendNewUser(profile,done,admin);
+        }
+    }).catch(function (err) {
+        // dataBase.end();
+        return done(err,false); 
+    })
+    // console.log(profile);
 }
 
 module.exports = (passport) => {
@@ -61,26 +92,7 @@ module.exports = (passport) => {
             passReqToCallback: true
         },
         function(req, accessToken, refreshToken, profile, done) {
-            console.log("ñam"+req.cookies['test'])
-            console.log("After Google Auth");
-            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = '${profile.id}';`;
-            console.log("quering, ",query);
-            dataBase.query(query)
-            .then(function (dbRes) {
-                console.log(dbRes);
-                if (dbRes.rowCount > 0 ){
-                    console.log("I found it :3");
-                    // dataBase.end();
-                    return done(null, profile);
-                }else{
-                    console.log("Who are you?");
-                    utils.sendNewUser(profile,done);                    
-                }
-            }).catch(function (err) {
-                // dataBase.end();
-                return done(err,false); 
-            })
-            // console.log(profile);
+            processUser(req,profile,done);
         }
     ));
 
@@ -93,45 +105,7 @@ module.exports = (passport) => {
             profileFields: ['id', 'displayName', 'photos', 'email']
         },
         function(req, accessToken, refreshToken, profile, done) {
-            /*correoS = profile.emails[0].value;
-            let ruta = urlData + "usuario/correo/" + correoS;
-            console.log(ruta);
-            var xhrG = new XMLHttpRequest();
-            xhrG.open("GET", ruta, false);
-            xhrG.setRequestHeader('Content-type', 'application/json;charset=utf-8');
-            xhrG.onreadystatechange = function() {
-                if (xhrG.readyState == 4 && xhrG.status == 200) {
-
-                    user = JSON.parse(xhrG.responseText);
-                    req.externalIsPresent = true;
-                } else if (xhrG.readyState == 4 && xhrG.status == 404) {
-                    //console.log(xhr);
-                    //console.log(xhr.getAllResponseHeaders());
-                    req.externalIsPresent = false;
-                    //console.log("lllllllllllllllllllllllllllllll");
-                    console.log(externalIsPresent);
-                    //console.log("llllllllllllllllllllllllllllllll");
-                }
-            }
-            xhrG.send(null);*/
-            console.log("After Facebook Auth");
-            const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = '${profile.id}';`;
-            console.log("quering, ",query);
-            dataBase.query(query)
-            .then(function (dbRes) {
-                console.log(dbRes);
-                if (dbRes.rowCount > 0 ){
-                    console.log("I found it :3");
-                    // dataBase.end();
-                    return done(null, profile);
-                }else{
-                    console.log("Who are you?");
-                    utils.sendNewUser(profile,done);                    
-                }
-            }).catch(function (err) {
-                // dataBase.end();
-                return done(err,false); 
-            })
+            processUser(req,profile,done);
         }
     ));
 
