@@ -31,7 +31,7 @@ function cargarProductos(){
                 console.log(producto);
                 let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
                     '<div class="row align-items-center justify-content-center"><p>' + document.getElementById("nombreEmpresaT").innerHTML + '</p></div>' +
-                    '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+','+id_empresa+')\'><img src="' + 'data:image/png;base64,' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
+                    '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+','+id_empresa+')\'><img src="' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
                     '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+','+id_empresa+')\'><p>' + producto.nombre + '</p></a></div></div></div>';
                 $('#listaProductos').append(resultado);
             }
@@ -119,12 +119,13 @@ function sendRespuesta(id_comentario){
         respuesta.fecha = '6/1/2020';
         respuesta.contenido = 'contenido';
         document.getElementById(id_comentario + "").value = "";
-        cargarRespuestaComentario(respuesta, id_comentario);
-           
-        /*let xhr = new XMLHttpRequest();
+        //cargarRespuestaComentario(respuesta, id_comentario);
+        token = 'Bearer ' + localStorage.getItem('token');
+        let xhr = new XMLHttpRequest();
         console.log(ruta);
         xhr.open('POST', ruta, true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
         xhr.setRequestHeader('Authorization', token);
         xhr.onload = function() {
             var respuesta = JSON.parse(xhr.responseText);
@@ -137,7 +138,7 @@ function sendRespuesta(id_comentario){
                 console.log('iniciar sesion');
             }
         }
-        xhr.send(JSON.stringify(data));*/
+        xhr.send(JSON.stringify(data));
     } else {
         alert('Ingrese una respuesta');
     }
@@ -155,7 +156,7 @@ function sendComentario(usuarioEmpresa){
             var data = {};
             // el id del usuario se recupera del header del auth
             data.contenido = comentario;
-            data.idEmpresa = (id_empresa);
+            data.idEmpresa = parseInt(id_empresa);
             console.log(data);
             /*prueba 
             var respuesta = {};
@@ -169,6 +170,7 @@ function sendComentario(usuarioEmpresa){
             console.log(ruta);
             xhr.open('POST', ruta, true);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+            xhr.setRequestHeader('Access-Control-Allow-Origin', '*');//importante cors :3 2/3/2021
             xhr.setRequestHeader('Authorization', token);
             xhr.onload = function() {
                 var comentario = JSON.parse(xhr.responseText);
@@ -177,6 +179,7 @@ function sendComentario(usuarioEmpresa){
                     console.log(comentario);
                     document.getElementById("comentario").value = "";
                     cargarHeaderComentario(comentario, usuarioEmpresa);
+                    document.getElementById('comentariosEmpresa').scrollIntoView(false);
                 } 
                 if (xhr.status == "403") {
                     actSesion();

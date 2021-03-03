@@ -16,7 +16,7 @@ Rutas Generales:
 			/cuentaemprededor
 			/cuentausuario
 	-----------------------------------------------------
-		/micuenta	->	(2 opciones: Empresa o Usuario)	Dificl(3.5)	*Mashi*
+		/micuenta	->	(Empresa)	Dificl(3.5)	*Mashi*
 			/carrito ->	(Caso: Usuario)
 			/mivitrina -> 	(Caso: Empresa)
 			/administradores
