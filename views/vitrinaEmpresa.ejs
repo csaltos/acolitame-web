@@ -105,7 +105,16 @@
                 <div class="row pb-3 align-items-center justify-content-center">
                     <button class="btn btn-secondary" onclick="return cargarComentarios('<%=usuarioEmpresa%>' === 'true')">Cargar mas comentarios...</button>
                 </div>
-
+                <div id='forComentario'>
+                    <div class="row align-items-start justify-content-start p-3 m-3">
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" placeholder="Comentar" id="comentario" style="border: 1px solid black;">
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-success" onclick="sendComentario('<%=usuarioEmpresa%>' === 'true')">Comentar</button></div>
+                        </div>
+                    <hr>
+                </div>
         
             </div>
         </div>

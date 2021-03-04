@@ -83,6 +83,7 @@ function cargarComentarios(usuarioEmpresa) {
     console.log('here');
     let ajaxRequest = new XMLHttpRequest();
     ajaxRequest.open("GET", urlData + "comentarios/getComentarios/" + id_empresa + '/' + positionComentarios + '/' +maximo, true);
+    console.log(urlData + "comentarios/getComentarios/" + id_empresa + '/' + positionComentarios + '/' +maximo);
     ajaxRequest.onreadystatechange = function() {
 
         if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {

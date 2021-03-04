@@ -105,6 +105,7 @@ function guardarCambios(option, medio, nuevo) {
             if (xhr.readyState == 4 && xhr.status == "200") {
                 console.log(prod);
                 enviar = /\.(gif|jpg|png)$/i.test(document.getElementById('imgInp').value);
+                console.log('enviar', enviar);
                 if (enviar) {
                     sendImage(prod.id_producto);
                 } else{
@@ -198,14 +199,17 @@ function cleanStuffProd() {
 
 function sendImage(idProducto) {
     console.log("toy aqui", idProducto);
-    var form = new FormData();
+    var forma = new FormData();
     console.log($('#imgInp')[0].files[0]);
-    form.append('fileImage', $('#imgInp')[0].files[0]);
-    console.log(JSON.stringify(form));
+    forma.append("fileImage", $('#imgInp')[0].files[0]);
+    //forma.append("hola", "q mas");
+    for (var pair of forma.entries()) {
+        console.log(pair[0], pair[1]); 
+        //console.log()
+    }
     var ruta = urlData + "producto/image/" + idProducto
     var xhr = new XMLHttpRequest();
     xhr.open('POST', ruta);
-    
     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     token = "Bearer "+localStorage.getItem("token");
     xhr.setRequestHeader('Authorization', token);
@@ -217,15 +221,16 @@ function sendImage(idProducto) {
             if(prod.id_producto === undefined){
                 prod.id_producto = prod.idProducto;
             }
+            //prod.foto = "data:image/png;base64,"+prod.test;
             setChanges(prod);
         } else {
             console.error(prod);
         }
     }
-    xhr.send(form);
+    xhr.send(forma);
 }
 
-function cargarHeaderComentario(comentario, usuarioEmpresa){
+function cargarHeaderComentario(comentario){
     let codigo = '<div class="row align-items-start justify-content-start px-3"><div class"col-sm-auto">' +
     '<div class="row"><p><b>Usuario: ' + comentario.usuario + '</b></p></div>' +
     '<div class="row"><p class="text-muted"><small>Fecha: ' + comentario.fecha + '</small></p></div>' +
@@ -233,14 +238,12 @@ function cargarHeaderComentario(comentario, usuarioEmpresa){
     '</div></div><hr>';
     codigo += '<div class="'+comentario.idComentario+'"></div>'
     $('#comentariosEmpresa').append(codigo);
-    if (usuarioEmpresa){
-        let final = '<div class="row align-items-start justify-content-start px-3">' +
+    let final = '<div class="row align-items-start justify-content-start px-3">' +
         '<div class="col-sm-10">' +
         '<input type="text" class="form-control form-control-sm" placeholder="Responder" id="' + comentario.idComentario + '" style="border: 1px solid black;">' +
         '</div><div class="col-sm-2"><button class="btn-sm btn btn-primary" onclick="sendRespuesta(' + parseInt(comentario.idComentario) + ')">Responder</button>' +
         '</div></div></div><hr>';
         $('#comentariosEmpresa').append(final);
-    }
 }
 
 function cargarRespuestaComentario(respuesta, idComentario){
@@ -253,8 +256,8 @@ function cargarRespuestaComentario(respuesta, idComentario){
     $("."+idComentario).append(codigo);
 }
 
-function cargarComentarios(usuarioEmpresa) {
-    console.log('here');
+function cargarComentarios() {
+    console.log(urlData + "comentarios/getComentarios/" + id_empresa + '/' + positionComentarios + '/' +maximo);
     let ajaxRequest = new XMLHttpRequest();
     ajaxRequest.open("GET", urlData + "comentarios/getComentarios/" + id_empresa + '/' + positionComentarios + '/' +maximo, true);
     ajaxRequest.onreadystatechange = function() {
@@ -263,7 +266,7 @@ function cargarComentarios(usuarioEmpresa) {
             var resultComentarios = JSON.parse(ajaxRequest.responseText);
             for (var i = 0; i < resultComentarios.length; i++) {
                 comentario = resultComentarios[i];
-                cargarHeaderComentario(comentario, usuarioEmpresa);
+                cargarHeaderComentario(comentario);
                 let respuestas = comentario.respuestas;
                 console.log(respuestas.length);
                 
@@ -272,6 +275,7 @@ function cargarComentarios(usuarioEmpresa) {
                 }
             }
             positionComentarios+=maximo;
+            console.log('posComen', positionComentarios);
         }
     }
     ajaxRequest.send(null);
@@ -316,7 +320,7 @@ function sendRespuesta(id_comentario){
     }
 }
 
-function sendComentario(usuarioEmpresa){
+function sendComentario(){
     let comentario = document.getElementById("comentario").value;
     token = 'Bearer ' + localStorage.getItem('token');
     console.log(token);
@@ -324,7 +328,7 @@ function sendComentario(usuarioEmpresa){
         let ruta = urlData + 'comentarios/insertar';
         if (token === null){
             actSesion();
-        }else if (!usuarioEmpresa){
+        }else{
             var data = {};
             // el id del usuario se recupera del header del auth
             data.contenido = comentario;
@@ -350,7 +354,7 @@ function sendComentario(usuarioEmpresa){
                 if (xhr.readyState == 4 && xhr.status == "200") {
                     console.log(comentario);
                     document.getElementById("comentario").value = "";
-                    cargarHeaderComentario(comentario, usuarioEmpresa);
+                    cargarHeaderComentario(comentario);
                     document.getElementById('comentariosEmpresa').scrollIntoView(false);
                 } 
                 if (xhr.status == "403") {
