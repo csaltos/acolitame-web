@@ -164,32 +164,32 @@ function iniciarFacebook(){
     window.location.href = home+'auth/facebook';
 }
 
-function iniciarSesion(){
-    respuestaAux = {};
-    let correo = document.getElementById("correo").value;
-    let clave = document.getElementById("clave").value;
-    if (correo.length == 0 || clave.length == 0 || /^\s+$/.test(clave) || (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(correo))) {
-        $('#errorData').show();
-    } else{
-        var data = {};
-        data.correo = correo;
-        data.clave = clave;
-        let xhr = new XMLHttpRequest();
-        console.log(correo, clave);
-        xhr.open("POST", home + "auth", true);
-        xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                console.log(xhr.responseText);
-                if(xhr.responseText == 'Not found'){
-                    $('#errorData').show();
-                }
-            }
-        }
-        xhr.send(JSON.stringify(data));
-    }
+// function iniciarSesion(){
+//     respuestaAux = {};
+//     let correo = document.getElementById("correo").value;
+//     let clave = document.getElementById("clave").value;
+//     if (correo.length == 0 || clave.length == 0 || /^\s+$/.test(clave) || (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(correo))) {
+//         $('#errorData').show();
+//     } else{
+//         var data = {};
+//         data.correo = correo;
+//         data.clave = clave;
+//         let xhr = new XMLHttpRequest();
+//         console.log(correo, clave);
+//         xhr.open("POST", home + "auth", true);
+//         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+//         xhr.onreadystatechange = function() {
+//             if (xhr.readyState == 4 && xhr.status == 200) {
+//                 console.log(xhr.responseText);
+//                 if(xhr.responseText == 'Not found'){
+//                     $('#errorData').show();
+//                 }
+//             }
+//         }
+//         xhr.send(JSON.stringify(data));
+//     }
     
-}
+// }
 
 
 function setCookie(name,value,days) {
