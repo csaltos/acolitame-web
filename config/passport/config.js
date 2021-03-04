@@ -42,34 +42,59 @@ const options = {
     algorithms: ['RS256']
 };
 
-function processUser(req,profile, done) {
+function registerUser(req,profile, done) {
     console.log("ñam"+req.cookies['type'])
     console.log("After Google/Facebook Auth");
-    admin = (req.cookies['type'] === 'true');
-    console.log(admin);
-    var query
-    if( admin)
-        query = `select U.id_administrador from public.administrador_empresa U where U.id_administrador = '${profile.id}';`;
-    else
-        query = `select U.id_usuario from public.usuario_registrado U where U.id_usuario = '${profile.id}';`;
-    console.log("quering, ",query);
-    dataBase.query(query)
+    // console.log(admin);
+    // var query
+    // if( admin)
+        const query1 = `select U.id_administrador from public.administrador_empresa U where U.id_administrador = '${profile.id}';`;
+    // else
+        const query2 = `select U.id_usuario from public.usuario_registrado U where U.id_usuario = '${profile.id}';`;
+    // console.log("quering, ",query);
+    console.log("Before Database");
+    dataBase.query(query1)
     .then(function (dbRes) {
-        console.log(dbRes);
+        // console.log(dbRes);
         if (dbRes.rowCount > 0 ){
-            console.log("I found it :3");
+            console.log("I found it :3,admin");
             // dataBase.end();
             var data = {};
             data.correo = profile.emails[0].value;
             data.displayName = profile.displayName;
             data.extAuth = true;
             data.id = profile.id;
-            data.admin = admin
+            data.admin = true;
             return done(null, data);
         }else{
-            console.log("Who are you?");
-            utils.sendNewUser(profile,done,admin);
-        }
+            dataBase.query(query2)
+            .then(function (deRes){
+                if (deRes.rowCoutn > 0){
+                    console.log("I found it :3,user");
+                    // dataBase.end();
+                    var data = {};
+                    data.correo = profile.emails[0].value;
+                    data.displayName = profile.displayName;
+                    data.extAuth = true;
+                    data.id = profile.id;
+                    data.admin = false;
+                    return done(null, data);
+                }else{
+                    if (req.cookies['type']){
+                        admin = ( req.cookies['type'] === 'true');
+                        console.log("Who are you?");
+                        utils.sendNewUser(profile,done,admin);
+                    }
+                    else{
+                        return done(null,false);
+                    }
+                }
+            }).catch(function (err) {
+                    // dataBase.end();
+                    return done(err,false); 
+                })
+
+            }
     }).catch(function (err) {
         // dataBase.end();
         return done(err,false); 
@@ -92,7 +117,7 @@ module.exports = (passport) => {
             passReqToCallback: true
         },
         function(req, accessToken, refreshToken, profile, done) {
-            processUser(req,profile,done);
+            registerUser(req,profile,done);
         }
     ));
 
@@ -105,22 +130,31 @@ module.exports = (passport) => {
             profileFields: ['id', 'displayName', 'photos', 'email']
         },
         function(req, accessToken, refreshToken, profile, done) {
-            processUser(req,profile,done);
+            registerUser(req,profile,done);
         }
     ));
 
     passport.use(new JwtSrategy(options, function(payload,done) { //This is called when an endpoint is secured with JWT
-
+        console.log("JWT good");
         console.log(payload);
         // const query = `select U.id_usuario, U.nombre from public.usuario_registrado U ;`;
-        const query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = ${payload.sub};`
+        var query
+        if (payload.admin)
+            query = `select U.id_administrador, U.correo from public.administrador_empresa U where U.id_administrador = '${payload.sub}';`
+        else
+            query = `select U.id_usuario, U.nombre from public.usuario_registrado U where U.id_usuario = '${payload.sub}';`
+        console.log("Checking JWT");
         console.log(query)
         dataBase.query(query)
         .then(function(res){
+            console.log(res);
             console.log(res.rows[0]);
             // dataBase.end();
             // done(null,res.rows[0]); //The response is injected into the pipeline in the request object as user 
             done(null,payload);
+        }).catch(function (err) {
+            done(err,false);
         });
+
     }));
 }

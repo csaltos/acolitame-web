@@ -23,6 +23,11 @@
             <a class="nav-link" href="<%=home%>micuenta/carrito" >Carrito</a>
           </li>
           <%}%>
+        <%if (typeUser == 1) {%>
+        <li class="nav-nav-item" id="menuCarro">
+            <a class="nav-link" href="<%=home%>micuenta" >Mi Empresa</a>
+          </li>
+          <%}%>
           <%if (typeUser != 0) {%>
         <li class="nav-nav-item" >
           <a class="nav-link" href="<%=home%>auth/logout">Cerrar Sesion</a>

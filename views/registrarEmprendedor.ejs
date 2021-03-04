@@ -14,9 +14,10 @@
     <script src="/javascripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="/javascripts/general-methods.js"></script>
     <script type="text/javascript" src="/javascripts/registrar.js"></script>
+    <script type="text/javascript" src="/javascripts/session.js"></script>
 </head>
 
-<body onload="initImageRead()">
+<body onload="setMultiple()">
     <div class="jumbotron m-5">
                 
         <div class="row align-items-center justify-content-center mb-5 p-3">
@@ -33,7 +34,7 @@
                 </div>
                 <div class="col-sm-2"></div>
             </div>
-            <div class="row align-items-center justify-content-center">
+            <!-- <div class="row align-items-center justify-content-center">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
                     <div class="form-group">
@@ -41,7 +42,7 @@
                     </div>
                 </div>
                 <div class="col-sm-2"></div>
-            </div>
+            </div> -->
             <div class="row align-items-center justify-content-center">
                 <div class="col-sm-2"></div>
                 <div class="col-sm-8">
@@ -73,7 +74,7 @@
             </div>
             <div class="row align-items-center justify-content-center">
                 <div class="col-sm-auto col-auto col-md-auto">
-                    <iframe src="forChoose" id="frameUbicacion" width="500" height="500" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    <iframe src="<%=home%>registrar/forChoose" id="frameUbicacion" width="500" height="500" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                                
                 </div>
             </div>
@@ -128,7 +129,7 @@
         <div id='forModalVerificar'></div>
 
         <div class="row align-items-center justify-content-center text-justify pb-5 mb-5 mt-3">
-            <a href="<%=home%>soyEmprendedor" style="color: black; font-size: large; text-decoration: underline;"><b>Volver</b></a>
+            <a href="<%=home%>" style="color: black; font-size: large; text-decoration: underline;"><b>Registrar Mas Tarde</b></a>
         </div>
 
     </div>

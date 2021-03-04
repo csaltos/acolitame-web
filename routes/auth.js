@@ -10,6 +10,9 @@ const urlData = "http://localhost:8080/";
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const dataBase = require('../config/database');
 const { json } = require('body-parser');
+const middleware = require('../middleware');
+var request = require('request');
+const r=require('../app');
 
 
 require('../config/passport/config')(passport); //Pass as argument passport object to configure auth strategies 
@@ -77,8 +80,45 @@ router.get("/valmail/:correo",function (req,res){
     }
 });
 
-router.get("/session",function (req,res){
-    res.render('setAuth');
+router.get('/forChoose', function(req, res, next) { //This helps to render a map
+    return res.render('forChoose');
+})
+
+router.get("/session",passport.authenticate('jwt',{session: false, failureRedirect: '/'}),function (req,res){
+    console.log("Settign session")
+    console.log(req.user);
+    if (req.user.admin){
+        console.log("Yes Admin")
+        const query = `SELECT U.id_empresa from public.administrador_empresa U where U.id_administrador = '${req.user.sub}';`;
+        console.log(query);
+        dataBase.query(query)
+        .then(function (dbRes) {
+            console.log(dbRes);
+            if (dbRes.rowCount > 0 && dbRes.rows[0].id_empresa != null){
+                res.render('setAuth');
+            }else{
+                // return res.render('registrarEmprendedor', { title: 'Acolitame - Registar Emprendedor' , categoria: JSON.parse(body), home: r.home});
+                console.log('ñam');
+                request({
+                    method: 'GET',
+                    uri: r.ruta + "categoria/todos",
+                }, function (error, response, body){
+                    // console.log(response);
+                    // console.log(error);
+                    if(!error && response.statusCode == 200){
+                      //console.log('body: ',home);
+                    //   console.log(body);
+                      res.render('registrarEmprendedor', { title: 'Acolitame - Registar Emprendedor' , categoria: JSON.parse(body), home: r.home});
+                    }
+                })
+            }
+        }).catch(function (err) {
+            res.send(err);
+        })
+    }else{
+        res.render('setAuth');
+    }
+    
 });
 
 // router.post("/", function (req,res) {
@@ -171,40 +211,62 @@ router.get("/session",function (req,res){
 //     }
 // });
 
-// router.post("/singina",function (req,res)  {
-//     const {correo , clave , idempresa} = req.body;
-//     if(utils.isValidEntry(clave) && utils.isValidEntry(correo)){
-//         const hashPair = utils.genPassword(clave);
-//         const hash = hashPair.hash;
-//         const salt = hashPair.salt;
-//         const query = `INSERT INTO public.administrador_empresa(clave, sal, correo, id_empresa, verificado)
-//                         VALUES ('${hash}','${salt}','${correo}',${idempresa},false);`
-//         console.log(query);
-//         dataBase.query(query)
-//         .then(function (dbRes) {
-//             console.log(dbRes);
-//             var succes;
-//             if (dbRes.rowCount > 0 ){    
-//                 succes = true;
-//             }else{
-//                 succes = false;
-//             }
-//             // dataBase.end();
-//             // res.send(msg);
-//             res.status(200).json({resultado:succes})
-//         })
-//         .catch(function (err) {
-//             console.log(err);
-//             // dataBase.end();
-//             // res.send("Something went wrong");
-//             res.status(200).json({resultado: false})
-//         });
-//     }
-//     else{
-//         // res.successend("Nice try");
-//         res.status(400).json({resultado: false})
-//     }
-// });
+router.post("/updateadmin",passport.authenticate('jwt',{session:false,failureRedirect:'/'}),function (req,res)  {
+    console.log("Updating");
+    const {idempresa,adminid} = req.body;
+    console.log(idempresa,adminid);
+    const query = `UPDATE public.administrador_empresa SET id_empresa = '${idempresa}' WHERE id_administrador = '${adminid}';`;
+    dataBase.query(query)
+    .then(function (dbRes) {
+        console.log(dbRes);
+        var succes;
+        if (dbRes.rowCount > 0 ){    
+            succes = true;
+        }else{
+            succes = false;
+        }
+        // dataBase.end();
+        // res.send(msg);
+        res.status(200).json({resultado:succes})
+    }).catch(function (err) {
+            console.log(err);
+            // dataBase.end();
+            // res.send("Something went wrong");
+            res.status(200).json({resultado: false})
+    })
+    // if(utils.isValidEntry(clave) && utils.isValidEntry(correo)){
+    //     const hashPair = utils.genPassword(clave);
+    //     const hash = hashPair.hash;
+    //     const salt = hashPair.salt;
+    //     const query = `INSERT INTO public.administrador_empresa(clave, sal, correo, id_empresa, verificado)
+    //                     VALUES ('${hash}','${salt}','${correo}',${idempresa},false);`
+    //     console.log(query);
+    //     dataBase.query(query)
+    //     .then(function (dbRes) {
+    //         console.log(dbRes);
+    //         var succes;
+    //         if (dbRes.rowCount > 0 ){    
+    //             succes = true;
+    //         }else{
+    //             succes = false;
+    //         }
+    //         // dataBase.end();
+    //         // res.send(msg);
+    //         res.status(200).json({resultado:succes})
+    //     })
+    //     .catch(function (err) {
+    //         console.log(err);
+    //         // dataBase.end();
+    //         // res.send("Something went wrong");
+    //         res.status(200).json({resultado: false})
+    //     });
+    // }
+    // else{
+    //     // res.successend("Nice try");
+    //     res.status(400).json({resultado: false})
+    // }
+
+});
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 

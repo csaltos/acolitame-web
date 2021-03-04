@@ -19,3 +19,9 @@ function logOut(){
   localStorage.removeItem('token');
    window.location.href = "/";
 }
+
+function setMultiple(){
+  localStorage.setItem('token',getCookie('token'));
+  // setSession();
+  initImageRead();
+}

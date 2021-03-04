@@ -17,9 +17,7 @@ middleware.decodePayload = function (req,res,next) {
         // const jwt = req.cookies['token'].replace('Bearer ','').trim();
         const jwt = req.cookies['token'].trim();
         const base64String = jwt.split('.')[1];
-        console.log('dude');
         const decodePayload = JSON.parse(Buffer.from(base64String,'base64').toString('utf8'));
-        console.log("not here");
         user = decodePayload;
     }
 

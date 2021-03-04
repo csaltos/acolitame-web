@@ -1,20 +1,19 @@
 
-
 function validateDataEmpresa(){
     var enterpriseName = document.getElementById('inputNegocio').value;
     var selectedCat = document.getElementById('selectCategorias').value;
     var location = document.getElementById('direccion').value;
-    var pass = document.getElementById('inputPass').value;
+    // var pass = document.getElementById('inputPass').value;
     var mail = document.getElementById("inputCorreo").value;
     var telefono = document.getElementById("telefono").value;
 
 
-    if (enterpriseName.length == 0 || /^\s+$/.test(enterpriseName) || telefono.length == 0 || location.length == 0 || /^\s+$/.test(location) || selectedCat == "Seleccione" || pass.length == 0 || /^\s+$/.test(pass)) {
+    if (enterpriseName.length == 0 || /^\s+$/.test(enterpriseName) || telefono.length == 0 || location.length == 0 || /^\s+$/.test(location) || selectedCat == "Seleccione" ){ //|| pass.length == 0 || /^\s+$/.test(pass)) {
         alert("Error en el ingreso de datos. Campos vacios.");
     } else if (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(mail)) {
         alert("Error en el ingreso de correo");
-    } else if(pass.length <8 ){
-        alert("Contraseña muy corta (minimo 8 caracteres).");
+    // } else if(pass.length <8 ){
+    //     alert("Contraseña muy corta (minimo 8 caracteres).");
     }else{
         enviar = /\.(gif|jpg|png)$/i.test(document.getElementById('imgInp').value);
         console.log(enviar);
@@ -53,6 +52,7 @@ function validateDataEmpresa(){
 }
 
 function registrarEmpresa() {
+    token = 'Bearer ' + localStorage.getItem('token');
     var dataEmpresa = {};
     dataEmpresa.nombre = document.getElementById('inputNegocio').value;
     dataEmpresa.categoria = document.getElementById('selectCategorias').value;
@@ -62,23 +62,20 @@ function registrarEmpresa() {
     dataEmpresa.latitud = parseFloat(document.getElementById("latitud").value);
     dataEmpresa.longitud = parseFloat(document.getElementById("longitud").value);
     dataEmpresa.correoAdmin = document.getElementById("inputCorreo").value;
-    dataEmpresa.claveAdmin = document.getElementById('inputPass').value;
-    console.log(dataEmpresa);
+    // dataEmpresa.claveAdmin = document.getElementById('inputPass').value;
     let xhr = new XMLHttpRequest();
     xhr.open('POST', urlData + 'empresa/insertar', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    console.log("Here");
+    xhr.setRequestHeader('Authorization',token);
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     xhr.onload = function() {
         console.log("Herex2");
         var emp = JSON.parse(xhr.responseText);
         //console.log(xhr.status);
         if (xhr.readyState == 4 && xhr.status == "200") {
             console.log(emp);
-            //r = urlData + "empresa/image/" + emp.idEmpresa
-            //sendImage(r);
-            //sendAdmin(idEmpresa);
-            
-            sendAdmin(idEmpresa);
+            sendImage(urlData,emp.idEmpresa);
+            // sendAdmin(idEmpresa);
             
         } else {
             console.error(emp);
@@ -88,20 +85,24 @@ function registrarEmpresa() {
     xhr.send(JSON.stringify(dataEmpresa));
 }
 
-function sendImage(ruta) {
+function sendImage(ruta,idEmpresa) {
     enviar = /\.(gif|jpg|png)$/i.test(document.getElementById('imgInp').value);
+    token = 'Bearer ' + localStorage.getItem('token');
     if(enviar){
+        rutaDatos = ruta + "empresa/image/"+idEmpresa;
         var form = new FormData();
         console.log($('#imgInp')[0].files[0]);
         form.append('fileImage', $('#imgInp')[0].files[0]);
         console.log(JSON.stringify(form));
         var xhr = new XMLHttpRequest();
-        xhr.open('PUT', ruta);
+        xhr.open('POST', rutaDatos);
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+        xhr.setRequestHeader('Authorization',token);
         xhr.onload = function() {
             var prod = JSON.parse(xhr.responseText);
             if (xhr.readyState == 4 && xhr.status == "200") {
                 console.log(prod);
-                
+                window.location.href = "/"
             } else {
                 console.error(prod);
             }
