@@ -6,7 +6,8 @@ var productos = [];
 let positionProductos = 0;
 let maximo = 10;
 
-function setInitialData(idEmpresa){
+function setInitialData(idEmpresa, nombre){
+    document.getElementById('nombreEmpresaProd').innerHTML = nombre;
     id_empresa = idEmpresa;
     console.log(id_empresa);
     positionComentarios = 0;

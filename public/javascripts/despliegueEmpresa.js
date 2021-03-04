@@ -11,6 +11,7 @@ function setInitialData(idEmpresa){
     console.log(id_empresa);
     positionComentarios = 0;
     positionProductos = 0;
+    setValoracion();
     cargarProductos();
     cargarComentarios(document.getElementById('usuarioEmpresa').value === 'true');
 }
@@ -192,4 +193,105 @@ function sendComentario(usuarioEmpresa){
     } else {
         alert('Ingrese un comentario.');
     }
+}
+
+function setValoracion() {
+    let ajaxRequest = new XMLHttpRequest();
+    ajaxRequest.open("GET", urlData + "calificacion/getCalificacion/idEmpresa/" + parseInt(id_empresa), true);
+    ajaxRequest.onreadystatechange = function() {
+        let puntaje = Math.floor(ajaxRequest.responseText);
+        console.log('puntaje', puntaje)
+        if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+            var codigo = '<input type="radio" name="estrellas" value="5" ><label id="radio5" style="color: grey;">&#9733;</label><input type="radio" name="estrellas" value="4"><label id="radio4" style="color: grey;">&#9733;</label><input type="radio" name="estrellas" value="3"><label id="radio3" style="color: grey;">&#9733;</label><input type="radio" name="estrellas" value="2"><label id="radio2" style="color: grey;">&#9733;</label><input type="radio" name="estrellas" value="1"><label id="radio1" style="color: grey;">&#9733;</label>';
+            $('.clasificacion').append(codigo);
+            if (puntaje > 0) {
+                for (var i = 1; i <= puntaje; i++) {
+                    let rad = 'radio' + i;
+                    document.getElementById(rad).style = 'color: orange';
+                }
+            }
+            document.getElementsByName('estrellas').disabled = true;
+            
+        } else {
+            console.log(puntaje);
+        }
+    }
+    ajaxRequest.send(null);
+
+}
+
+function darValoracion(usuarioEmpresa) {
+    token = 'Bearer ' + localStorage.getItem('token');
+    if ( token == null) {
+        actSesion();
+    } else if (!usuarioEmpresa){
+        let codigo = '<div class="modal" id="myModalValor">' +
+            '<div class="modal-dialog p-5" role="document">' +
+            '<div class="modal-content">' +
+            '<div class="modal-header justify-content-center">' +
+            '<h5 class="modal-title ">Valoracion</h5>' +
+            '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
+            '</div>' +
+            '<div class="modal-body">' +
+            '<div class="row align-items-center justify-content-center mb-5">' +
+            '<p class="clasificacion" id="clasificacion1">' +
+            '<input id="radio5m" type="radio" name="estrellas" value="5"><label for="radio5m" class="label-v">&#9733;</label><input id="radio4m" type="radio" name="estrellas" value="4"><label for="radio4m" class="label-v">&#9733;</label><input id="radio3m" type="radio" name="estrellas" value="3"><label for="radio3m" class="label-v">&#9733;</label><input id="radio2m" type="radio" name="estrellas" value="2"><label for="radio2m" class="label-v">&#9733;</label><input id="radio1m" type="radio" name="estrellas" value="1"><label for="radio1m" class="label-v">&#9733;</label>' +
+            '</p></div>' +
+            '<div class="row align-items-center justify-content-center mb-5"><div class="col-sm-auto">' +
+            '<button type="button" onclick="saveCalificacion()"  data-dismiss="modal" class="btn btn-success mr-3">Guardar</button>' +
+            '<button type="button" data-dismiss="modal" class="btn btn-danger mr-3">Cancelar</button>' +
+            '</div></div>' +
+            '</div>' +
+            '<div class="modal-footer">' +
+            '<button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>' +
+            '</div></div></div></div>';
+        $("#forModalValor").append(codigo);
+        $('#myModalValor').modal('show');
+    } else {
+        window.alert("Solo los clientes pueden calificar una empresa.");
+    }
+}
+
+function saveCalificacion() {
+    var calificacion = 0;
+    for (var i = 1; i < 6; i++) {
+        if (document.getElementById('radio' + i + 'm').checked) {
+            calificacion = i;
+        }
+    }
+
+    console.log(calificacion);
+    var data = {};
+    data.idEmpresa = parseInt(id_empresa);
+    data.valor = parseInt(calificacion);
+    console.log(JSON.stringify(data));
+    let xhr = new XMLHttpRequest();
+    console.log(urlData + 'calificacion/calificar');
+    xhr.open('POST', urlData + 'calificacion/calificar', true);
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');//importante cors :3 2/3/2021
+    xhr.setRequestHeader('Authorization', token);
+    xhr.onload = function() {
+        var emp = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            console.log(emp);
+            var element = document.getElementById("clasificacion");
+            while (element.firstChild) {
+                element.removeChild(element.firstChild);
+            }
+            var element2 = document.getElementById("forModalValor");
+            while (element2.firstChild) {
+                element2.removeChild(element2.firstChild);
+            }
+            setValoracion();
+            
+            //window.location.href = 'despliegueEmpresa';
+        } else {
+            console.error(emp);
+        }
+    }
+    xhr.send(JSON.stringify(data));
+
 }

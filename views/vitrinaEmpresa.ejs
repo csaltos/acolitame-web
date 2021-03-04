@@ -15,7 +15,7 @@
     <script type="text/javascript" src="/javascripts/vitrinaEmpresa.js"></script>
 
 </head>
-<body onload="setInitialData(6)">
+<body onload="setInitialData('<%=empresa.id_empresa%>', '<%=empresa.nombre%>')">
     <%- include('navbar.ejs') %>
 
     <%- include('modal-sesiones.ejs') %>
@@ -43,15 +43,15 @@
                     <div class="form-group">
                         <ul>
                             <li>
-                                <input type="text" class="form-control" id="facebook" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de facebook">
+                                <input type="text" class="form-control" id="facebook" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de facebook" value="<%=empresa.facebook%>">
                                 <p><small>Ej: https://www.facebook.com/mdolcecookies/?ref=bookmarks</small></p>
                             </li>
                             <li>
-                                <input type="text" class="form-control" id="twitter" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de twitter">
+                                <input type="text" class="form-control" id="twitter" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de twitter" value="<%=empresa.twitter%>">
                                 <p><small>Ej: https://twitter.com/danielseaman151</small></p>
                             </li>
                             <li>
-                                <input type="text" class="form-control" id="instagram" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de instagram">
+                                <input type="text" class="form-control" id="instagram" style="border: 1px solid black;" placeholder="Ingrese el link de la pagina de instagram" value="<%=empresa.instagram%>">
                                 <p><small>Ej: https://www.instagram.com/nombreUsuario </small></p>
                             </li>
                         </ul>
