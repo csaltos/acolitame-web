@@ -88,6 +88,7 @@ function sendPedido() {
             data = {};
             data.idpedidos = pedidos;
             data.mensaje = mensaje;
+            console.log(JSON.stringify(data));
             $('#myModalWait').modal('show');
             let xhr = new XMLHttpRequest();
             xhr.open('POST', urlData + 'pedido/realizarPedido', true);
@@ -120,6 +121,8 @@ function sendPedido() {
         alert('Escriba un mensaje que especifique que informacion necesita.');
     }
 }
+
+
 
 
 

@@ -369,3 +369,32 @@ function sendComentario(){
         alert('Ingrese un comentario.');
     }
 }
+
+
+function guardarLinks() {
+    var facebook = document.getElementById('facebook').value;
+    var twitter = document.getElementById('twitter').value;
+    var instagram = document.getElementById('instagram').value;
+    var data = {};
+    data.idEmpresa = parseInt(id_empresa);
+    data.facebook = facebook;
+    data.twitter = twitter;
+    data.instagram = instagram;
+    console.log(JSON.stringify(data));
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', urlData + 'empresa/insertarRedes', true);
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');//importante cors :3 2/3/2021
+    token = 'Bearer ' + localStorage.getItem('token');
+    xhr.setRequestHeader('Authorization', token);
+    xhr.onload = function() {
+        var prod = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            console.log(prod);
+        } else {
+            console.error(prod);
+        }
+    }
+    xhr.send(JSON.stringify(data));
+
+}
