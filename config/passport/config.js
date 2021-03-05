@@ -88,7 +88,7 @@ function registerUser(req,profile, done) {
                         utils.sendNewUser(profile,done,admin);
                     }
                     else{
-                        return done(null,false);
+                        return done(null,false); //TODO: Redirigir a pantalla de registro
                     }
                 }
             }).catch(function (err) {

@@ -89,7 +89,7 @@ router.get("/session",passport.authenticate('jwt',{session: false, failureRedire
     console.log(req.user);
     if (req.user.admin){
         console.log("Yes Admin")
-        const query = `SELECT U.id_empresa from public.administrador_empresa U where U.id_administrador = '${req.user.sub}';`;
+        const query = `SELECT U.id_empresa, U.correo from public.administrador_empresa U where U.id_administrador = '${req.user.sub}';`;
         console.log(query);
         dataBase.query(query)
         .then(function (dbRes) {
@@ -105,10 +105,12 @@ router.get("/session",passport.authenticate('jwt',{session: false, failureRedire
                 }, function (error, response, body){
                     // console.log(response);
                     // console.log(error);
+                    qResult = dbRes.rows[0];
                     if(!error && response.statusCode == 200){
                       //console.log('body: ',home);
                     //   console.log(body);
-                      res.render('registrarEmprendedor', { title: 'Acolitame - Registar Emprendedor' , categoria: JSON.parse(body), home: r.home});
+                      res.render('registrarEmprendedor', { title: 'Acolitame - Registar Emprendedor' ,
+                      categoria: JSON.parse(body), home: r.home, correoAdmin:qResult.correo});
                     }
                 })
             }

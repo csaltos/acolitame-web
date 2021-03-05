@@ -95,7 +95,7 @@ function registrarEmpresa() {
     dataEmpresa.latitud = parseFloat(document.getElementById("latitud").value);
     dataEmpresa.longitud = parseFloat(document.getElementById("longitud").value);
     dataEmpresa.correoAdmin = correoAdmin;
-    // dataEmpresa.correoAdmin = document.getElementById("inputCorreo").value;
+    dataEmpresa.verificado = (correoAdmmin === document.getElementById("inputCorreo").value);
     // dataEmpresa.claveAdmin = document.getElementById('inputPass').value;
     console.log("Inserting");
     let xhr = new XMLHttpRequest();

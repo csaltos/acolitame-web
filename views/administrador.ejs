@@ -11,9 +11,10 @@
     <script src="/javascripts/jquery-3.5.1.js"></script>
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
-    
+    <script src="/javascripts/general-methods.js"></script>
+    <script src="/javascripts/administradores.js"></script>
 </head>
-<body>
+<body onload="setData('<%=idEmpresa%>','<%=idAdmin%>')">
     <div class="jumbotron m-5">
         
         <div class="row align-items-center justify-content-center">
@@ -25,10 +26,10 @@
                         <label>Correo:</label>
                         <input type="text" class="form-control" id="correoAdmin" style="border: 1px solid black;" required><!--Leer el correo-->
                     </div>
-                    <div class="form-group pt-1">
+                    <!-- <div class="form-group pt-1">
                         <label>Contraseña:</label>
                         <input type="password" class="form-control" id="claveAdmin" style="border: 1px solid black;" required>
-                    </div>
+                    </div> -->
                     <div class="row align-items-end justify-content-end">
                         
                         <button type="button" class="btn btn-success mr-3" onclick="guardarAdmin()">Guardar</button>

@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogoRouter = require('./routes/catalogo');
 var registrarRouter = require('./routes/registrar');
+var administradoresRouter = require('./routes/administradores');
 
 var ruta = 'http://localhost:8080/';
 var home = 'http://localhost:3000/';
@@ -49,9 +50,9 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/catalogo', catalogoRouter);
 app.use('/registrar', registrarRouter);
-
 app.use('/auth',authRouter)
 app.use('/micuenta',micuentaRouter)
+app.use('/administradores',administradoresRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
