@@ -1,6 +1,3 @@
-
-
-
 Rutas Generales:
 	-----------------------------------------------------
 	/	(file= index.js) 	->	Home Page		Facil(1)	*Bere*

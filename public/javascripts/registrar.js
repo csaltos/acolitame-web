@@ -1,3 +1,6 @@
+// const createHttpError = require("http-errors");
+
+var correoAdmmin = '';
 
 function validateDataEmpresa(){
     var enterpriseName = document.getElementById('inputNegocio').value;
@@ -22,9 +25,9 @@ function validateDataEmpresa(){
             // return false;
         } else {
        
-            //return validarExistencia(mail);
-        console.log('validar existencia');
-        registrarEmpresa();
+        validarExistencia(enterpriseName);
+        // console.log('validar existencia');
+        // registrarEmpresa();
             /*let ajaxRequest = new XMLHttpRequest();
             ajaxRequest.open("GET", urlData + "usuario/verificarExistencia/" + mail, true);
             ajaxRequest.onreadystatechange = function() {
@@ -51,6 +54,36 @@ function validateDataEmpresa(){
 
 }
 
+function validarExistencia(nombre) {
+    let xhr = new XMLHttpRequest();
+
+    xhr.open('GET', urlData + 'empresa/getnombre/'+nombre,true);
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    // xhr.setRequestHeader('Authorization',token);
+    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+    xhr.onload = function() {
+        console.log("ValName");
+        var emp = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            console.log(emp);
+            if (emp){
+                var nameAlert = document.getElementById("alertNegocio");
+                nameAlert.classList.remove("d-none");
+                window.scrollTo(0,0);
+            }else{
+                registrarEmpresa()
+            }
+            // sendImage(urlData,emp.idEmpresa);
+            // sendAdmin(idEmpresa);
+            
+        } else {
+            console.error(emp);
+        }
+    }
+    console.log("Here");
+    xhr.send();
+}
+
 function registrarEmpresa() {
     token = 'Bearer ' + localStorage.getItem('token');
     var dataEmpresa = {};
@@ -61,19 +94,21 @@ function registrarEmpresa() {
     dataEmpresa.telefono = document.getElementById("telefono").value;
     dataEmpresa.latitud = parseFloat(document.getElementById("latitud").value);
     dataEmpresa.longitud = parseFloat(document.getElementById("longitud").value);
-    dataEmpresa.correoAdmin = document.getElementById("inputCorreo").value;
+    dataEmpresa.correoAdmin = correoAdmin;
+    // dataEmpresa.correoAdmin = document.getElementById("inputCorreo").value;
     // dataEmpresa.claveAdmin = document.getElementById('inputPass').value;
+    console.log("Inserting");
     let xhr = new XMLHttpRequest();
     xhr.open('POST', urlData + 'empresa/insertar', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhr.setRequestHeader('Authorization',token);
     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
     xhr.onload = function() {
-        console.log("Herex2");
+        console.log("Herex2"); 
         var emp = JSON.parse(xhr.responseText);
         if (xhr.readyState == 4 && xhr.status == "200") {
             console.log(emp);
-            sendImage(urlData,emp.idEmpresa);
+            sendImage(urlData,emp.id_empresa);
             // sendAdmin(idEmpresa);
             
         } else {
@@ -131,59 +166,65 @@ function sendAdmin(idEmpresa) {
     xhr.send(JSON.stringify(dataAdmin));
 }
 
-function validateDataUsuario(){
-    var pass = document.getElementById('inputPass').value;
-    var mail = document.getElementById("inputCorreo").value;
-    var telefono = document.getElementById("telefono").value;
-    var nombre = document.getElementById("nombre").value;
+// function validateDataUsuario(){
+//     var pass = document.getElementById('inputPass').value;
+//     var mail = document.getElementById("inputCorreo").value;
+//     var telefono = document.getElementById("telefono").value;
+//     var nombre = document.getElementById("nombre").value;
 
-    if (telefono.length == 0 || pass.length == 0 || /^\s+$/.test(pass) || nombre.length == 0) {
-        alert("Error en el ingreso de datos. Campos vacios.");
-        //return false;
-    } else if (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(mail)) {
-        alert("Error en el ingreso de correo");
-    } else if(pass.length <8 ){
-        alert("Contraseña muy corta (minimo 8 caracteres).");
-    }else {
+//     if (telefono.length == 0 || pass.length == 0 || /^\s+$/.test(pass) || nombre.length == 0) {
+//         alert("Error en el ingreso de datos. Campos vacios.");
+//         //return false;
+//     } else if (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(mail)) {
+//         alert("Error en el ingreso de correo");
+//     } else if(pass.length <8 ){
+//         alert("Contraseña muy corta (minimo 8 caracteres).");
+//     }else {
         
-        console.log('correcto')
-        /*let ajaxRequest = new XMLHttpRequest();
-        ajaxRequest.open("GET", urlData + "usuario/verificarExistencia/" + mail, true);
-        ajaxRequest.onreadystatechange = function() {
+//         console.log('correcto')
+//         /*let ajaxRequest = new XMLHttpRequest();
+//         ajaxRequest.open("GET", urlData + "usuario/verificarExistencia/" + mail, true);
+//         ajaxRequest.onreadystatechange = function() {
 
-            if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
-                res = JSON.parse(ajaxRequest.responseText);
-                console.log(res);
-                if (res == true) {
-                    alert("Ya existe un usuario o empresa con ese correo.");
-                } else {
-                    saveNewUser();
-                }
-            }
-        }
-        ajaxRequest.send(null);*/
+//             if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
+//                 res = JSON.parse(ajaxRequest.responseText);
+//                 console.log(res);
+//                 if (res == true) {
+//                     alert("Ya existe un usuario o empresa con ese correo.");
+//                 } else {
+//                     saveNewUser();
+//                 }
+//             }
+//         }
+//         ajaxRequest.send(null);*/
         
 
-    }
-}
+//     }
+// }
 
-function saveNewUser() {
-    var data = {};
-    data.clave = document.getElementById('inputPass').value;
-    data.correo = document.getElementById("inputCorreo").value;
-    data.telefono = document.getElementById("telefono").value;
-    data.nombre = document.getElementById("nombre").value;
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', home + 'auth/singinU', true);
-    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-    xhr.onload = function() {
-        var usuario = JSON.parse(xhr.responseText);
-        if (xhr.readyState == 4 && xhr.status == "200") {
-            console.log(usuario);
-            //var ruta = urlData + "usuario/image/" + usuario.idUsuario;
-            //sendImage(ruta);
-        } 
-    }
-    xhr.send(JSON.stringify(data));
-}
+// function saveNewUser() {
+//     var data = {};
+//     data.clave = document.getElementById('inputPass').value;
+//     data.correo = document.getElementById("inputCorreo").value;
+//     data.telefono = document.getElementById("telefono").value;
+//     data.nombre = document.getElementById("nombre").value;
+//     let xhr = new XMLHttpRequest();
+//     xhr.open('POST', home + 'auth/singinU', true);
+//     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+//     xhr.onload = function() {
+//         var usuario = JSON.parse(xhr.responseText);
+//         if (xhr.readyState == 4 && xhr.status == "200") {
+//             console.log(usuario);
+//             //var ruta = urlData + "usuario/image/" + usuario.idUsuario;
+//             //sendImage(ruta);
+//         } 
+//     }
+//     xhr.send(JSON.stringify(data));
+// }
 
+function setMultiple(correo){
+  localStorage.setItem('token',getCookie('token'));
+  // setSession();
+  correoAdmin = correo;
+  initImageRead();
+}
