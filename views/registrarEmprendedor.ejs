@@ -13,11 +13,11 @@
     <script src="/javascripts/popper.min.js"></script>
     <script src="/javascripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="/javascripts/general-methods.js"></script>
-    <script type="text/javascript" src="/javascripts/registrar.js"></script>
     <script type="text/javascript" src="/javascripts/session.js"></script>
+    <script type="text/javascript" src="/javascripts/registrar.js"></script>
 </head>
 
-<body onload="setMultiple()">
+<body onload="setMultiple('<%=correoAdmin%>')">
     <div class="jumbotron m-5">
                 
         <div class="row align-items-center justify-content-center mb-5 p-3">
@@ -48,6 +48,9 @@
                 <div class="col-sm-8">
                     <div class="form-group">
                         <input id="inputNegocio" type="text" class="form-control" placeholder="¿ Como se llama tu negocio ? " style="border: 1px solid black;" >
+                    </div>
+                    <div id="alertNegocio" class="alert alert-danger d-none" role="alert">
+                        Nombre de empresa ya existe
                     </div>
                 </div>
                 <div class="col-sm-2"></div>

@@ -67,9 +67,11 @@ function registerUser(req,profile, done) {
             data.admin = true;
             return done(null, data);
         }else{
+            console.log(query2);
             dataBase.query(query2)
             .then(function (deRes){
-                if (deRes.rowCoutn > 0){
+                console.log(deRes.rows[0])
+                if (deRes.rowCount > 0){
                     console.log("I found it :3,user");
                     // dataBase.end();
                     var data = {};
