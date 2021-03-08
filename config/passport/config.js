@@ -70,7 +70,7 @@ function registerUser(req,profile, done) {
             console.log(query2);
             dataBase.query(query2)
             .then(function (deRes){
-                console.log(deRes.rows[0])
+                // console.log(deRes.rows[0])
                 if (deRes.rowCount > 0){
                     console.log("I found it :3,user");
                     // dataBase.end();

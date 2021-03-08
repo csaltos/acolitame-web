@@ -86,7 +86,7 @@ router.get('/carrito', passport.authenticate('jwt',{session: false, failureRedir
     }
 });
 
-router.get('/mivitrina', passport.authenticate('jwt',{session: false, failureRedirect: '/'}), middleware.decodePayload, function(req, res, next) {
+router.get('/mivitrina', passport.authenticate('jwt',{session: false, failureRedirect: '/'}), function(req, res, next) {
     console.log(req.user);
     var myHeaders = new Headers();
     myHeaders.append('token', req.user);
