@@ -25,16 +25,34 @@ function changeView(cambio) {
             $('#empresas').hide();
             $('#MapaShow').hide();
             $('#productos').show();
+            $('#btnEmp').removeClass("list-group-item-dark");
+            $('#btnEmp').addClass("list-group-item-action");
+            $('#btnMapa').removeClass("list-group-item-dark");
+            $('#btnMapa').addClass("list-group-item-action");
+            $('#btnProd').removeClass("list-group-item-action");
+            $('#btnProd').addClass("list-group-item-dark");
             break;
         case "empresas":
             $('#productos').hide();
             $('#MapaShow').hide();
             $('#empresas').show();
+            $('#btnProd').removeClass("list-group-item-dark");
+            $('#btnProd').addClass("list-group-item-action");
+            $('#btnMapa').removeClass("list-group-item-dark");
+            $('#btnMapa').addClass("list-group-item-action");
+            $('#btnEmp').removeClass("list-group-item-action");
+            $('#btnEmp').addClass("list-group-item-dark");
             break;
         case "mapa":
             $('#empresas').hide();
             $('#productos').hide();
             $('#MapaShow').show();
+            $('#btnProd').removeClass("list-group-item-dark");
+            $('#btnProd').addClass("list-group-item-action");
+            $('#btnEmp').removeClass("list-group-item-dark");
+            $('#btnEmp').addClass("list-group-item-action");
+            $('#btnMapa').removeClass("list-group-item-action");
+            $('#btnMapa').addClass("list-group-item-dark");
             break;
     }
     return false;
@@ -42,6 +60,9 @@ function changeView(cambio) {
 
 function changeCategory() {
     id_categoria = $("#selectCategorias2 option:selected").attr('href');
+    // id_categoria-=1;
+    console.log("Cat");
+    console.log(id_categoria);
     console.log($("#selectCategorias2 option:selected").attr('name'));
     //Realizo consulta para obtener las empresas de dicha categoria:
     document.getElementById('categoriaActualNombre').innerHTML = $("#selectCategorias2 option:selected").attr('name');
@@ -50,6 +71,7 @@ function changeCategory() {
     cleanOldResults();
     cargarEmpresas();
     $('.btn-secondary').show();
+    $('#frameUbicacion').attr('src', 'http://localhost:3000/miUbicacion/'+id_categoria);
 }
 
 function cargarEmpresas(){
@@ -118,9 +140,10 @@ function cargarProductos(){
 
 function searchEmpresa() {
     $('.btn-secondary').hide();
+    $('#selectCategorias2').val('-1');
     let busqueda = document.getElementById('valueSearch').value.toLowerCase();
     document.getElementById('categoriaActualNombre').value = 'Busqueda';
-    if (busqueda.length>4){
+    if (busqueda.length>=4){
         cleanOldResults();
         let ruta = urlData + "empresa/nombre/"+busqueda;
         console.log(ruta);
@@ -139,7 +162,7 @@ function searchEmpresa() {
         }
         ajaxRequest.send(null);
     }else{
-        window.alert('Ingrese mas de 4 caracteres para la busqueda.')
+        window.alert('Ingrese 4 caracteres o mas para la busqueda.')
     }
 }
 

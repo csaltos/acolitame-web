@@ -17,8 +17,8 @@ function guardar() {
     let direccion = document.getElementById("direccion").value;
     let latitud = document.getElementById("latitud").value;
     let longitud = document.getElementById("longitud").value;
-    let categoria = $("#selectCategorias option:selected").text();
-    if (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(correo) || nombre.length == 0 || /^\s+$/.test(nombre) || direccion.length == 0 || /^\s+$/.test(direccion) || telefono.length == 0 || !(/^\d{7}$/.test(telefono) || /^\d{10}$/.test(telefono))) {
+    let categoria = $("#selectCategorias option:selected").text().trim();
+    if (!/^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i.test(correo) || nombre.length == 0 || /^\s+$/.test(nombre) || direccion.length == 0 || /^\s+$/.test(direccion) || telefono.length == 0 || !(/^\d{7}$/.test(telefono) || /^\d{10}$/.test(telefono) || /^\d{12}$/.test(telefono))) {
         alert("Error en el ingreso de datos");
 
     } else {

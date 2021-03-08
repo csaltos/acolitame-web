@@ -52,8 +52,9 @@
             
             <div class="form-group" >
                 <select id="selectCategorias2" onchange="return changeCategory()" class="custom-select" style="width: 300px; border: 1px solid black; border-radius: 12px;">
+                    <option value="-1" href="-1" name="Todos" disabled>Todos</option>
                     <% for(var i=0; i < categoria.length; i++) { %>
-                        <option href="<%=categoria[i].id_categoria%>" name="<%=categoria[i].nombre%>"
+                        <option value="<%=categoria[i].id_categoria%>" href="<%=categoria[i].id_categoria%>" name="<%=categoria[i].nombre%>"
                             <%if (i == positionCategory){%> selected="true"<%}%> >
                             <%=categoria[i].nombre%></option>
                     <% } %>
@@ -71,8 +72,8 @@
                 <h4 class="my-2 pt-3">Vistas</h4>
 
                 <div class="list-group overflow-auto " style="max-width: 300px;max-height: 600px; " >
-                    <a href="" onclick=" return changeView('productos')" class="list-group-item list-group-item-action">Lista Productos</a>
-                    <a href="" onclick="return changeView('empresas')" class="list-group-item list-group-item-action">Lista Empresas</a>
+                    <a href="" onclick=" return changeView('productos')" class="list-group-item list-group-item-dark" id='btnProd'>Lista Productos</a>
+                    <a href="" onclick="return changeView('empresas')" class="list-group-item list-group-item-action" id='btnEmp'>Lista Empresas</a>
                     <a href="" onclick="return changeView('mapa')" class="list-group-item list-group-item-action" id='btnMapa'>Cerca de ti</a>
                 </div>
                 

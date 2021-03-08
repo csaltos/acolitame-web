@@ -23,7 +23,7 @@ var database = require('./config/database')
 
 //console.log("here")
 //console.log(process.env.GOOGLE_CLIENT_ID)
-console.log(JSON.parse('{"sub":"108629160905849921115","name":"DAVID MARCELO PECAFIEL MORA","admin":false,"local":false,"iat":1614720866.13,"exp":1614807266}'));
+// console.log(JSON.parse('{"sub":"108629160905849921115","name":"DAVID MARCELO PECAFIEL MORA","admin":false,"local":false,"iat":1614720866.13,"exp":1614807266}'));
 var app = express();
 
 // view engine setup

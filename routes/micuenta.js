@@ -3,8 +3,10 @@ var router = express.Router();
 const dataBase = require('../config/database');
 const passport = require('passport');
 const middleware = require('../middleware');
-const r = require('../app');
+const r = require('../app'); 
 var request = require('request');
+const fetch = require('node-fetch');
+const {Headers} = require('node-fetch');
 
 function getType(user){
     typeUser = 0;
@@ -88,20 +90,44 @@ router.get('/carrito', passport.authenticate('jwt',{session: false, failureRedir
 
 router.get('/mivitrina', passport.authenticate('jwt',{session: false, failureRedirect: '/'}), function(req, res, next) {
     console.log(req.user);
+    console.log(req.cookies["token"]);
     var myHeaders = new Headers();
-    myHeaders.append('token', req.user);
-    request({
-      method: 'GET',
-      uri: r.ruta + "empresa/admin",
-      headers: myHeaders,
-  }, function (error, response, body){
-      if(!error && response.statusCode == 200){
-        //console.log('body: ',JSON.parse(body));
-        empresa = JSON.parse(body);
+    myHeaders.append('Authorization','Bearer '+ req.cookies["token"]);
+    console.log(myHeaders);
+    console.log("Mi Vitrina");
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        // body: raw,
+        // redirect: 'follow'
+    };
+
+    fetch(r.ruta+"empresa/admin/", requestOptions)
+    .then(response => response.text())
+    .then(function (result){
+        empresa = JSON.parse(result);
+        console.log(empresa);
         usuarioEmpresa = req.user.admin;
-        return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, empresa:empresa,  usuarioEmpresa:usuarioEmpresa, userType: getType(req.user)});
-      }
-  })
+        res.render('vitrinaEmpresa', {title: 'Acolitame - Mi vitrina', typeUser: 1, home: r.home, usuarioEmpresa: true, empresa: empresa});
+//       console.log(result))
+    })
+    .catch(error => console.log('error', error));
+//     request({
+//         method: 'GET',
+//         uri: r.ruta + "empresa/admin/",
+//         headers: myHeaders,
+//     }, function (error, response, body){
+//         console.log("response");
+//         console.log(response.statusCode);
+//         // console.log("error");
+//         // console.log(error);
+//       if(!error && response.statusCode == 200){
+//         //console.log('body: ',JSON.parse(body));
+//         empresa = JSON.parse(body);
+//         usuarioEmpresa = req.user.admin;
+//         return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, empresa:empresa,  usuarioEmpresa:usuarioEmpresa, userType: getType(req.user)});
+//       }
+//   })
   });
 
 router.get('/mivitrina/test',function(req, res, next) {
@@ -112,7 +138,7 @@ router.get('/mivitrina/test',function(req, res, next) {
     empresa.facebook = "face";
     empresa.twitter = "twitter";
     empresa.instagram = "instagram";
-    res.render('VitrinaEmpresa', {title: 'Acolitame - Mi vitrina', typeUser: tipo, home: r.home, usuarioEmpresa: true, empresa: empresa});
+    res.render('vitrinaEmpresa', {title: 'Acolitame - Mi vitrina', typeUser: tipo, home: r.home, usuarioEmpresa: true, empresa: empresa});
 });
 
 // router.get("/", function(req,res){ //Secured endpoint by JWT

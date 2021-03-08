@@ -14,6 +14,7 @@ function setInitialData(idEmpresa, nombre){
     positionProductos = 0;
     cargarProductos();
     initImageRead();
+    cargarComentarios();
     //cargarComentarios(document.getElementById('usuarioEmpresa').value === 'true');
 }
 
@@ -53,8 +54,8 @@ function setProductos(productosResult) {
 }
 
 function agregarProducto() {
-    idEmpresa = 6;
-    let codigo = "guardarCambios(\'POST\', \'producto/insertar/"+idEmpresa+"\', true)";
+    // idEmpresa = 6;
+    let codigo = "guardarCambios(\'POST\', \'producto/insertar/"+id_empresa+"\', true)";
     $("#btnSaveProd").attr('onclick', codigo);
     $('#mensajeAlerta').hide();
     document.getElementById("btnProdEliminar").innerHTML = "Cancelar";

@@ -102,20 +102,13 @@
 
                         <!-- Load Facebook SDK for JavaScript -->
                         <div id="fb-root"></div>
-                        <script>
-                            (function(d, s, id) {
-                                var js, fjs = d.getElementsByTagName(s)[0];
-                                if (d.getElementById(id)) return;
-                                js = d.createElement(s);
-                                js.id = id;
-                                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-                                fjs.parentNode.insertBefore(js, fjs);
-                            }(document, 'script', 'facebook-jssdk'));
-                        </script>
+                            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v10.0&appId=654504915158180&autoLogAppEvents=1" nonce="5d0rpuDj"></script>
 
                         <div class="social-share center-block">
-                            <!--Facebook-->
-                            <div class="fb-share-button d-inline" data-href="https://showcase69.herokuapp.com/" data-layout="button_count">
+                            <!--Facebook, en data-href se pone el dominio de la pagina-->
+                            <div class="fb-share-button" 
+                                data-href="https://www.google.com/"   
+                                data-layout="button_count">
                             </div>
                             <!--Facebook-->
                             <!--Twitter-->
