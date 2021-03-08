@@ -48,6 +48,7 @@ function changeCategory() {
     positionEmpresa = 0;
     positionProductos = 0;
     cleanOldResults();
+    $('#frameUbicacion').attr('src', 'http://localhost:3000/miUbicacion/'+id_categoria);
     cargarEmpresas();
     $('.btn-secondary').show();
 }
