@@ -6,6 +6,19 @@ const middleware = require('../middleware');
 const r = require('../app');
 var request = require('request');
 
+function getType(user){
+    typeUser = 0;
+    if(user.sub != -1){
+      if(user.admin){
+        typeUser = 1;
+      }else{
+        typeUser = 2;
+      }
+    }
+    return typeUser;
+  }
+
+
 router.get("/", passport.authenticate('jwt',{session: false, failureRedirect: '/'}),function(req,res){ //Secured endpoint by JWT
     // console.log("Hacking in process");
     // console.log("Hello", req.user); //Injected Object from database result
@@ -62,8 +75,45 @@ router.get('/administradores',passport.authenticate('jwt',{session: false, failu
     }else{
         res.send('You don\'t have access');
     }
-    
+});
+
+router.get('/carrito', passport.authenticate('jwt',{session: false, failureRedirect: '/'}), middleware.decodePayload, function(req, res, next) {
+    tipo = getType(req.user);
+    if (tipo == 2){
+        res.render('carritoCompras', {title: 'Acolitame - Carrito de Compras', tipo: tipo, home: r.home, usuarioEmpresa:req.user.admin});
+    }else{
+        res.send('You don\'t have access');
+    }
+});
+
+router.get('/mivitrina', passport.authenticate('jwt',{session: false, failureRedirect: '/'}), middleware.decodePayload, function(req, res, next) {
+    console.log(req.user);
+    var myHeaders = new Headers();
+    myHeaders.append('token', req.user);
+    request({
+      method: 'GET',
+      uri: r.ruta + "empresa/admin",
+      headers: myHeaders,
+  }, function (error, response, body){
+      if(!error && response.statusCode == 200){
+        //console.log('body: ',JSON.parse(body));
+        empresa = JSON.parse(body);
+        usuarioEmpresa = req.user.admin;
+        return res.render('despliegueEmpresa', { title: 'Acolitame - Empresa' , home: r.home, empresa:empresa,  usuarioEmpresa:usuarioEmpresa, userType: getType(req.user)});
+      }
+  })
   });
+
+router.get('/mivitrina/test',function(req, res, next) {
+    tipo = 1;
+    var empresa = {};
+    empresa.id_empresa = 6;
+    empresa.nombre = "nombre";
+    empresa.facebook = "face";
+    empresa.twitter = "twitter";
+    empresa.instagram = "instagram";
+    res.render('VitrinaEmpresa', {title: 'Acolitame - Mi vitrina', typeUser: tipo, home: r.home, usuarioEmpresa: true, empresa: empresa});
+});
 
 // router.get("/", function(req,res){ //Secured endpoint by JWT
 //     console.log("Hacking in process");

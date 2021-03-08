@@ -42,8 +42,9 @@ function changeView(cambio) {
 
 function changeCategory() {
     id_categoria = $("#selectCategorias2 option:selected").attr('href');
-    console.log($("#selectCategorias2 option:selected").attr('href'));
+    console.log($("#selectCategorias2 option:selected").attr('name'));
     //Realizo consulta para obtener las empresas de dicha categoria:
+    document.getElementById('categoriaActualNombre').innerHTML = $("#selectCategorias2 option:selected").attr('name');
     positionEmpresa = 0;
     positionProductos = 0;
     cleanOldResults();
@@ -77,7 +78,7 @@ function appendResultEmpresa(resultEmpresas, idCategory){
         empresa = resultEmpresas[i];
         empresas.push(empresa);
         let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
-            '<div class="row align-items-center justify-content-center"><a href="'+home+'catalogo/empresa/' + empresa.id_empresa + '" ><img src="' + "data:image/png;base64," + empresa.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
+            '<div class="row align-items-center justify-content-center"><a href="'+home+'catalogo/empresa/' + empresa.id_empresa + '" ><img src="'+ empresa.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
             '<div class="row align-items-center justify-content-center"><a href="'+home+'catalogo/empresa/' + empresa.id_empresa + '" ><p>' + empresa.nombre + '</p></a></div></div></div>';
 
         console.log(resultado);
@@ -129,6 +130,7 @@ function searchEmpresa() {
             if (ajaxRequest.readyState == 4 && ajaxRequest.status == 200) {
 
                 empresasResult = JSON.parse(ajaxRequest.responseText);
+                console.log(empresasResult);
                 //console.log(document.getElementById('frameUbicacion').contentWindow.document.getElementById('cleanMarkers'));
                 document.getElementById('frameUbicacion').contentWindow.document.getElementById('cleanMarkers').click();
                 appendResultEmpresa(empresasResult, -1);

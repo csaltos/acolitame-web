@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="row align-items-center justify-content-center mb-5 ml-5" id="espacioFoto">
-                        <img src="data:image/png;base64,<%=empresa.foto%>" alt="" class="img-responsive" >
+                        <img src="<%=empresa.foto%>" alt="" class="img-responsive" >
                     </div>
                    <!--<div class="row align-items-center justify-content-center mb-5">
                         <a href="" class="btn btn-outline-azulillo btn-rounded" data-toggle="modal" data-target="#ModalForm" id="aReferences">Enviar Mensaje</a>
@@ -61,11 +61,11 @@
                     <div class="form-group">
                         <label>Redes Sociales:</label>
                         <!--Para agregar redes sociales especificas de la empresa-->
-                        <div class="social">
+                        <div>
                             <ul>
-                                <a target="_blank" class="icon-facebook" href="<%=empresa.facebook%>">Facebook</a>
-                                <a target="_blank" class="icon-twitter" href="<%=empresa.twitter%>">Twitter</a>
-                                <a target="_blank" class="icon-insta" href="<%=empresa.instagram%>">Instagram</a>
+                                <a target="_blank" class="mr-2" href="<%=empresa.facebook%>"><img src="/images/Icon_facebook.svg" alt="" class="img-responsive" height="40" width="40"></a>
+                                <a target="_blank" class="mr-2" href="<%=empresa.twitter%>"><img src="/images/Icon_twitter.svg" alt="" class="img-responsive" height="40" width="40"></a>
+                                <a target="_blank" href="<%=empresa.instagram%>"><img src="/images/Icon_instagram.svg" alt="" class="img-responsive" height="40" width="40"></a>
                             </ul>
                         </div>
                     </div>
@@ -77,14 +77,16 @@
                                     <input id="radio1" type="radio" name="estrellas" value="5"><label for="radio1" class="label-v">&#9733;</label><input id="radio2" type="radio" name="estrellas" value="4"><label for="radio2" class="label-v">&#9733;</label><input id="radio3" type="radio" name="estrellas" value="3"><label for="radio3" class="label-v">&#9733;</label><input id="radio4" type="radio" name="estrellas" value="2"><label for="radio4" class="label-v">&#9733;</label><input id="radio5" type="radio" name="estrellas" value="1"><label for="radio5" class="label-v">&#9733;</label>
                                 </p>
                             -->
+                        
                         <label>Valoraciones:</label>
 
 
                         <ul>
                             <p class="clasificacion" id="clasificacion">
                             </p>
-                            <button href="" class="btn btn-success" onclick="darValoracion()" id="btnValoracion">Dar mi Valoracion</button>
-
+                            <%if (!usuarioEmpresa) {%>
+                            <button href="" class="btn btn-success" onclick="darValoracion('<%=usuarioEmpresa%>' === 'true')" id="btnValoracion">Dar mi Valoracion</button>
+                            <%}%>
                         </ul>
                         <div id="forModalValor">
 

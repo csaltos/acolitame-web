@@ -17,7 +17,7 @@ function appendResultProduct(resultProductos){
         console.log(producto);
         let resultado = '<div class="row align-items-center justify-content-center p-3 m-3 bg-light"><div class="col">' +
             '<div class="row align-items-center justify-content-center"><p>' + producto.nombreEmpresa + '</p></div>' +
-            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><img src="' + 'data:image/png;base64,' + producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
+            '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><img src="'+ producto.foto + '" alt="" class="img-responsive pr-2" height=150 width=150></a></div>' +
             '<div class="row align-items-center justify-content-center"><a href="#" onclick=\'return goProducto('+j+')\'><p>' + producto.nombre + '</p></a></div></div></div>';
         $('#listaProductos').append(resultado);
     }
@@ -43,11 +43,11 @@ function showInfoProducto(productoSelected, extra_button, pagina){
 
         '<div class="row align-items-center justify-content-center mb-5">' +
         '<div class="col-md-auto ">' +
-        '<img src="' + 'data:image/png;base64,' + productoSelected.foto + '" alt="" class="img-responsive pr-2"></div></div>' +
+        '<img src="' + productoSelected.foto + '" alt="" class="img-responsive pr-2"></div></div>' +
         '</div>' +
         '<div class="alert alert-dismissible alert-danger" id="errorCarrito">' +
         '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-        '<strong>Ya tiene este producto en el </strong><a href="pedidos" class="alert-link" >CARRITO</a>' +
+        '<strong>Ya tiene este producto en el </strong><a href="'+home+'micuenta/carrito" class="alert-link" >CARRITO</a>' +
         '</div>' +
         '<div class="row align-items-center justify-content-center mb-5">' +
         '<div class="col-auto col-md-auto ">';
@@ -73,18 +73,19 @@ function showInfoProducto(productoSelected, extra_button, pagina){
 
 function saveCarrito(id_empresa, id_producto) {
     var data = {};
-    data.id_empresa = parseInt(id_empresa);
-    data.id_producto = parseInt(id_producto);
-    token = localStorage.getItem("token");
+    data.idEmpresa = parseInt(id_empresa);
+    data.idProducto = parseInt(id_producto);
+    token = "Bearer "+localStorage.getItem("token");
     console.log(token);
     if (token === null){
         cleanProducto();
         actSesion();
     }else{
-        console.log('Save carrito');
-        /*let xhr = new XMLHttpRequest();
+        //console.log('Save carrito');
+        let xhr = new XMLHttpRequest();
         xhr.open('POST', urlData + 'pedido/insertarCarrito', true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
         xhr.setRequestHeader('Authorization', token);
         xhr.onload = function() {
             if (xhr.readyState == 4 && xhr.status == "200") {
@@ -98,7 +99,7 @@ function saveCarrito(id_empresa, id_producto) {
                 actSesion();
             }
         }
-        xhr.send(JSON.stringify(data));*/
+        xhr.send(JSON.stringify(data));
     }
     
 }

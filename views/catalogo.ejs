@@ -53,7 +53,7 @@
             <div class="form-group" >
                 <select id="selectCategorias2" onchange="return changeCategory()" class="custom-select" style="width: 300px; border: 1px solid black; border-radius: 12px;">
                     <% for(var i=0; i < categoria.length; i++) { %>
-                        <option href="<%=categoria[i].id_categoria%>"
+                        <option href="<%=categoria[i].id_categoria%>" name="<%=categoria[i].nombre%>"
                             <%if (i == positionCategory){%> selected="true"<%}%> >
                             <%=categoria[i].nombre%></option>
                     <% } %>
@@ -65,7 +65,9 @@
             <div class="col-sm-3">
                 
                 <p>Mostrando datos de:</p>
-                <% if (categoria.length > 0) { %><p id="categoriaActualNombre"></p><%=categoria[positionCategory].nombre%></p><% }%>
+                <p id="categoriaActualNombre">
+                <% if (categoria.length > 0) { %><%=categoria[positionCategory].nombre%><% }%>
+                </p>
                 <h4 class="my-2 pt-3">Vistas</h4>
 
                 <div class="list-group overflow-auto " style="max-width: 300px;max-height: 600px; " >

@@ -106,6 +106,7 @@ function registrarEmpresa() {
     xhr.onload = function() {
         console.log("Herex2"); 
         var emp = JSON.parse(xhr.responseText);
+        //console.log(xhr.status);
         if (xhr.readyState == 4 && xhr.status == "200") {
             console.log(emp);
             sendImage(urlData,emp.id_empresa);
