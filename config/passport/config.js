@@ -15,7 +15,8 @@ const dataBase = require('../database');
 const pathPubKey = path.join(__dirname,'../..','publicKey.pem');
 const PUB_KEY = fs.readFileSync(pathPubKey,'utf8');
 //const urlData = "https://jarjarbinks.herokuapp.com/";
-const urlData = "http://localhost:8080/";
+// const urlData = "http://localhost:8080/";
+const urlData = "http://localhost/api/"
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const { platform } = require('os');
 
@@ -55,7 +56,7 @@ function registerUser(req,profile, done) {
     console.log("Before Database");
     dataBase.query(query1)
     .then(function (dbRes) {
-        // console.log(dbRes);
+        console.log(dbRes);
         if (dbRes.rowCount > 0 ){
             console.log("I found it :3,admin");
             // dataBase.end();
@@ -115,7 +116,7 @@ module.exports = (passport) => {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             //callbackURL: "https://showcase69.herokuapp.com/login/google/callback",
-            callbackURL: "http://localhost:3000/auth/google/callback",
+            callbackURL: "http://localhost/auth/google/callback",
             passReqToCallback: true
         },
         function(req, accessToken, refreshToken, profile, done) {
@@ -127,7 +128,7 @@ module.exports = (passport) => {
             clientID: process.env.FACEBOOK_CLIENT_ID,
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
             //callbackURL: "https://showcase69.herokuapp.com/login/facebook/callback",
-            callbackURL: "http://localhost:3000/auth/facebook/callback",
+            callbackURL: "http://localhost/auth/facebook/callback",
             passReqToCallback: true,
             profileFields: ['id', 'displayName', 'photos', 'email']
         },

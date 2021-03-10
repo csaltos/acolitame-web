@@ -12,8 +12,10 @@ var catalogoRouter = require('./routes/catalogo');
 var registrarRouter = require('./routes/registrar');
 var administradoresRouter = require('./routes/administradores');
 
-var ruta = 'http://localhost:8080/';
-var home = 'http://localhost:3000/';
+// var ruta = 'http://localhost:8080/';
+var ruta = "http://localhost/api/";
+// var home = 'http://localhost:3000/';
+var home = 'http://localhost/';
 //var ruta = 'https://jarjarbinks.herokuapp.com/';
 var authRouter = require('./routes/auth');
 var micuentaRouter = require('./routes/micuenta')

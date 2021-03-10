@@ -36,6 +36,7 @@ function guardarAdmin() {
     data.id_empresa = id_empresa;
     data.correo = correoNewAdmin
     let ruta= urlData + "administrador/insertar"
+    console.log(ruta);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', ruta) 
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');

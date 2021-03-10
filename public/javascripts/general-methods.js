@@ -1,6 +1,8 @@
-var urlData = 'http://localhost:8080/';
-//urlData = "https://jarjarbinks.herokuapp.com/";
-var home = 'http://localhost:3000/';
+// // var urlData = 'http://localhost:8080/';
+var urlData = 'http://localhost/api/';
+// //urlData = "https://jarjarbinks.herokuapp.com/";
+// var home = 'http://localhost:3000/';
+var home = 'http://localhost/';
 
 function cleanProducto() {
     $('#myModalProducto').modal('hide');
