@@ -16,7 +16,8 @@ const pathPubKey = path.join(__dirname,'../..','publicKey.pem');
 const PUB_KEY = fs.readFileSync(pathPubKey,'utf8');
 //const urlData = "https://jarjarbinks.herokuapp.com/";
 // const urlData = "http://localhost:8080/";
-const urlData = "http://localhost/api/"
+// const urlData = "http://localhost/api/"
+const urlData = "http://192.168.1.23/api/";
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const { platform } = require('os');
 

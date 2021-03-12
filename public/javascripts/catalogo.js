@@ -72,6 +72,7 @@ function changeCategory() {
     cargarEmpresas();
     $('.btn-secondary').show();
     // $('#frameUbicacion').attr('src', 'http://localhost:3000/miUbicacion/'+id_categoria);
+    // $('#frameUbicacion').attr('src', 'http://localhost/miUbicacion/'+id_categoria);
     $('#frameUbicacion').attr('src', 'http://localhost/miUbicacion/'+id_categoria);
 }
 
