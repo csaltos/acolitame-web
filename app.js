@@ -13,7 +13,7 @@ var registrarRouter = require('./routes/registrar');
 var administradoresRouter = require('./routes/administradores');
 
 // var ruta = 'http://localhost:8080/';
-var ruta = "http://192.168.1.23/api/";
+var ruta = "http://192.168.1.2/api/";
 // var home = 'http://localhost:3000/';
 var home = 'http://localhost/';
 //var ruta = 'https://jarjarbinks.herokuapp.com/';
