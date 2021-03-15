@@ -1,6 +1,6 @@
 // const createHttpError = require("http-errors");
 
-var correoAdmmin = '';
+var correoAdmin = '';
 
 function validateDataEmpresa(){
     var enterpriseName = document.getElementById('inputNegocio').value;
@@ -95,7 +95,7 @@ function registrarEmpresa() {
     dataEmpresa.latitud = parseFloat(document.getElementById("latitud").value);
     dataEmpresa.longitud = parseFloat(document.getElementById("longitud").value);
     dataEmpresa.correoAdmin = correoAdmin;
-    dataEmpresa.verificado = (correoAdmmin === document.getElementById("inputCorreo").value);
+    dataEmpresa.verificado = (correoAdmin === document.getElementById("inputCorreo").value);
     // dataEmpresa.claveAdmin = document.getElementById('inputPass').value;
     console.log("Inserting");
     let xhr = new XMLHttpRequest();
