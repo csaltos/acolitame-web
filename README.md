@@ -32,7 +32,7 @@ Dentro del repositorio se encuentra un `Dockerfile` el cual permite la creacion 
 1. Instalar docker si no se tiene ya instalado .
 2. Dentro del `Dockerfile` cambiar el valor de *EXPOSE* para que sea el mismo que la variable *PORT* dentro del archivo `.env`.
 3. Ejecutar `docker build -t yourname .`, siendo `yourname` el nombre que se le asignara a la imagen de docker. Esto creara la imagen de docker que se utilizara para la ejecucion.
-4. Ejecutar `docker run -dp 8080:PORT --name containerName yourname` para ejecutar un contenedor de docker con la imagen previamente creada. Siendo por el valor configurado de *EXPOSE* dentro de `Dockerfile`.
+4. Ejecutar `docker run -dp 3000:PORT --name containerName yourname` para ejecutar un contenedor de docker con la imagen previamente creada. Siendo por el valor configurado de *EXPOSE* dentro de `Dockerfile`.
 
 ## Consideraciones de Variables de Entorno
 
