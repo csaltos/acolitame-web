@@ -1,6 +1,6 @@
 # Acolitame-web
 
-Este repositorio contiene una aplicación en NodeJS y ExpressJS que servirá como capa de negocio y capa de vista para la página web del proyecto Acolitame.
+La lógica relacionada con la renderización de cierto contenido, direccionamiento a páginas web, el manejo de usuarios y sesiones está implementada en NodeJS. Para el manejo de las sesiones se utilizan tokens JWT los cuales son generados y verificados utilizando cifrado de clave pública, el token JWT es generado con NodeJS utilizando la clave privada y la verificación del token es realizada con la clave pública, esta clave es compartida junto al servicio de Spring Boot el cual requiere verificar dicho token.
 
 Además este repositorio contiene los archivos de configuración (variables de entorno, etc.) para el proyecto Acolitame.
 
@@ -43,6 +43,10 @@ Dentro del repositorio se encuentra un `Dockerfile` el cual permite la creacion 
 ## Consideraciones sobre `public/`
 
 - En la carpeta `public` se almacenan ciertos recursos iniciales para la página web (imágenes, etc.)
+
+## Consideraciones sobre clave publica y privada para RSA
+
+- Dentro del repositorio se tienen los archivos `privateKey.pem` y publicKey.pem`, estos archivos son las claves publicas y privadas utilizadas para la generacion y verificacion de tokens jwt. Las claves incluidas son unicamente para prueba y se recomienda cambiarlas al momento del despliegue.
 
 ## Sobre la API para la página web
 
