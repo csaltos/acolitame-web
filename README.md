@@ -46,7 +46,7 @@ Dentro del repositorio se encuentra un `Dockerfile` el cual permite la creacion 
 
 ## Consideraciones sobre clave publica y privada para RSA
 
-- Dentro del repositorio se tienen los archivos `privateKey.pem` y publicKey.pem`, estos archivos son las claves publicas y privadas utilizadas para la generacion y verificacion de tokens jwt. Las claves incluidas son unicamente para prueba y se recomienda cambiarlas al momento del despliegue.
+- Dentro del repositorio se tienen los archivos `privateKey.pem` y `publicKey.pem`, estos archivos son las claves publicas y privadas utilizadas para la generacion y verificacion de tokens jwt. Las claves incluidas son unicamente para prueba y se recomienda cambiarlas al momento del despliegue.
 
 ## Sobre la API para la página web
 
