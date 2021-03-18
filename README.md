@@ -1,6 +1,6 @@
 # Acolitame-web
 
-Aqui se mantiene la lógica relacionada con la renderización de cierto contenido, direccionamiento a páginas web, el manejo de usuarios y sesiones está implementada en NodeJS. Para el manejo de las sesiones se utilizan tokens JWT los cuales son generados y verificados utilizando cifrado de clave pública, el token JWT es generado con NodeJS utilizando la clave privada y la verificación del token es realizada con la clave pública, esta clave es compartida junto al servicio de Spring Boot el cual requiere verificar dicho token.
+La lógica relacionada con la renderización de cierto contenido, direccionamiento a páginas web, el manejo de usuarios y sesiones está implementada en NodeJS. Para el manejo de las sesiones se utilizan tokens JWT los cuales son generados y verificados utilizando cifrado de clave pública, el token JWT es generado con NodeJS utilizando la clave privada y la verificación del token es realizada con la clave pública, esta clave es compartida junto al servicio de Spring Boot el cual requiere verificar dicho token.
 
 Además este repositorio contiene los archivos de configuración (variables de entorno, etc.) para el proyecto Acolitame.
 
