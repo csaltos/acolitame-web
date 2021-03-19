@@ -32,7 +32,7 @@ Dentro del repositorio se encuentra un `Dockerfile` el cual permite la creacion 
 1. Instalar docker si no se tiene ya instalado .
 2. Dentro del `Dockerfile` cambiar el valor de *EXPOSE* para que sea el mismo que la variable *PORT* dentro del archivo `.env`.
 3. Ejecutar `docker build -t yourname .`, siendo `yourname` el nombre que se le asignara a la imagen de docker. Esto creara la imagen de docker que se utilizara para la ejecucion.
-4. Ejecutar `docker run -dp 3000:PORT --name containerName yourname` para ejecutar un contenedor de docker con la imagen previamente creada. Siendo por el valor configurado de *EXPOSE* dentro de `Dockerfile`.
+4. Ejecutar `docker run -dp 3000:PORT --name containerName yourname` para ejecutar un contenedor de docker con la imagen previamente creada. Siendo `PORT` el valor configurado de *EXPOSE* dentro de `Dockerfile`.
 
 ## Consideraciones de Variables de Entorno
 
@@ -45,7 +45,7 @@ Dentro del repositorio se encuentra un `Dockerfile` el cual permite la creacion 
 
 ## Consideraciones sobre clave publica y privada para RSA
 
-- Dentro del repositorio se tienen los archivos `privateKey.pem` y publicKey.pem`, estos archivos son las claves publicas y privadas utilizadas para la generacion y verificacion de tokens jwt. Las claves incluidas son unicamente para prueba y se recomienda cambiarlas al momento del despliegue.
+- Dentro del repositorio se tienen los archivos `privateKey.pem` y `publicKey.pem`, estos archivos son las claves publicas y privadas utilizadas para la generacion y verificacion de tokens jwt. Las claves incluidas son unicamente para prueba y se recomienda cambiarlas al momento del despliegue.
 
 ## Sobre la API para la página web
 
