@@ -31,7 +31,13 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
+var rfs = require('rotating-file-stream');
+  var errorLogStream = rfs.createStream('http-errors.log', {
+    interval: '1d', // rotate daily
+    path: path.join(__dirname, 'logs/http-morgan'),
+    maxFiles: 9
+  });
+app.use(logger('combined', { stream: errorLogStream, skip: function (req, res) { return res.statusCode < 400 } })); // Solo escribe errores 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(express.json());

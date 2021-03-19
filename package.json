@@ -25,6 +25,7 @@
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
     "request": "^2.88.2",
+    "rotating-file-stream": "^2.1.5",
     "xmlhttprequest": "^1.8.0"
   }
 }
