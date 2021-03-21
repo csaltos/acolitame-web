@@ -40,7 +40,7 @@ router.get("/", passport.authenticate('jwt',{session: false, failureRedirect: '/
             if (req.user.admin){
                 request({
                     method: 'GET',
-                    uri: r.ruta + "categoria/todos",
+                    uri: r.rutaL + "categoria/todos",
                 }, function (error, response, body){
                     if(!error && response.statusCode == 200){
                     // return res.render('index', { title: 'Acolitame' , categoria: JSON.parse(body), home: r.home, userType: getType(req.user)});
@@ -102,7 +102,7 @@ router.get('/mivitrina', passport.authenticate('jwt',{session: false, failureRed
         // redirect: 'follow'
     };
 
-    fetch(r.ruta+"empresa/admin/", requestOptions)
+    fetch(r.rutaL+"empresa/admin/", requestOptions)
     .then(response => response.text())
     .then(function (result){
         empresa = JSON.parse(result);

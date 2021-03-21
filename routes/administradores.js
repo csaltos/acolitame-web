@@ -4,16 +4,12 @@ var passport = require('passport');
 const { use, authenticate } = require('passport');
 const utils = require('../lib/authUtils');
 const database = require('../config/database');
-//const { use } = require('passport');
-//const urlData = "https://jarjarbinks.herokuapp.com/";
-// const urlData = "http://localhost:8080/";
-const urlData = "http://192.168.1.23/api/"
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 const dataBase = require('../config/database');
 const { json } = require('body-parser');
 const middleware = require('../middleware');
 var request = require('request');
-const r=require('../app');
+// const r=require('../app');
 
 router.get("/",passport.authenticate('jwt',{session: false, failureRedirect: '/'}),function (req,res) {
     console.log("admins");

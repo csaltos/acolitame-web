@@ -11,11 +11,17 @@ var usersRouter = require('./routes/users');
 var catalogoRouter = require('./routes/catalogo');
 var registrarRouter = require('./routes/registrar');
 var administradoresRouter = require('./routes/administradores');
+var os = require("os");
+console.log(os.hostname());
 
 // var ruta = 'http://localhost:8080/';
-var ruta = "http://192.168.1.2/api/";
+// var ruta = "http://192.168.1.2/api/";
+// var ruta = "http://localhost/api/";
+var rutaL = "http://localhost/api/"
+var ruta = "/api/";
 // var home = 'http://localhost:3000/';
-var home = 'http://localhost/';
+var home = '/';
+var homeL = "http://localhost/"
 //var ruta = 'https://jarjarbinks.herokuapp.com/';
 var authRouter = require('./routes/auth');
 var micuentaRouter = require('./routes/micuenta')
@@ -80,3 +86,5 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 exports.ruta = ruta;
 exports.home = home;
+exports.rutaL = rutaL;
+exports.homeL = homeL;

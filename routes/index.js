@@ -26,11 +26,12 @@ function getType(user){
 }
 
 router.get('/', middleware.decodePayload, function(req, res, next) {
+  console.log(req.headers.host.split(':')[0]);
   console.log("Index Here");
-  console.log(r.ruta+"categoria/todos");
+  console.log(r.rutaL+"categoria/todos");
   request({
     method: 'GET',
-    uri: r.ruta + "categoria/todos",
+    uri: r.rutaL + "categoria/todos",
   }, function (error, response, body){
     if(!error && response.statusCode == 200){
       return res.render('index', { title: 'Acolitame' , categoria: JSON.parse(body), home: r.home, userType: getType(req.user)});

@@ -1,8 +1,8 @@
 // // var urlData = 'http://localhost:8080/';
-var urlData = 'http://192.168.1.23/api/';
+var urlData = '/api/';
 // //urlData = "https://jarjarbinks.herokuapp.com/";
 // var home = 'http://localhost:3000/';
-var home = 'http://192.168.1.23/';
+var home = '/';
 
 function cleanProducto() {
     $('#myModalProducto').modal('hide');

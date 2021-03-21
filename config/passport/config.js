@@ -14,12 +14,7 @@ const dataBase = require('../database');
 
 const pathPubKey = path.join(__dirname,'../..','publicKey.pem');
 const PUB_KEY = fs.readFileSync(pathPubKey,'utf8');
-//const urlData = "https://jarjarbinks.herokuapp.com/";
-// const urlData = "http://localhost:8080/";
-// const urlData = "http://localhost/api/"
-const urlData = "http://192.168.1.23/api/";
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const { platform } = require('os');
 
 const cookieExtractor = req => {
     let jwt = null
@@ -117,7 +112,8 @@ module.exports = (passport) => {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             //callbackURL: "https://showcase69.herokuapp.com/login/google/callback",
-            callbackURL: "http://localhost/auth/google/callback",
+            callbackURL: "/auth/google/callback",
+            proxy: true,
             passReqToCallback: true
         },
         function(req, accessToken, refreshToken, profile, done) {
@@ -129,7 +125,8 @@ module.exports = (passport) => {
             clientID: process.env.FACEBOOK_CLIENT_ID,
             clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
             //callbackURL: "https://showcase69.herokuapp.com/login/facebook/callback",
-            callbackURL: "http://localhost/auth/facebook/callback",
+            callbackURL: "/auth/facebook/callback",
+            proxy: true,
             passReqToCallback: true,
             profileFields: ['id', 'displayName', 'photos', 'email']
         },

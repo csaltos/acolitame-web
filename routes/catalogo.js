@@ -19,7 +19,7 @@ function getType(user){
 router.get('/:idCategoria', middleware.decodePayload, function(req, res, next) {
     request({
         method: 'GET',
-        uri: r.ruta + "categoria/todos",
+        uri: r.rutaL + "categoria/todos",
     }, function (error, response, body){
         if(!error && response.statusCode == 200){
           //console.log('body: ',JSON.parse(body));
@@ -51,7 +51,7 @@ router.get('/empresa/:idEmpresa', middleware.decodePayload, function(req, res, n
   console.log(req.user)
   request({
     method: 'GET',
-    uri: r.ruta + "empresa/id/"+req.params.idEmpresa,
+    uri: r.rutaL + "empresa/id/"+req.params.idEmpresa,
 }, function (error, response, body){
     if(!error && response.statusCode == 200){
       //console.log('body: ',JSON.parse(body));
